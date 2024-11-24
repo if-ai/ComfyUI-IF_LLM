@@ -1,7 +1,7 @@
 [project]
 name = "comfyui-if_ai_promptimagem"
 description = "Generates automatic prompts run batches, supports a lot of systems including QwenVl, Ollama, Transformers or via APIs Anthropic, Groq, OpenAI, Google Gemini, Mistral, xAI you can create your own Profiles (SystemPrompts) it can save prompts to your Hardrive inclued LoadImagesS"
-version = "0.0.1"
+version = "0.0.2"
 license = { file = "LICENSE.txt" } 
 dependencies = ["anthropic",
 "groq",
