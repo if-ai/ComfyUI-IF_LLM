@@ -3,11 +3,8 @@
 
 Lighter version of ComfyUI-IF_AI_tools is a set of custom nodes to Run Local and API LLMs and LMMs, supports Ollama, LlamaCPP LMstudio, Koboldcpp, TextGen, Transformers or via APIs Anthropic, Groq, OpenAI, Google Gemini, Mistral, xAI and create your own profiles (SystemPrompts) with custom presets and muchmore
 
-################# ATENTION ####################
+![thorium_HQhmKkuczP](https://github.com/user-attachments/assets/547f1096-fb5e-4249-95bd-1f6920788aa2)
 
-   *COPY THE IF_AI FOLDER TO YOUR USER FOLDER*
-   
-###############################################
 
 ### Install Ollama
 
@@ -32,18 +29,21 @@ it won't pick it up you can also use .env file to store your keys
 
 ## Features
 _[NEW]_ xAI Grok Vision, Mistral, Google Gemini exp 114, Anthropic 3.5 Haiku, OpenAI 01 preview
+_[NEW]_ Wildcard System
 _[NEW]_ Local Models Koboldcpp, TextGen, LlamaCPP, LMstudio, Ollama
-_[NEW]_ Auto prompts auto generation for Image Prompt Maker
+_[NEW]_ Auto prompts auto generation for Image Prompt Maker runs jobs on batches automatically
 _[NEW]_ Image generation with IF_PROMPTImaGEN via Dalle3 
 _[NEW]_ Endpoints xAI, Transformers,
 _[NEW]_ IF_profiles System Prompts with Reasoning/Reflection/Reward Templates and custom presets
+_[NEW]_ WF such as GGUF and FluxRedux
 
 - Gemini, Groq, Mistral, OpenAI, Anthropic, Google, xAI, Transformers, Koboldcpp, TextGen, LlamaCPP, LMstudio, Ollama 
 - Omost_tool the first tool 
-- Vision Models Haiku, Florence2
+- Vision Models Haiku/GPT4oMini?Geminiflash/Qwen2-VL 
 - [Ollama-Omost]https://ollama.com/impactframes/dolphin_llama3_omost can be 2x to 3x faster than other Omost Models
 LLama3 and Phi3 IF_AI Prompt mkr models released
-![ComfyUI_00021_](https://github.com/if-ai/ComfyUI-IF_AI_tools/assets/21185218/fac9fb38-66ac-431b-8ef9-b0fee5d0e5dc)
+![thorium_XXW2qsjUp0](https://github.com/user-attachments/assets/89bb5e3f-f103-4c64-b086-ed6194747f9b)
+
 
 `ollama run impactframes/llama3_ifai_sd_prompt_mkr_q4km:latest`
 
@@ -76,6 +76,7 @@ OR
       cd ComfyUI-IF_AI_PROMPTImaGEN
       python -m pip install -r requirements.txt
       ```
+![thorium_59oWhA71y7](https://github.com/user-attachments/assets/e9641052-4838-4ee3-91c4-7e02190e9064)
 
 ## Related Tools
 - [IF_prompt_MKR](https://github.com/if-ai/IF_PROMPTImaGEN) 
