@@ -17,8 +17,8 @@ from dotenv import load_dotenv
 from PIL import Image, ImageOps, ImageSequence
 from typing import Tuple, Optional, Dict, Union, List, Any
 import node_helpers
-import torch.nn.functional as F
 from torchvision.transforms import functional as TF
+import folder_paths
 
 
 from typing import Union, List, Tuple
@@ -129,9 +129,6 @@ def process_auto_mode_images(images, mask=None, batch_size=4):
                     batch_size = img_batch.size(0)
                     mask_batch = mask[start_idx:start_idx + batch_size]
                     
-                    # Ensure proper dimensions [B,H,W,1] for ComfyUI
-                    mask_batch = mask_batch.unsqueeze(-1)  # Add channel dim at end
-                    
                     mask_batches.append(mask_batch)
                     start_idx += batch_size
             else:
@@ -165,17 +162,10 @@ def process_auto_mode_images(images, mask=None, batch_size=4):
             # Create default masks matching image batches
             for img_batch in image_batches:
                 mask_batch = torch.ones((img_batch.size(0), img_batch.size(1), 
-                                       img_batch.size(2), 1),
-                                      dtype=torch.float32,
-                                      device=img_batch.device)
+                                       img_batch.size(2)),  # Removed extra dimension
+                                  dtype=torch.float32,
+                                  device=img_batch.device)
                 mask_batches.append(mask_batch)
-
-        # Ensure proper dimensions for all mask batches
-        for i in range(len(mask_batches)):
-            if mask_batches[i].dim() != 4:
-                mask_batches[i] = mask_batches[i].view(mask_batches[i].size(0), 
-                                                      mask_batches[i].size(1),
-                                                      mask_batches[i].size(2), 1)
 
         return image_batches, mask_batches
 
@@ -288,7 +278,6 @@ def convert_single_image(image, target_format):
         return pil_to_tensor(image)
     elif target_format == 'base64':
         return pil_image_to_base64(image)
-
 
 def load_placeholder_image(placeholder_image_path):
         
@@ -1097,29 +1086,33 @@ def dump_yaml(data, file_path):
 
 def save_combo_settings(settings_dict, combo_presets_dir):
     """Save combo settings to the AutoCombo directory."""
-    os.makedirs(combo_presets_dir, exist_ok=True)
-    settings_path = os.path.join(combo_presets_dir, 'combo_settings.yaml')
-    
-    with open(settings_path, 'w') as f:
-        yaml.safe_dump(settings_dict, f)
-    logger.info(f"Saved combo settings to {settings_path}")
-    return settings_dict
+    try:
+        os.makedirs(combo_presets_dir, exist_ok=True)
+        settings_path = os.path.join(combo_presets_dir, 'combo_settings.yaml')
+        
+        with open(settings_path, 'w') as f:
+            yaml.safe_dump(settings_dict, f)
+        logger.info(f"Saved combo settings to {settings_path}")
+        return settings_dict
+    except Exception as e:
+        logger.error(f"Error saving combo settings: {str(e)}")
+        return None
 
 def load_combo_settings(combo_presets_dir):
     """Load combo settings from the AutoCombo directory."""
-    settings_path = os.path.join(combo_presets_dir, 'combo_settings.yaml')
-    
-    if os.path.exists(settings_path):
-        with open(settings_path, 'r') as f:
-            try:
+    try:
+        settings_path = os.path.join(combo_presets_dir, 'combo_settings.yaml')
+        
+        if os.path.exists(settings_path):
+            with open(settings_path, 'r') as f:
                 settings = yaml.safe_load(f)
                 logger.info(f"Loaded combo settings from {settings_path}")
                 return settings
-            except yaml.YAMLError as e:
-                logger.error(f"Error parsing combo settings file: {str(e)}")
-                return {}
-    else:
-        logger.warning(f"Combo settings file not found at {settings_path}")
+        else:
+            logger.warning(f"Combo settings file not found at {settings_path}")
+            return {}
+    except Exception as e:
+        logger.error(f"Error loading combo settings: {str(e)}")
         return {}
 
 def create_settings_from_ui(ui_settings):

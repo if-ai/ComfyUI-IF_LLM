@@ -1,12 +1,16 @@
 import os
-import importlib.util
-import glob
-import shutil
 import sys
+
+# Add parent directory to path
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+if parent_dir not in sys.path:
+    sys.path.insert(0, parent_dir)
+
+# Now import folder_paths
 import folder_paths
-from aiohttp import web
 
-
+# Then import your other modules
 from .IFPromptImaGENNode import IFPROMPTImaGEN
 from .IFDisplayTextWildcardNode import IFDisplayTextWildcard
 from .IFSaveTextNode import IFSaveText
@@ -17,11 +21,6 @@ from .IFJoinTextNode import IFJoinText
 from .IFLoadImagesNodeS import IFLoadImagess
 from .send_request import *
 
-# Try to import omost from the current directory
-# Add the current directory to sys.path
-current_dir = os.path.dirname(os.path.abspath(__file__))
-if current_dir not in sys.path:
-    sys.path.insert(0, current_dir)
 
 try:
     from .omost import omost_function

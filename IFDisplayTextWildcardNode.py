@@ -11,6 +11,7 @@ import traceback
 from pathlib import Path
 import folder_paths
 from execution import ExecutionBlocker
+from typing import Optional, Union, List
 
 class IFDisplayTextWildcard:
     def __init__(self):
@@ -317,7 +318,7 @@ class IFDisplayTextWildcard:
                 variables[category] = values
         return variables
 
-    def display_text(self, text, select=0, counter=-1, dynamic_prompt="", max_variants=10, wildcard_mode=False):
+    def display_text(self, text: Optional[Union[str, List[str]]], select=0, counter=-1, dynamic_prompt="", max_variants=10, wildcard_mode=False):
         """Main node processing function"""
         try:
             # Handle counter
@@ -338,13 +339,26 @@ class IFDisplayTextWildcard:
             # Process text
             output_prompts = []
             if wildcard_mode:
-                output_prompts = self.process_text(text, dynamic_vars, max_variants)
+                if isinstance(text, list):
+                    # Handle list of texts
+                    for single_text in text:
+                        output_prompts.extend(self.process_text(single_text, dynamic_vars, max_variants))
+                else:
+                    # Handle single text
+                    output_prompts = self.process_text(text, dynamic_vars, max_variants)
             else:
-                output_prompts = [text]
+                if isinstance(text, list):
+                    # If wildcard_mode is False, but text is a list
+                    output_prompts = text.copy()  # Maintain order
+                else:
+                    output_prompts = [text]
 
             # Ensure at least one prompt
             if not output_prompts:
-                output_prompts = [text]
+                if isinstance(text, list):
+                    output_prompts = text.copy()
+                else:
+                    output_prompts = [text]
 
             count = len(output_prompts)
             selected = output_prompts[select % count] if count > 0 else text
@@ -365,9 +379,21 @@ class IFDisplayTextWildcard:
             if self._execution_count > 0:
                 self._execution_count -= 1
 
+            # Prepare UI update
+            if isinstance(text, list):
+                ui_text = output_prompts  # Pass the list directly for UI
+            else:
+                ui_text = output_prompts  # Already a list with single item or multiple
+
+            # Return both UI update and the multiple outputs
             return {
-                "ui": {"string": output_prompts},
-                "result": (text, output_prompts, count, selected)
+                "ui": {"string": ui_text}, 
+                "result": (
+                    text,          # complete text (string or list)
+                    output_prompts,   # list of processed prompts
+                    count,         # number of prompts
+                    selected       # selected prompt based on select input
+                )
             }
 
         except Exception as e:
@@ -410,4 +436,7 @@ class IFDisplayTextWildcard:
         elif isinstance(data, str):
             values.append(data)
         return values
+
+NODE_CLASS_MAPPINGS = {"IF_DisplayTextWildcard": IFDisplayTextWildcard}
+NODE_DISPLAY_NAME_MAPPINGS = {"IF_DisplayTextWildcard": "IF Display Text Wildcard📟"}
 
