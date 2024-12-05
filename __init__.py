@@ -11,7 +11,7 @@ if parent_dir not in sys.path:
 import folder_paths
 
 # Then import your other modules
-from .IFPromptImaGENNode import IFPROMPTImaGEN
+from .IFLLMNode import IFLLM
 from .IFDisplayTextWildcardNode import IFDisplayTextWildcard
 from .IFSaveTextNode import IFSaveText
 from .IFDisplayTextNode import IFDisplayText
@@ -31,7 +31,7 @@ except ImportError as e:
     # If import fails, try to import from the parent directory
     parent_dir = os.path.dirname(current_dir)
     parent_dir_name = os.path.basename(parent_dir)
-    if parent_dir_name == 'ComfyUI-IF_AI_PromptImaGen':
+    if parent_dir_name == 'ComfyUI-IF_LLM':
         sys.path.insert(0, parent_dir)
         try:
             from omost import omost_function
@@ -49,7 +49,7 @@ class OmniType(str):
 OMNI = OmniType("*")
                        
 NODE_CLASS_MAPPINGS = {
-    "IF_PROMPTImaGEN": IFPROMPTImaGEN,
+    "IF_LLM": IFLLM,
     "IF_SaveText": IFSaveText,
     "IF_DisplayText": IFDisplayText,
     "IF_DisplayTextWildcard": IFDisplayTextWildcard,
@@ -60,7 +60,7 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "IF_PROMPTImaGEN": "IF Prompt ImaGEN🎨",
+    "IF_LLM": "IF LLM🎨",
     "IF_SaveText": "IF Save Text📝",
     "IF_DisplayText": "IF Display Text📟",
     "IF_DisplayTextWildcard": "IF Display Text Wildcard📟",

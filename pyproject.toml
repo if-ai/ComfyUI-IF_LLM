@@ -1,26 +1,32 @@
 [project]
 name = "comfyui-if_ai_promptimagem"
-description = "Generates automatic prompts run batches, supports a lot of systems including QwenVl, Ollama, Transformers or via APIs Anthropic, Groq, OpenAI, Google Gemini, Mistral, xAI you can create your own Profiles (SystemPrompts) it can save prompts to your Hardrive inclued LoadImagesS"
-version = "0.0.3"
+description = "Run Local and API LLMs, Features OCR-RAG (Bialdy), nanoGraphRAG, Supervision Object Detection, Conditioning manipulation via Omost, supports Ollama, LlamaCPP LMstudio, Koboldcpp, TextGen, Transformers or via APIs Anthropic, Groq, OpenAI, Google Gemini, Mistral, xAI and create your own charcters assistants (SystemPrompts) with custom presets and muchmore"
+version = "0.0.1"
 license = { file = "LICENSE.txt" } 
 dependencies = ["anthropic",
 "groq",
 "mistralai",
 "huggingface_hub",
+"timm",
 "sentence-transformers",
 "IPython",
 "python-dotenv",
 "nltk",
 "tiktoken",
+"matplotlib",
+"plotly",
+"kaleido",
+"networkx",
+"fastparquet",
 "pydantic",
 "rich",
 ]
 
 [project.urls]
-Repository = "https://github.com/if-ai/ComfyUI-IF_AI_PromptImaGen"
+Repository = "https://github.com/if-ai/ComfyUI-IF_AI_LLM"
 #  Used by Comfy Registry https://comfyregistry.org
 
 [tool.comfy]
 PublisherId = "impactframes"
-DisplayName = "ComfyUI-IF_AI_PromptImaGen"
+DisplayName = "ComfyUI-IF_AI_LLM"
 Icon = ""

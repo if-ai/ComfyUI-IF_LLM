@@ -580,7 +580,7 @@ class IFLoadImagess:
             img_tensor, mask = self.load_placeholder()
             return ([img_tensor], [mask], [""], [""], ["error"], [0])
     
-@PromptServer.instance.routes.post("/ifai/backup_input")
+@PromptServer.instance.routes.post("/IF_LLM/backup_input")
 async def backup_input_folder(request):
     try:
         success, message = ImageManager.backup_input_folder()
@@ -595,7 +595,7 @@ async def backup_input_folder(request):
             "error": str(e)
         }, status=500)
 
-@PromptServer.instance.routes.post("/ifai/restore_input")
+@PromptServer.instance.routes.post("/IF_LLM/restore_input")
 async def restore_input_folder(request):
     try:
         success, message = ImageManager.restore_input_folder()
@@ -610,7 +610,7 @@ async def restore_input_folder(request):
             "error": str(e)
         }, status=500)
 
-@PromptServer.instance.routes.post("/ifai/refresh_previews")
+@PromptServer.instance.routes.post("/IF_LLM/refresh_previews")
 async def refresh_previews(request):
     try:
         data = await request.json()
@@ -683,7 +683,7 @@ async def refresh_previews(request):
         }, status=500)
 
 # Add route for widget refresh
-@PromptServer.instance.routes.post("/ifai/refresh_widgets")
+@PromptServer.instance.routes.post("/IF_LLM/refresh_widgets")
 async def refresh_widgets(request):
     try:
         input_dir = folder_paths.get_input_directory()

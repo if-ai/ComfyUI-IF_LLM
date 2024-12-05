@@ -1133,7 +1133,7 @@ def create_settings_from_ui(ui_settings):
     profiles_path = os.path.join(
         folder_paths.base_path,
         "custom_nodes",
-        "ComfyUI-IF_AI_PromptImaGen",
+        "ComfyUI-IF_AI_LLM",
         "IF_AI",
         "presets",
         "profiles.json"

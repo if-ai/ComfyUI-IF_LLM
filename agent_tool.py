@@ -22,10 +22,10 @@ class AgentTool:
         self.comfy_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
     def load(self):
-        # Construct the path to the ComfyUI-IF_AI_PromptImaGen directory
-        if_ai_tools_dir = os.path.join(folder_paths.base_path, "custom_nodes", "ComfyUI-IF_AI_PromptImaGen")
+        # Construct the path to the ComfyUI-IF_AI_LLM directory
+        if_ai_tools_dir = os.path.join(folder_paths.base_path, "custom_nodes", "ComfyUI-IF_AI_LLM")
         
-        # Add the ComfyUI-IF_AI_PromptImaGen directory to sys.path
+        # Add the ComfyUI-IF_AI_LLM directory to sys.path
         if if_ai_tools_dir not in sys.path:
             sys.path.insert(0, if_ai_tools_dir)
 
