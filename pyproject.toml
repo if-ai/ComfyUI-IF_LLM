@@ -23,10 +23,10 @@ dependencies = ["anthropic",
 ]
 
 [project.urls]
-Repository = "https://github.com/if-ai/ComfyUI-IF_AI_LLM"
+Repository = "https://github.com/if-ai/ComfyUI-IF_LLM"
 #  Used by Comfy Registry https://comfyregistry.org
 
 [tool.comfy]
 PublisherId = "impactframes"
-DisplayName = "ComfyUI-IF_AI_LLM"
+DisplayName = "ComfyUI-IF_LLM"
 Icon = ""
