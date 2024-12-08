@@ -26,6 +26,7 @@ from .utils import (
 )
 import base64
 import numpy as np
+import codecs
 
 # Add ComfyUI directory to path
 comfy_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -991,12 +992,43 @@ class IFLLM:
         return get_models(engine, base_ip, port, api_key)
 
     def load_presets(self, file_path: str) -> Dict[str, Any]:
-        try:
-            with open(file_path, 'r') as f:
-                return json.load(f)
-        except Exception as e:
-            print(f"Error loading presets from {file_path}: {e}")
-            return {}
+        """
+        Load JSON presets with support for multiple encodings.
+        
+        Args:
+            file_path (str): Path to the JSON preset file
+            
+        Returns:
+            Dict[str, Any]: Loaded JSON data or empty dict if loading fails
+        """
+        # List of encodings to try
+        encodings = ['utf-8', 'utf-8-sig', 'latin1', 'cp1252', 'gbk']
+        
+        for encoding in encodings:
+            try:
+                with codecs.open(file_path, 'r', encoding=encoding) as f:
+                    data = json.load(f)
+                    
+                    # If successful, write back with UTF-8 encoding to prevent future issues
+                    try:
+                        with codecs.open(file_path, 'w', encoding='utf-8') as out_f:
+                            json.dump(data, out_f, ensure_ascii=False, indent=2)
+                    except Exception as write_err:
+                        print(f"Warning: Could not write back UTF-8 encoded file: {write_err}")
+                        
+                    return data
+                    
+            except UnicodeDecodeError:
+                continue
+            except json.JSONDecodeError as e:
+                print(f"JSON parsing error with {encoding} encoding: {str(e)}")
+                continue
+            except Exception as e:
+                print(f"Error loading presets from {file_path} with {encoding} encoding: {e}")
+                continue
+                
+        print(f"Error: Failed to load {file_path} with any supported encoding")
+        return {}
 
     def validate_outputs(self, outputs):
         """Helper to validate output types match expectations"""
