@@ -9,7 +9,10 @@
    so you only need one or the other*
    
 ###############################################
-[Watch the video on YouTube](https://youtu.be/0sR4hu98pDo?si=EhF24ugy7RpLvUjV)
+
+
+[![Video Thumbnail](https://github.com/user-attachments/assets/7430c137-9193-48dd-be34-fddbb2cd0387)](https://youtu.be/0sR4hu98pDo?si=EhF24ugy7RpLvUjV)
+
 
 Lighter version of ComfyUI-IF_AI_tools is a set of custom nodes to Run Local and API LLMs and LMMs, supports Ollama, LlamaCPP LMstudio, Koboldcpp, TextGen, Transformers or via APIs Anthropic, Groq, OpenAI, Google Gemini, Mistral, xAI and create your own profiles (SystemPrompts) with custom presets and muchmore
 
