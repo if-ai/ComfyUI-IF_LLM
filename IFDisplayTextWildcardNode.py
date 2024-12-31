@@ -70,7 +70,7 @@ class IFDisplayTextWildcard:
     OUTPUT_IS_LIST = (False, True, False, False)
     FUNCTION = "display_text"
     OUTPUT_NODE = True
-    CATEGORY = "ImpactFrames💥🎞️"
+    CATEGORY = "ImpactFrames💥🎞️/IF_LLM"
 
     def load_wildcards(self):
         """Load wildcards from YAML/JSON files in the specified directory"""
@@ -437,6 +437,6 @@ class IFDisplayTextWildcard:
             values.append(data)
         return values
 
-NODE_CLASS_MAPPINGS = {"IF_DisplayTextWildcard": IFDisplayTextWildcard}
-NODE_DISPLAY_NAME_MAPPINGS = {"IF_DisplayTextWildcard": "IF Display Text Wildcard📟"}
+NODE_CLASS_MAPPINGS = {"IF_LLM_DisplayTextWildcard": IFDisplayTextWildcard}
+NODE_DISPLAY_NAME_MAPPINGS = {"IF_LLM_DisplayTextWildcard": "IF Display Text Wildcard📟"}
 

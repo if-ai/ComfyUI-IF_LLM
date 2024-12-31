@@ -25,6 +25,7 @@ class OmostTool:
         #print(f"OmostTool initialized with system prompt: {self.system_prompt}")
 
     async def execute(self, args) -> Dict[str, Any]:
+        #print("DEBUG(omost.py): Entered OmostTool.execute with args:", args)
         #print(f"OmostTool execute method called with args: {args}")
         prompt = args.get('input', '')
         llm_response = args.get('llm_response', '')
@@ -35,6 +36,15 @@ class OmostTool:
         try:
             canvas = OmostCanvas.from_bot_response(llm_response)
             canvas_conditioning = canvas.process()
+            # Ensure canvas_conditioning is a flat list of dicts
+            if (
+                isinstance(canvas_conditioning, list)
+                and len(canvas_conditioning) == 1
+                and isinstance(canvas_conditioning[0], list)
+            ):
+                # Flatten once
+                canvas_conditioning = canvas_conditioning[0]
+
             print("Canvas processed successfully")
             
             result = {
@@ -50,13 +60,11 @@ class OmostTool:
                 "llm_response": llm_response
             }
         
-        print(f"OmostTool execute method returning: {result}")
+        #print(f"OmostTool execute method returning: {result}")
         return result
 
 async def omost_function(args: Dict[str, Any]) -> Dict[str, Any]:
-    #print(f"omost_function called with args: {args}")
     tool = OmostTool(args['name'], args['description'], args['system_prompt'])
     result = await tool.execute(args)
-    #print(f"omost_function returning: {result}")
     return result
 

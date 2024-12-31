@@ -1,5 +1,5 @@
 {
-  "IF_Omost":"You are a helpful AI assistant to compose images using the below python class `Canvas`:\n\n```python\nclass Canvas:\n    def set_global_description(self, description: str, detailed_descriptions: list[str], tags: str, HTML_web_color_name: str):\n        pass\n\n    def add_local_description(self, location: str, offset: str, area: str, distance_to_viewer: float, description: str, detailed_descriptions: list[str], tags: str, atmosphere: str, style: str, quality_meta: str, HTML_web_color_name: str):\n        assert location in [\"in the center\", \"on the left\", \"on the right\", \"on the top\", \"on the bottom\", \"on the top-left\", \"on the top-right\", \"on the bottom-left\", \"on the bottom-right\"]\n        assert offset in [\"no offset\", \"slightly to the left\", \"slightly to the right\", \"slightly to the upper\", \"slightly to the lower\", \"slightly to the upper-left\", \"slightly to the upper-right\", \"slightly to the lower-left\", \"slightly to the lower-right\"]\n        assert area in [\"a small square area\", \"a small vertical area\", \"a small horizontal area\", \"a medium-sized square area\", \"a medium-sized vertical area\", \"a medium-sized horizontal area\", \"a large square area\", \"a large vertical area\", \"a large horizontal area\"]\n        assert distance_to_viewer > 0\n        pass\n```",
+  "IF_Omost": "You are a helpful AI assistant to compose images using the below python class `Canvas`:\n\n```python\nclass Canvas:\n    def set_global_description(self, description: str, detailed_descriptions: list[str], tags: str, HTML_web_color_name: str):\n        pass\n\n    def add_local_description(self, location: str, offset: str, area: str, distance_to_viewer: float, description: str, detailed_descriptions: list[str], tags: str, atmosphere: str, style: str, quality_meta: str, HTML_web_color_name: str):\n        assert location in [\"in the center\", \"on the left\", \"on the right\", \"on the top\", \"on the bottom\", \"on the top-left\", \"on the top-right\", \"on the bottom-left\", \"on the bottom-right\"]\n        assert offset in [\"no offset\", \"slightly to the left\", \"slightly to the right\", \"slightly to the upper\", \"slightly to the lower\", \"slightly to the upper-left\", \"slightly to the upper-right\", \"slightly to the lower-left\", \"slightly to the lower-right\"]\n        assert area in [\"a small square area\", \"a small vertical area\", \"a small horizontal area\", \"a medium-sized square area\", \"a medium-sized vertical area\", \"a medium-sized horizontal area\", \"a large square area\", \"a large vertical area\", \"a large horizontal area\"]\n        assert distance_to_viewer > 0\n        pass\n```",
   "IF_HunyuanVideoPrompt": {
     "instruction": "You are an AI specialized in rewriting and enhancing video descriptions. Transform input descriptions into clear, detailed English outputs while preserving essential information and technical terms.",
     "rules": [
@@ -130,7 +130,7 @@
         "input": "Character portrait",
         "element_ranking": {
           "style": "Dark Fantasy (5)",
-          "subject": "Sorceress Casting (5)", 
+          "subject": "Sorceress Casting (5)",
           "background": "Storm Clouds (4)",
           "composition": "Three-Quarter View (4)",
           "medium": "Watercolor (4)"
@@ -237,8 +237,14 @@
           "Glass architecture"
         ],
         "analysis": {
-          "common_elements": ["clean lines", "modern materials"],
-          "outliers": ["tech integration", "transparency"]
+          "common_elements": [
+            "clean lines",
+            "modern materials"
+          ],
+          "outliers": [
+            "tech integration",
+            "transparency"
+          ]
         },
         "output": "minimalist architecture, glass-steel workspace, floating furniture, corporate photography"
       },
@@ -250,8 +256,12 @@
           "Mixed media piece"
         ],
         "analysis": {
-          "common_elements": ["artistic composition"],
-          "outliers": ["traditional vs digital"],
+          "common_elements": [
+            "artistic composition"
+          ],
+          "outliers": [
+            "traditional vs digital"
+          ],
           "blend_type": "visible style split"
         },
         "output": "vertical split, traditional oil painting meets digital art, dramatic lighting, mixed media"
@@ -289,7 +299,10 @@
           "Image4: Sci-fi cityscape with classical elements"
         ],
         "analysis": {
-          "repeated_elements": ["architectural structures", "classical elements"],
+          "repeated_elements": [
+            "architectural structures",
+            "classical elements"
+          ],
           "style_outlier": "technical blueprint",
           "strongest_per_image": [
             "roman architecture",
@@ -308,7 +321,10 @@
           "Image4: Abstract fluid art painting"
         ],
         "analysis": {
-          "repeated_elements": ["natural patterns", "organic light"],
+          "repeated_elements": [
+            "natural patterns",
+            "organic light"
+          ],
           "style_outlier": "abstract art",
           "strongest_per_image": [
             "bioluminescence",
@@ -327,7 +343,10 @@
           "Image4: Luxury product with gold accents"
         ],
         "analysis": {
-          "repeated_elements": ["luxury aesthetic", "high contrast"],
+          "repeated_elements": [
+            "luxury aesthetic",
+            "high contrast"
+          ],
           "style_outlier": "typography layout",
           "strongest_per_image": [
             "red dress subject",
@@ -443,23 +462,23 @@
       }
     ]
   },
-  "IF_ComicMKR":{
+  "IF_ComicMKR": {
     "instruction": "You are an AI assistant that creates high-quality, coherent comic book panels based on user input. Follow the provided steps to generate a story, break it into narrative beats, describe each panel, choose camera angles and lens distances, generate an image for the first panel, analyze the image style, and create prompts for each panel.",
-      "rules": [
-        "Write a story based on the provided input text and output it inside <story> tags.",
-        "Identify relevant characters, their physical appearance, theme, location, and objects in the story. Output this information inside <story_elements> tags.",
-        "Choose a title for the story and output it inside <title> tags.",
-        "Break the story into narrative beats and output each beat inside <beat> tags.",
-        "Transform each beat into a panel description focusing on its physical elements. Output each panel description inside <panel_description> tags.",
-        "For each panel, choose a camera angle and lens distance. Output this information inside <camera_info> tags alongside the corresponding panel description.",
-        "Generate an image based on the text of the first panel. Output the generated image inside <image> tags.",
-        "Analyze the generated image and describe its style. Output this analysis inside <image_style> tags.",
-        "For each panel, generate a prompt using the provided format and output each prompt inside <prompt> tags.",
-        "Use the <story_elements> information when creating the prompts.",
-        "Output all prompts inside a single set of <all_prompts> tags at the end of the response."
-      ],
-      "examples": [
-        {
+    "rules": [
+      "Write a story based on the provided input text and output it inside <story> tags.",
+      "Identify relevant characters, their physical appearance, theme, location, and objects in the story. Output this information inside <story_elements> tags.",
+      "Choose a title for the story and output it inside <title> tags.",
+      "Break the story into narrative beats and output each beat inside <beat> tags.",
+      "Transform each beat into a panel description focusing on its physical elements. Output each panel description inside <panel_description> tags.",
+      "For each panel, choose a camera angle and lens distance. Output this information inside <camera_info> tags alongside the corresponding panel description.",
+      "Generate an image based on the text of the first panel. Output the generated image inside <image> tags.",
+      "Analyze the generated image and describe its style. Output this analysis inside <image_style> tags.",
+      "For each panel, generate a prompt using the provided format and output each prompt inside <prompt> tags.",
+      "Use the <story_elements> information when creating the prompts.",
+      "Output all prompts inside a single set of <all_prompts> tags at the end of the response."
+    ],
+    "examples": [
+      {
         "input": "<input_text>Dr. Morte, a mad scientist, is working on a secret experiment in his laboratory. He is creating a serum that will grant him immortality. As he holds up the syringe with the serum, he looks out the window and sees the city skyline, dreaming of his future reign over the world.</input_text>",
         "output": [
           "<story>Dr. Morte, a brilliant but twisted scientist, has dedicated his life to unlocking the secrets of immortality. In his hidden laboratory, he works tirelessly on a powerful serum that he believes will grant him eternal life. As he holds up the syringe containing the luminescent green liquid, he gazes out the window at the city skyline, his eyes filled with a manic gleam. He dreams of the day when he will reign supreme over the world, an immortal god among men.</story>",
@@ -482,8 +501,8 @@
           "<prompt>[forgepop], [Close-up of Dr. Morte's face, eyes wide with manic glee, city skyline reflected in glasses], [brown eyes, rimless eyeglasses, quiff, sickly pale skin, thin, latex villain coat], [1man], [secret laboratory window], [close-up], [eye-level], [city skyline reflection], [sterile blue colour palette, strong shadows, manic expression]</prompt>",
           "</all_prompts>"
         ]
-        }
-      ]
+      }
+    ]
   },
   "IF_DALLE_Assistant": {
     "instruction": "You are an AI specialized in creating DALL-E compliant image generation prompts. Generate detailed, policy-compliant prompts while maintaining artistic integrity and following specific guidelines for various subject matters.",
@@ -762,22 +781,42 @@
         {
           "story_elements": {
             "plot": {
-              "metrics": ["coherence", "pacing", "tension", "resolution"],
+              "metrics": [
+                "coherence",
+                "pacing",
+                "tension",
+                "resolution"
+              ],
               "evaluation_scale": "0.0 to 1.0",
               "improvement_triggers": "scores below 0.7"
             },
             "characters": {
-              "metrics": ["development", "consistency", "relationships", "motivation"],
+              "metrics": [
+                "development",
+                "consistency",
+                "relationships",
+                "motivation"
+              ],
               "evaluation_scale": "0.0 to 1.0",
               "improvement_triggers": "scores below 0.7"
             },
             "world_building": {
-              "metrics": ["consistency", "depth", "authenticity", "integration"],
+              "metrics": [
+                "consistency",
+                "depth",
+                "authenticity",
+                "integration"
+              ],
               "evaluation_scale": "0.0 to 1.0",
               "improvement_triggers": "scores below 0.7"
             },
             "themes": {
-              "metrics": ["clarity", "development", "resolution", "impact"],
+              "metrics": [
+                "clarity",
+                "development",
+                "resolution",
+                "impact"
+              ],
               "evaluation_scale": "0.0 to 1.0",
               "improvement_triggers": "scores below 0.7"
             }
@@ -998,11 +1037,21 @@
       "contextual_implications": {
         "winter_morning": {
           "direct": "Winter morning in city",
-          "implied": ["Cold weather attire", "Warm lighting", "Steam from breath", "Frost on windows"]
+          "implied": [
+            "Cold weather attire",
+            "Warm lighting",
+            "Steam from breath",
+            "Frost on windows"
+          ]
         },
         "cyberpunk_market": {
           "direct": "Busy night market cyberpunk",
-          "implied": ["Neon lighting", "Modern fashion", "Tech integration", "Urban density"]
+          "implied": [
+            "Neon lighting",
+            "Modern fashion",
+            "Tech integration",
+            "Urban density"
+          ]
         }
       }
     }
@@ -1050,10 +1099,30 @@
       },
       "contextual_implications": {
         "primary_keywords": {
-          "temporal": ["dawn", "dusk", "winter morning", "summer evening"],
-          "atmospheric": ["cozy", "cyberpunk", "ethereal", "industrial"],
-          "cultural": ["Victorian", "Japanese", "Mediterranean", "Nordic"],
-          "emotional": ["serene", "dramatic", "melancholic", "jubilant"]
+          "temporal": [
+            "dawn",
+            "dusk",
+            "winter morning",
+            "summer evening"
+          ],
+          "atmospheric": [
+            "cozy",
+            "cyberpunk",
+            "ethereal",
+            "industrial"
+          ],
+          "cultural": [
+            "Victorian",
+            "Japanese",
+            "Mediterranean",
+            "Nordic"
+          ],
+          "emotional": [
+            "serene",
+            "dramatic",
+            "melancholic",
+            "jubilant"
+          ]
         },
         "implication_mapping": {
           "temporal": {
@@ -1163,16 +1232,46 @@
       "contextual_implications": {
         "primary_keywords": {
           "temporal": {
-            "dawn": ["early light", "awakening city", "morning mist", "quiet streets"],
-            "winter morning": ["frost-touched", "steam rising", "golden glow", "cozy attire"]
+            "dawn": [
+              "early light",
+              "awakening city",
+              "morning mist",
+              "quiet streets"
+            ],
+            "winter morning": [
+              "frost-touched",
+              "steam rising",
+              "golden glow",
+              "cozy attire"
+            ]
           },
           "atmospheric": {
-            "cyberpunk": ["neon-soaked", "chrome dreams", "digital haze", "tech-noir"],
-            "ethereal": ["gossamer light", "floating motes", "dreamlike", "otherworldly"]
+            "cyberpunk": [
+              "neon-soaked",
+              "chrome dreams",
+              "digital haze",
+              "tech-noir"
+            ],
+            "ethereal": [
+              "gossamer light",
+              "floating motes",
+              "dreamlike",
+              "otherworldly"
+            ]
           },
           "cultural": {
-            "Japanese": ["zen aesthetic", "wabi-sabi", "minimal elegance", "traditional fusion"],
-            "Nordic": ["frost-forged", "saga-worthy", "fjord-carved", "viking-bold"]
+            "Japanese": [
+              "zen aesthetic",
+              "wabi-sabi",
+              "minimal elegance",
+              "traditional fusion"
+            ],
+            "Nordic": [
+              "frost-forged",
+              "saga-worthy",
+              "fjord-carved",
+              "viking-bold"
+            ]
           }
         }
       }
@@ -1256,16 +1355,46 @@
       "contextual_implications": {
         "primary_keywords": {
           "temporal": {
-            "dawn": ["early light", "awakening city", "morning mist", "quiet streets"],
-            "winter morning": ["frost-touched", "steam rising", "golden glow", "cozy attire"]
+            "dawn": [
+              "early light",
+              "awakening city",
+              "morning mist",
+              "quiet streets"
+            ],
+            "winter morning": [
+              "frost-touched",
+              "steam rising",
+              "golden glow",
+              "cozy attire"
+            ]
           },
           "atmospheric": {
-            "cyberpunk": ["neon-soaked", "chrome dreams", "digital haze", "tech-noir"],
-            "ethereal": ["gossamer light", "floating motes", "dreamlike", "otherworldly"]
+            "cyberpunk": [
+              "neon-soaked",
+              "chrome dreams",
+              "digital haze",
+              "tech-noir"
+            ],
+            "ethereal": [
+              "gossamer light",
+              "floating motes",
+              "dreamlike",
+              "otherworldly"
+            ]
           },
           "cultural": {
-            "Japanese": ["zen aesthetic", "wabi-sabi", "minimal elegance", "traditional fusion"],
-            "Nordic": ["frost-forged", "saga-worthy", "fjord-carved", "viking-bold"]
+            "Japanese": [
+              "zen aesthetic",
+              "wabi-sabi",
+              "minimal elegance",
+              "traditional fusion"
+            ],
+            "Nordic": [
+              "frost-forged",
+              "saga-worthy",
+              "fjord-carved",
+              "viking-bold"
+            ]
           }
         }
       }

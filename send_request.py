@@ -25,7 +25,9 @@ from .mistral_api import send_mistral_request
 from .vllm_api import send_vllm_request
 from .gemini_api import send_gemini_request
 from .transformers_api import TransformersModelManager  
+from .huggingface_api import send_huggingface_request
 from .utils import  convert_images_for_api, tensor_to_pil
+from .deepseek_api import send_deepseek_request
 # Set up logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)    
@@ -180,6 +182,8 @@ async def send_request(
                 "mistral": send_mistral_request,
                 "vllm": send_vllm_request,
                 "gemini": send_gemini_request,
+                "deepseek": send_deepseek_request,
+                "huggingface": send_huggingface_request,
                 "transformers": None,  # Handled separately
             }
 
@@ -216,6 +220,32 @@ async def send_request(
                         tools=tools,
                         tool_choice=tool_choice,
                     )
+
+                elif llm_provider == "huggingface":
+                    return await send_huggingface_request(
+                        base_ip=base_ip,
+                        base64_images=formatted_images,
+                        model=llm_model,
+                        system_message=system_message,
+                        user_message=user_message,
+                        messages=messages,
+                        seed=kwargs.get('seed'),
+                        temperature=kwargs.get('temperature', 0.7),
+                        max_tokens=kwargs.get('max_tokens', 2048),
+                        top_p=kwargs.get('top_p', 0.9),
+                        repeat_penalty=kwargs.get('repeat_penalty', 1.1),
+                        stop=kwargs.get('stop'),
+                        keep_alive=kwargs.get('keep_alive', False),
+                        llm_api_key=kwargs.get('llm_api_key'),
+                        precision=kwargs.get('precision', 'fp16'),
+                        attention=kwargs.get('attention', 'sdpa'),
+                        aspect_ratio=kwargs.get('aspect_ratio', '1:1'),
+                        strategy=kwargs.get('strategy', 'normal'),
+                        mask=kwargs.get('mask'),
+                        batch_count=kwargs.get('batch_count', 1),
+                        neg_content=kwargs.get('neg_content', '')
+                    )
+
                 elif llm_provider in ["kobold", "lmstudio", "textgen", "llamacpp", "vllm"]:
                     api_url = f"http://{base_ip}:{port}/v1/chat/completions"
                     kwargs = {
@@ -254,7 +284,8 @@ async def send_request(
                         "api_key": llm_api_key,
                         "tools": tools,
                         "tool_choice": tool_choice,
-                    }      
+                    } 
+
                 elif llm_provider == "openai":
                     if llm_model.startswith("dall-e"):
                         try:
@@ -389,6 +420,21 @@ async def send_request(
                         "tools": tools,
                         "tool_choice": tool_choice,     
                     }
+                elif llm_provider == "deepseek":
+                    kwargs = {
+                        "base64_images": formatted_images,
+                        "model": llm_model,
+                        "system_message": system_message,
+                        "user_message": user_message,
+                        "messages": messages,
+                        "api_key": llm_api_key,
+                        "seed": seed if random else None,
+                        "temperature": temperature,
+                        "max_tokens": max_tokens,
+                        "top_p": top_p,
+                        "tools": tools,
+                        "tool_choice": tool_choice,
+                    }
                 else:
                     raise ValueError(f"Unsupported llm_provider: {llm_provider}")
             
@@ -404,15 +450,40 @@ async def send_request(
                     content = choices[0]["message"]["content"]
                     if content.startswith("Error:"):
                         print(f"Error from {llm_provider} API: {content}")
-            if tools:
+
+        if tools:
+            return response
+        try:
+            if isinstance(response, dict) and "choices" in response:
                 return response
+            elif isinstance(response, str):
+                return {
+                    "choices": [{
+                        "message": {
+                            "content": response
+                        }
+                    }]
+                }
             else:
-                try:
-                    return response["choices"][0]["message"]["content"]
-                except (KeyError, IndexError, TypeError) as e:
-                    error_msg = f"Error formatting response: {str(e)}"
-                    logger.error(error_msg)
-                    return {"choices": [{"message": {"content": error_msg}}]}
+                error_msg = f"Unexpected response format: {type(response)}"
+                logger.error(error_msg)
+                return {
+                    "choices": [{
+                        "message": {
+                            "content": error_msg
+                        }
+                    }]
+                }
+        except Exception as e:
+            error_msg = f"Error formatting response: {str(e)}"
+            logger.error(error_msg)
+            return {
+                "choices": [{
+                    "message": {
+                        "content": error_msg
+                    }
+                }]
+            }
 
     except Exception as e:
         logger.error(f"Exception in send_request: {str(e)}", exc_info=True)

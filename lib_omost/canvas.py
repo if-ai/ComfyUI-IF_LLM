@@ -1,4 +1,3 @@
-# forked from https://github.com/huchenlei/ComfyUI_omost thanks to Illya, huchenlei and contributors 
 from __future__ import annotations
 import re
 import difflib

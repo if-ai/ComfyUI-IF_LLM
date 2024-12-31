@@ -1,0 +1,3085 @@
+{
+  "last_node_id": 234,
+  "last_link_id": 430,
+  "nodes": [
+    {
+      "id": 152,
+      "type": "PreviewImage",
+      "pos": [
+        -357.6112976074219,
+        360.0755310058594
+      ],
+      "size": [
+        274.6120910644531,
+        336.0838317871094
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 247
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 155,
+      "type": "MaskPreview+",
+      "pos": [
+        -357.6112976074219,
+        750.0755004882812
+      ],
+      "size": [
+        274.6120300292969,
+        330.48919677734375
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": 250
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MaskPreview+"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 160,
+      "type": "IF_LLM_TextTyper",
+      "pos": [
+        -248.53778076171875,
+        -172.53878784179688
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_TextTyper"
+      },
+      "widgets_values": [
+        "commercial,daylight,synthetic,sterile,isolated"
+      ]
+    },
+    {
+      "id": 161,
+      "type": "IF_LLM_TextTyper",
+      "pos": [
+        -248.53778076171875,
+        -412.5386962890625
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_TextTyper"
+      },
+      "widgets_values": [
+        "Patrons savor steaming ramen under neon kanji. Traditional izakaya ambiance with modern vending machine. Warm wood interiors contrast urban night chill. Culinary delight captured in bustling street scene."
+      ]
+    },
+    {
+      "id": 162,
+      "type": "Note",
+      "pos": [
+        472.048095703125,
+        26.943862915039062
+      ],
+      "size": [
+        703.1499633789062,
+        157.93707275390625
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [],
+      "title": "USER_GUIDE",
+      "properties": {},
+      "widgets_values": [
+        "With WilcardMode enable\n1-. Enter the text prompt using the categoy name __Category__ to indicate the field that should be replace by values from the wildcards.yaml or .json file\n2. Use __Category/*__ to select rendom value from the item list use __Category/**__ to select the random value from within the subdirectories\n3. Enter the dynamic_prompt select the variable name for the category then enter the equal simbol= and the values between curly brackets{} values separated by pipes| Color={red|blue|white|black} the script will create a prompt for each values overriding the values contained on the wildcards yaml or json file for the specific categories variables\n4. select the maximun variant prompts you need with max_variants counter connect the text_list to a display text node\n5. Execute the node"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 163,
+      "type": "IF_LLM_TextTyper",
+      "pos": [
+        352.048095703125,
+        -503.0560302734375
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            255
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_TextTyper"
+      },
+      "widgets_values": [
+        "__Prefix__ a woman wearing a __Colors/**__ __Clothing/**__ enjoying a delicious __Food__  photograph by __Artist__\n"
+      ]
+    },
+    {
+      "id": 164,
+      "type": "IF_LLM_TextTyper",
+      "pos": [
+        352.048095703125,
+        -243.05616760253906
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            256
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_TextTyper"
+      },
+      "widgets_values": [
+        " Prefix={close-up, dramatic lighting, intense gaze into camera|full-body shot, dynamic pose, slightly tilted angle}}\nFood={a pizza|a cup of wine|a cup of coffe}}"
+      ]
+    },
+    {
+      "id": 167,
+      "type": "IF_LLM_DisplayText",
+      "pos": [
+        1272.0479736328125,
+        -493.0560302734375
+      ],
+      "size": [
+        382.2735595703125,
+        169.0244903564453
+      ],
+      "flags": {},
+      "order": 19,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 257,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Full text content"
+        },
+        {
+          "name": "text_list",
+          "type": "STRING",
+          "links": null,
+          "shape": 6,
+          "tooltip": "Individual lines as separate outputs"
+        },
+        {
+          "name": "count",
+          "type": "INT",
+          "links": null,
+          "tooltip": "Total number of non-empty lines"
+        },
+        {
+          "name": "selected",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Currently selected line based on select input"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        0,
+        "\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n__Prefix__ a woman wearing a __Colors/**__ __Clothing/**__ enjoying a delicious __Food__  photograph by __Artist__"
+      ]
+    },
+    {
+      "id": 168,
+      "type": "IF_LLM_DisplayText",
+      "pos": [
+        1252.0479736328125,
+        -243.05616760253906
+      ],
+      "size": [
+        404.4245910644531,
+        300.2899169921875
+      ],
+      "flags": {},
+      "order": 20,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 258,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Full text content"
+        },
+        {
+          "name": "text_list",
+          "type": "STRING",
+          "links": null,
+          "shape": 6,
+          "tooltip": "Individual lines as separate outputs"
+        },
+        {
+          "name": "count",
+          "type": "INT",
+          "links": null,
+          "tooltip": "Total number of non-empty lines"
+        },
+        {
+          "name": "selected",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Currently selected line based on select input"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        0,
+        "\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\nclose-up, dramatic lighting, intense gaze into camera a woman wearing a rajah Striped golf dress with a flared skirt and built-in shorts with ball pocket enjoying a delicious a cup of wine  photograph by Cornelis Verbeeck\nfull-body shot, dynamic pose, slightly tilted angle a woman wearing a silver tree Embellished bustier top and tulle mini skirt enjoying a delicious a cup of wine  photograph by Paolo Roversi"
+      ]
+    },
+    {
+      "id": 199,
+      "type": "IF_LLM_DisplayText",
+      "pos": [
+        310.8763427734375,
+        887.4686889648438
+      ],
+      "size": [
+        254.28720092773438,
+        160
+      ],
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 366,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": [],
+          "tooltip": "Full text content"
+        },
+        {
+          "name": "text_list",
+          "type": "STRING",
+          "links": [],
+          "slot_index": 1,
+          "shape": 6,
+          "tooltip": "Individual lines as separate outputs"
+        },
+        {
+          "name": "count",
+          "type": "INT",
+          "links": null,
+          "tooltip": "Total number of non-empty lines"
+        },
+        {
+          "name": "selected",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Currently selected line based on select input"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        0,
+        "\n0\n0\n0\n0\nprovide a one line one phrase description of the image"
+      ]
+    },
+    {
+      "id": 200,
+      "type": "IF_LLM_DisplayOmni",
+      "pos": [
+        346.4030456542969,
+        850.9525756835938
+      ],
+      "size": [
+        253.60000610351562,
+        146.41709899902344
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 24,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "omni_input",
+          "type": "OMNI",
+          "link": 367,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "canvas_conditioning",
+          "type": "OMOST_CANVAS_CONDITIONING",
+          "links": [],
+          "slot_index": 0
+        },
+        {
+          "name": "text_output",
+          "type": "STRING",
+          "links": [],
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_DisplayOmni"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 198,
+      "type": "MaskPreview+",
+      "pos": [
+        587.8081665039062,
+        783.6226806640625
+      ],
+      "size": [
+        220.87362670898438,
+        246
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 26,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": 359
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MaskPreview+"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 197,
+      "type": "PreviewImage",
+      "pos": [
+        583.2442016601562,
+        399.91552734375
+      ],
+      "size": [
+        210,
+        246
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 25,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 358
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 153,
+      "type": "PreviewImage",
+      "pos": [
+        1141.264892578125,
+        816.4993286132812
+      ],
+      "size": [
+        280.3531188964844,
+        250.9647979736328
+      ],
+      "flags": {},
+      "order": 32,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 343
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 202,
+      "type": "IF_LLM_DisplayText",
+      "pos": [
+        1151.700439453125,
+        571.2066040039062
+      ],
+      "size": [
+        240.7464141845703,
+        203.14991760253906
+      ],
+      "flags": {},
+      "order": 30,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 374,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Full text content"
+        },
+        {
+          "name": "text_list",
+          "type": "STRING",
+          "links": null,
+          "shape": 6,
+          "tooltip": "Individual lines as separate outputs"
+        },
+        {
+          "name": "count",
+          "type": "INT",
+          "links": null,
+          "tooltip": "Total number of non-empty lines"
+        },
+        {
+          "name": "selected",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Currently selected line based on select input"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        0,
+        "\n0\n0\n0\n0"
+      ]
+    },
+    {
+      "id": 166,
+      "type": "IF_LLM_DisplayTextWildcard",
+      "pos": [
+        800.825439453125,
+        -350.2974548339844
+      ],
+      "size": [
+        400,
+        238
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 255,
+          "widget": {
+            "name": "text"
+          }
+        },
+        {
+          "name": "dynamic_prompt",
+          "type": "STRING",
+          "link": 256,
+          "widget": {
+            "name": "dynamic_prompt"
+          },
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": [
+            257
+          ],
+          "slot_index": 0,
+          "tooltip": "Full text content"
+        },
+        {
+          "name": "text_list",
+          "type": "STRING",
+          "links": [
+            258
+          ],
+          "slot_index": 1,
+          "shape": 6,
+          "tooltip": "Individual lines as separate outputs"
+        },
+        {
+          "name": "count",
+          "type": "INT",
+          "links": null,
+          "tooltip": "Total number of non-empty lines"
+        },
+        {
+          "name": "selected",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Currently selected line based on select input"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_DisplayTextWildcard"
+      },
+      "widgets_values": [
+        "",
+        0,
+        -1,
+        "",
+        2,
+        true,
+        "close-up, dramatic lighting, intense gaze into camera a woman wearing a rajah Striped golf dress with a flared skirt and built-in shorts with ball pocket enjoying a delicious a cup of wine  photograph by Cornelis Verbeeck\nfull-body shot, dynamic pose, slightly tilted angle a woman wearing a silver tree Embellished bustier top and tulle mini skirt enjoying a delicious a cup of wine  photograph by Paolo Roversi"
+      ]
+    },
+    {
+      "id": 165,
+      "type": "IF_LLM_DisplayText",
+      "pos": [
+        310.8763427734375,
+        647.468505859375
+      ],
+      "size": [
+        254.28720092773438,
+        160
+      ],
+      "flags": {},
+      "order": 23,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 355,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": [],
+          "tooltip": "Full text content"
+        },
+        {
+          "name": "text_list",
+          "type": "STRING",
+          "links": [],
+          "slot_index": 1,
+          "shape": 6,
+          "tooltip": "Individual lines as separate outputs"
+        },
+        {
+          "name": "count",
+          "type": "INT",
+          "links": null,
+          "tooltip": "Total number of non-empty lines"
+        },
+        {
+          "name": "selected",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Currently selected line based on select input"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        0,
+        "\n0\n0\n0\n0"
+      ]
+    },
+    {
+      "id": 207,
+      "type": "VAEDecode",
+      "pos": [
+        2650,
+        1300
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {},
+      "order": 48,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 391
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 392,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            393
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 209,
+      "type": "EmptyLatentImage",
+      "pos": [
+        1780,
+        1470
+      ],
+      "size": [
+        315,
+        106
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            400,
+            404,
+            409,
+            421
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptyLatentImage"
+      },
+      "widgets_values": [
+        1024,
+        768,
+        1
+      ]
+    },
+    {
+      "id": 210,
+      "type": "VAEDecode",
+      "pos": [
+        2650,
+        690
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {},
+      "order": 46,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 394
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 395,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            405
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 212,
+      "type": "KSampler",
+      "pos": [
+        2280,
+        690
+      ],
+      "size": [
+        315,
+        262
+      ],
+      "flags": {},
+      "order": 40,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 397
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 398
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 399
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 400
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            394
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        12349,
+        "fixed",
+        20,
+        8,
+        "dpmpp_2m_sde_gpu",
+        "karras",
+        1
+      ]
+    },
+    {
+      "id": 213,
+      "type": "KSampler",
+      "pos": [
+        2290,
+        80
+      ],
+      "size": [
+        315,
+        262
+      ],
+      "flags": {},
+      "order": 41,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 401
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 402
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 403
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 404
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            410
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        12349,
+        "fixed",
+        20,
+        8,
+        "dpmpp_2m_sde_gpu",
+        "karras",
+        1
+      ]
+    },
+    {
+      "id": 214,
+      "type": "SaveImage",
+      "pos": [
+        2910,
+        690
+      ],
+      "size": [
+        513.570068359375,
+        555.1339111328125
+      ],
+      "flags": {},
+      "order": 50,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 405
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "ComfyUI/omost"
+      ]
+    },
+    {
+      "id": 215,
+      "type": "KSampler",
+      "pos": [
+        2300,
+        1320
+      ],
+      "size": [
+        315,
+        262
+      ],
+      "flags": {},
+      "order": 42,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 406
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 407
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 408
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 409
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            391
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        12349,
+        "fixed",
+        20,
+        8,
+        "dpmpp_2m_sde_gpu",
+        "karras",
+        1
+      ]
+    },
+    {
+      "id": 217,
+      "type": "VAEDecode",
+      "pos": [
+        2650,
+        80
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {},
+      "order": 47,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 410
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 411,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            412
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 218,
+      "type": "SaveImage",
+      "pos": [
+        2910,
+        80
+      ],
+      "size": [
+        513.570068359375,
+        555.1339111328125
+      ],
+      "flags": {},
+      "order": 51,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 412
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "ComfyUI/omost"
+      ]
+    },
+    {
+      "id": 219,
+      "type": "OmostLayoutCondNode",
+      "pos": [
+        1760,
+        1010
+      ],
+      "size": [
+        330.0874938964844,
+        147.511962890625
+      ],
+      "flags": {},
+      "order": 36,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "canvas_conds",
+          "type": "OMOST_CANVAS_CONDITIONING",
+          "link": 429
+        },
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 413
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            407
+          ],
+          "shape": 3
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [],
+          "slot_index": 1,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "OmostLayoutCondNode"
+      },
+      "widgets_values": [
+        0.18,
+        0.74,
+        "average"
+      ]
+    },
+    {
+      "id": 221,
+      "type": "VAEDecode",
+      "pos": [
+        2650,
+        -530
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {},
+      "order": 45,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 415
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 416,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            417
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 222,
+      "type": "SaveImage",
+      "pos": [
+        2910,
+        -540
+      ],
+      "size": [
+        513.570068359375,
+        555.1339111328125
+      ],
+      "flags": {},
+      "order": 49,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 417
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "ComfyUI/omost"
+      ]
+    },
+    {
+      "id": 223,
+      "type": "KSampler",
+      "pos": [
+        2290,
+        -530
+      ],
+      "size": [
+        315,
+        262
+      ],
+      "flags": {},
+      "order": 39,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 418
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 419
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 420
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 421
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            415
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        12349,
+        "fixed",
+        20,
+        8,
+        "dpmpp_2m_sde_gpu",
+        "karras",
+        1
+      ]
+    },
+    {
+      "id": 225,
+      "type": "OmostGreedyBagsTextEmbeddingNode",
+      "pos": [
+        1770,
+        790
+      ],
+      "size": [
+        336.2585754394531,
+        52.690181732177734
+      ],
+      "flags": {},
+      "order": 34,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "canvas_conds",
+          "type": "OMOST_CANVAS_CONDITIONING",
+          "link": 427
+        },
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 424,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            419
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "OmostGreedyBagsTextEmbeddingNode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 224,
+      "type": "OmostDenseDiffusionLayoutNode",
+      "pos": [
+        1770,
+        890
+      ],
+      "size": [
+        327.6000061035156,
+        66
+      ],
+      "flags": {},
+      "order": 35,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 422,
+          "slot_index": 0
+        },
+        {
+          "name": "canvas_conds",
+          "type": "OMOST_CANVAS_CONDITIONING",
+          "link": 428,
+          "slot_index": 1
+        },
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 423,
+          "slot_index": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            397
+          ],
+          "slot_index": 0,
+          "shape": 3
+        },
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            398,
+            402
+          ],
+          "slot_index": 1,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "OmostDenseDiffusionLayoutNode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 208,
+      "type": "SaveImage",
+      "pos": [
+        2910,
+        1300
+      ],
+      "size": [
+        513.570068359375,
+        555.1339111328125
+      ],
+      "flags": {},
+      "order": 52,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 393
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "ComfyUI/omost"
+      ]
+    },
+    {
+      "id": 154,
+      "type": "MaskPreview+",
+      "pos": [
+        1410.959716796875,
+        814.5816040039062
+      ],
+      "size": [
+        275.4717712402344,
+        251.9647979736328
+      ],
+      "flags": {},
+      "order": 33,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": 347
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MaskPreview+"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 227,
+      "type": "MaskPreview+",
+      "pos": [
+        2301.24560546875,
+        1630.7884521484375
+      ],
+      "size": [
+        260.9378356933594,
+        246
+      ],
+      "flags": {},
+      "order": 44,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": 426
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MaskPreview+"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 220,
+      "type": "PreviewImage",
+      "pos": [
+        2668.316650390625,
+        1572.7957763671875
+      ],
+      "size": [
+        210,
+        246
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 43,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 414
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 211,
+      "type": "CLIPTextEncode",
+      "pos": [
+        1740,
+        1220
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 396
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            399,
+            403,
+            408,
+            420
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "lowres, bad anatomy, bad hands, cropped, worst quality"
+      ]
+    },
+    {
+      "id": 157,
+      "type": "IF_LLM_DisplayOmni",
+      "pos": [
+        1418.8037109375,
+        614.0494995117188
+      ],
+      "size": [
+        253.60000610351562,
+        146.41709899902344
+      ],
+      "flags": {},
+      "order": 31,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "omni_input",
+          "type": "OMNI",
+          "link": 350,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "canvas_conditioning",
+          "type": "OMOST_CANVAS_CONDITIONING",
+          "links": [
+            427,
+            428,
+            429,
+            430
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "text_output",
+          "type": "STRING",
+          "links": [
+            354
+          ],
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_DisplayOmni"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 159,
+      "type": "IF_LLM_DisplayText",
+      "pos": [
+        301.3916015625,
+        362.3411865234375
+      ],
+      "size": [
+        270,
+        220
+      ],
+      "flags": {},
+      "order": 22,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 356,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Full text content"
+        },
+        {
+          "name": "text_list",
+          "type": "STRING",
+          "links": [],
+          "shape": 6,
+          "tooltip": "Individual lines as separate outputs"
+        },
+        {
+          "name": "count",
+          "type": "INT",
+          "links": null,
+          "tooltip": "Total number of non-empty lines"
+        },
+        {
+          "name": "selected",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Currently selected line based on select input"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        0,
+        "\n0\n0\n0\n0\nA sorceress in a flowing purple gown conjures magic at the entrance of an ornate stone building."
+      ]
+    },
+    {
+      "id": 201,
+      "type": "IF_LLM_DisplayText",
+      "pos": [
+        1155.780517578125,
+        369.0673828125
+      ],
+      "size": [
+        240.55882263183594,
+        160
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 29,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 373,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Full text content"
+        },
+        {
+          "name": "text_list",
+          "type": "STRING",
+          "links": null,
+          "shape": 6,
+          "tooltip": "Individual lines as separate outputs"
+        },
+        {
+          "name": "count",
+          "type": "INT",
+          "links": null,
+          "tooltip": "Total number of non-empty lines"
+        },
+        {
+          "name": "selected",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Currently selected line based on select input"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        0,
+        "\n0\n0\n0\n0\n```python\n# Initialize the canvas\ncanvas = Canvas()\n\n# Set a global description for the canvas\ncanvas.set_global_description(\n    description='A sorceress in a flowing purple gown conjures magic at the entrance of an ornate stone building.',\n    detailed_descriptions=[\n        'The scene depicts a mystical moment where a sorceress dressed in a flowing purple gown is casting spells at the entrance of an ornate stone building.',\n        'She stands confidently, her robes billowing as she gestures with one hand while holding a glowing orb in the other.',\n        'The entrance to the building is adorned with intricate carvings and elaborate stonework, giving it a grandiose appearance.',\n        \"The sorceress's expression is intense and focused, her eyes glowing with magical energy.\",\n        'Light emanates from the magic she conjures, illuminating her figure and casting shadows on the stone facade of the building.',\n        'The background includes ancient trees and cobblestone paths, adding to the enchanting atmosphere.',\n    ],\n    tags='sorceress, purple gown, magic, entrance, ornate stone building, carvings, stonework, grandiose, spells, glowing orb, intense expression, magical energy, light, shadows, ancient trees, cobblestone paths, enchantment, mystical, mystical moment',\n    HTML_web_color_name='rebeccapurple',\n)\n\n# Add the sorceress in a flowing purple gown.\ncanvas.add_local_description(\n    location='in the center',\n    offset='no offset',\n    area='a medium-sized square area',\n    distance_to_viewer=2.0,\n    description='The sorceress in a flowing purple gown.',\n    detailed_descriptions=[\n        'The sorceress stands confidently in the center, her purple gown flowing gracefully around her.',\n        'Her attire is intricate, with shimmering threads and delicate embroidery that match the magical aura she exudes.',\n        \"She's mid-spell, with one hand raised high above her head and the other holding a glowing orb.\",\n        'Her eyes are closed in concentration as magical energy crackles around her hands.',\n    ],\n    tags='sorceress, purple gown, magic, spellcasting, confidence, intricate attire, shimmering threads, embroidery, magical aura',\n    atmosphere='A sense of focused magical power and mystique surrounds the sorceress.',\n    style=\"Detailed fantasy illustration with a focus on the sorceress's movements and expressions.\",\n    quality_meta='High-resolution, detailed portrayal of the central figure with vibrant colors and intricate designs.',\n    HTML_web_color_name='mediumpurple',\n)\n\n# Add an ornate stone building entrance.\ncanvas.add_local_description(\n    location='on the right',\n    offset='slightly to the upper-left',\n    area='a medium-sized vertical area',\n    distance_to_viewer=3.5,\n    description='An ornate stone building entrance.',\n    detailed_descriptions=[\n        'The entrance of the building is grand and imposing, with tall arches and intricate carvings covering its stonework.',\n        'Elaborate designs in the form of mythical creatures and ancient runes adorn the pillars and walls.',\n        \"The structure's facade reflects light from the sorceress's magic, creating a dramatic play of shadows.\",\n    ],\n    tags='ornate stone building, entrance, arches, carvings, stonework, grand, imposing, mythical creatures, ancient runes',\n    atmosphere=\"A sense of ancient power and history emanates from the building's facade.\",\n    style='Architectural illustration with a focus on intricate details and light play.',\n    quality_meta='Highly detailed architectural elements with dramatic lighting effects.',\n    HTML_web_color_name='slategray',\n)\n\n# Add ancient trees adding to the enchanted atmosphere.\ncanvas.add_local_description(\n    location='on the left',\n    offset='no offset',\n    area='a small vertical area',\n    distance_to_viewer=4.0,\n    description='Ancient trees adding to the enchanted atmosphere.',\n    detailed_descriptions=[\n        'The background features ancient, gnarled trees that add to the mystical ambiance of the scene.',\n        \"Their branches twist and curl, with leaves shimmering in shades of green and gold.\",\n        'These trees stand tall against a backdrop of blue sky, their roots stretching out over cobblestone paths that wind through the forest.',\n    ],\n    tags='ancient trees, gnarled, mystical ambiance, branches, leaves, green, gold, blue sky, roots, cobblestone paths',\n    atmosphere='A serene yet magical ambiance created by the presence of ancient trees.',\n    style=\"Nature illustration with an emphasis on texture and light to enhance the scene's enchantment.\",\n    quality_meta='Detailed portrayal of natural elements that contribute to the overall mystique of the setting.',\n    HTML_web_color_name='forestgreen',\n)\n\n# Add cobblestone paths winding through the forest.\ncanvas.add_local_description(\n    location='on the bottom-left',\n    offset='slightly to the upper-right',\n    area='a small horizontal area',\n    distance_to_viewer=5.0,\n    description='Cobblestone paths winding through the forest.',\n    detailed_descriptions=[\n        'The ground is covered with cobblestones that lead the eye deeper into the scene.',\n        \"These stones are worn and uneven, showing signs of age that match the building's grandeur.\",\n        'The path winds its way through the ancient trees, inviting viewers to explore further and adding a sense of depth to the overall composition.',\n    ],\n    tags='cobblestone paths, forest, stone, worn, uneven, age, grandeur, winding',\n    atmosphere=\"A path that leads the viewer's eye deeper into the enchanted forest.\",\n    style='Textural detail in the cobblestones enhances the sense of realism and depth.',\n    quality_meta='High-quality textures on the stones create a visually engaging pathway through the scene.',\n    HTML_web_color_name='dimgray',\n)\n\n# Add magical light emanating from the sorceress's spell.\ncanvas.add_local_description(\n    location='on the top-right',\n    offset='no offset',\n    area='a small square area',\n    distance_to_viewer=6.0,\n    description=\"Magical light emanating from the sorceress's spell.\",\n    detailed_descriptions=[\n        \"The spellcasting of the sorceress causes magical energy to illuminate the scene, casting a radiant glow across her and the surrounding environment.\",\n        'This light is both warm and otherworldly, adding an ethereal quality to the overall image.',\n        'Shadows created by this illumination enhance the dramatic effect, creating a striking contrast against the stone building and trees.',\n    ],\n    tags='magical light, spellcasting, illumination, radiant glow, ethereal, warmth, contrast, shadows',\n    atmosphere=\"A warm, otherworldly glow that enhances the scene's mystical feel.\",\n    style='Ethereal lighting techniques to create an enchanting visual effect.',\n    quality_meta=\"High-quality lighting effects that add to the image's magical realism.\",\n    HTML_web_color_name='lightgoldenrodyellow',\n)\n```"
+      ]
+    },
+    {
+      "id": 158,
+      "type": "IF_LLM_DisplayText",
+      "pos": [
+        1430.5758056640625,
+        374.1270751953125
+      ],
+      "size": [
+        226.21229553222656,
+        195.2222900390625
+      ],
+      "flags": {},
+      "order": 28,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 372,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Full text content"
+        },
+        {
+          "name": "text_list",
+          "type": "STRING",
+          "links": null,
+          "shape": 6,
+          "tooltip": "Individual lines as separate outputs"
+        },
+        {
+          "name": "count",
+          "type": "INT",
+          "links": null,
+          "tooltip": "Total number of non-empty lines"
+        },
+        {
+          "name": "selected",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Currently selected line based on select input"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        0,
+        "\n0\n0\n0\n0\nA sorceress in a flowing purple gown conjures magic at the entrance of an ornate stone building."
+      ]
+    },
+    {
+      "id": 226,
+      "type": "CheckpointLoaderSimple",
+      "pos": [
+        1770,
+        630
+      ],
+      "size": [
+        315,
+        98
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            401,
+            406,
+            418,
+            422
+          ],
+          "slot_index": 0,
+          "shape": 3
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            396,
+            413,
+            423,
+            424
+          ],
+          "slot_index": 1,
+          "shape": 3
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            392,
+            395,
+            411,
+            416
+          ],
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CheckpointLoaderSimple"
+      },
+      "widgets_values": [
+        "SDXL\\Proteus-v0.7.4.safetensors"
+      ]
+    },
+    {
+      "id": 216,
+      "type": "OmostRenderCanvasConditioningNode",
+      "pos": [
+        1793.9515380859375,
+        1657.357421875
+      ],
+      "size": [
+        271.7767639160156,
+        46
+      ],
+      "flags": {},
+      "order": 37,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "canvas_conds",
+          "type": "OMOST_CANVAS_CONDITIONING",
+          "link": 430,
+          "slot_index": 0
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            414
+          ],
+          "slot_index": 0,
+          "shape": 3
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [
+            426
+          ],
+          "slot_index": 1,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "OmostRenderCanvasConditioningNode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 196,
+      "type": "IF_LLM_DisplayText",
+      "pos": [
+        1746.7620849609375,
+        -88.14083862304688
+      ],
+      "size": [
+        414.6047668457031,
+        654.5426025390625
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 38,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 354,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": [],
+          "slot_index": 0,
+          "tooltip": "Full text content"
+        },
+        {
+          "name": "text_list",
+          "type": "STRING",
+          "links": null,
+          "shape": 6,
+          "tooltip": "Individual lines as separate outputs"
+        },
+        {
+          "name": "count",
+          "type": "INT",
+          "links": null,
+          "tooltip": "Total number of non-empty lines"
+        },
+        {
+          "name": "selected",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Currently selected line based on select input"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        0,
+        "\n0\n0\n0\n0\n[[{'rect': (0, 90, 0, 90), 'prefixes': ['A sorceress in a flowing purple gown conjures magic at the entrance of an ornate stone building.'], 'suffixes': ['The scene depicts a mystical moment where a sorceress dressed in a flowing purple gown is casting spells at the entrance of an ornate stone building.', 'She stands confidently, her robes billowing as she gestures with one hand while holding a glowing orb in the other.', 'The entrance to the building is adorned with intricate carvings and elaborate stonework, giving it a grandiose appearance.', \"The sorceress's expression is intense and focused, her eyes glowing with magical energy.\", 'Light emanates from the magic she conjures, illuminating her figure and casting shadows on the stone facade of the building.', 'The background includes ancient trees and cobblestone paths, adding to the enchanting atmosphere.', 'sorceress, purple gown, magic, entrance, ornate stone building, carvings, stonework, grandiose, spells, glowing orb, intense expression, magical energy, light, shadows, ancient trees, cobblestone paths, enchantment, mystical, mystical moment.'], 'color': (102, 51, 153)}, {'color': (250, 250, 210), 'rect': [0, 40, 50, 90], 'prefixes': ['A sorceress in a flowing purple gown conjures magic at the entrance of an ornate stone building.', \"Magical light emanating from the sorceress's spell.\"], 'suffixes': ['The spellcasting of the sorceress causes magical energy to illuminate the scene, casting a radiant glow across her and the surrounding environment.', 'This light is both warm and otherworldly, adding an ethereal quality to the overall image.', 'Shadows created by this illumination enhance the dramatic effect, creating a striking contrast against the stone building and trees.', 'magical light, spellcasting, illumination, radiant glow, ethereal, warmth, contrast, shadows.', \"A warm, otherworldly glow that enhances the scene's mystical feel.\", 'Ethereal lighting techniques to create an enchanting visual effect.', \"High-quality lighting effects that add to the image's magical realism.\"]}, {'color': (105, 105, 105), 'rect': [45, 85, 0, 55], 'prefixes': ['A sorceress in a flowing purple gown conjures magic at the entrance of an ornate stone building.', 'Cobblestone paths winding through the forest.'], 'suffixes': ['The ground is covered with cobblestones that lead the eye deeper into the scene.', \"These stones are worn and uneven, showing signs of age that match the building's grandeur.\", 'The path winds its way through the ancient trees, inviting viewers to explore further and adding a sense of depth to the overall composition.', 'cobblestone paths, forest, stone, worn, uneven, age, grandeur, winding.', \"A path that leads the viewer's eye deeper into the enchanted forest.\", 'Textural detail in the cobblestones enhances the sense of realism and depth.', 'High-quality textures on the stones create a visually engaging pathway through the scene.']}, {'color': (34, 139, 34), 'rect': [15, 75, 0, 35], 'prefixes': ['A sorceress in a flowing purple gown conjures magic at the entrance of an ornate stone building.', 'Ancient trees adding to the enchanted atmosphere.'], 'suffixes': ['The background features ancient, gnarled trees that add to the mystical ambiance of the scene.', 'Their branches twist and curl, with leaves shimmering in shades of green and gold.', 'These trees stand tall against a backdrop of blue sky, their roots stretching out over cobblestone paths that wind through the forest.', 'ancient trees, gnarled, mystical ambiance, branches, leaves, green, gold, blue sky, roots, cobblestone paths.', 'A serene yet magical ambiance created by the presence of ancient trees.', \"Nature illustration with an emphasis on texture and light to enhance the scene's enchantment.\", 'Detailed portrayal of natural elements that contribute to the overall mystique of the setting.']}, {'color': (112, 128, 144), 'rect': [0, 75, 40, 90], 'prefixes': ['A sorceress in a flowing purple gown conjures magic at the entrance of an ornate stone building.', 'An ornate stone building entrance.'], 'suffixes': ['The entrance of the building is grand and imposing, with tall arches and intricate carvings covering its stonework.', 'Elaborate designs in the form of mythical creatures and ancient runes adorn the pillars and walls.', \"The structure's facade reflects light from the sorceress's magic, creating a dramatic play of shadows.\", 'ornate stone building, entrance, arches, carvings, stonework, grand, imposing, mythical creatures, ancient runes.', \"A sense of ancient power and history emanates from the building's facade.\", 'Architectural illustration with a focus on intricate details and light play.', 'Highly detailed architectural elements with dramatic lighting effects.']}, {'color': (147, 112, 219), 'rect': [15, 75, 15, 75], 'prefixes': ['A sorceress in a flowing purple gown conjures magic at the entrance of an ornate stone building.', 'The sorceress in a flowing purple gown.'], 'suffixes': ['The sorceress stands confidently in the center, her purple gown flowing gracefully around her.', 'Her attire is intricate, with shimmering threads and delicate embroidery that match the magical aura she exudes.', \"She's mid-spell, with one hand raised high above her head and the other holding a glowing orb.\", 'Her eyes are closed in concentration as magical energy crackles around her hands.', 'sorceress, purple gown, magic, spellcasting, confidence, intricate attire, shimmering threads, embroidery, magical aura.', 'A sense of focused magical power and mystique surrounds the sorceress.', \"Detailed fantasy illustration with a focus on the sorceress's movements and expressions.\", 'High-resolution, detailed portrayal of the central figure with vibrant colors and intricate designs.']}]]"
+      ]
+    },
+    {
+      "id": 156,
+      "type": "IF_LoadImagesS",
+      "pos": [
+        -626.8613891601562,
+        371.057373046875
+      ],
+      "size": [
+        247.7286376953125,
+        770
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": [
+            247,
+            370
+          ],
+          "slot_index": 0,
+          "shape": 6
+        },
+        {
+          "name": "masks",
+          "type": "MASK",
+          "links": [
+            250,
+            371
+          ],
+          "slot_index": 1,
+          "shape": 6
+        },
+        {
+          "name": "image_paths",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        },
+        {
+          "name": "filenames",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        },
+        {
+          "name": "count_str",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        },
+        {
+          "name": "count_int",
+          "type": "INT",
+          "links": null,
+          "shape": 6
+        },
+        {
+          "name": "images_batch",
+          "type": "IMAGE",
+          "links": null
+        },
+        {
+          "name": "masks_batch",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LoadImagesS"
+      },
+      "widgets_values": [
+        "thb_Fantasy-Art-Images-0188.jpg",
+        "Refresh Previews 🔄",
+        "I:\\Images\\fantasy-art-images",
+        95,
+        96,
+        "1000",
+        true,
+        4714,
+        true,
+        "alphabetical",
+        "none",
+        "blue",
+        "image",
+        "Select Folder 📂",
+        "Backup Input 💾",
+        "Restore Input ♻️"
+      ]
+    },
+    {
+      "id": 169,
+      "type": "Fast Groups Muter (rgthree)",
+      "pos": [
+        820,
+        1160
+      ],
+      "size": [
+        295.38623046875,
+        226
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "OPT_CONNECTION",
+          "type": "*",
+          "links": null
+        }
+      ],
+      "properties": {
+        "matchColors": "",
+        "matchTitle": "",
+        "showNav": true,
+        "sort": "position",
+        "customSortAlphabet": "",
+        "toggleRestriction": "default"
+      }
+    },
+    {
+      "id": 170,
+      "type": "IF_LLM",
+      "pos": [
+        -50.35795974731445,
+        367.8271484375
+      ],
+      "size": [
+        278.79998779296875,
+        704
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 370,
+          "shape": 7
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": 371,
+          "shape": 7
+        },
+        {
+          "name": "Omni",
+          "type": "OMNI",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "prime_directives",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "prime_directives"
+          },
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "question",
+          "type": "STRING",
+          "links": [
+            366
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "response",
+          "type": "STRING",
+          "links": [
+            356,
+            365
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "negative",
+          "type": "STRING",
+          "links": [
+            355
+          ],
+          "slot_index": 2
+        },
+        {
+          "name": "omni",
+          "type": "OMNI",
+          "links": [
+            367
+          ],
+          "slot_index": 3
+        },
+        {
+          "name": "generated_images",
+          "type": "IMAGE",
+          "links": [
+            358,
+            375
+          ],
+          "slot_index": 4
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "links": [
+            359,
+            376
+          ],
+          "slot_index": 5
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM"
+      },
+      "widgets_values": [
+        "openai",
+        "learnlrn-1.5-pro-experimental",
+        "localhost",
+        "11434",
+        "provide a one line one phrase description of the image",
+        "normal",
+        "",
+        "None",
+        "None",
+        "None",
+        "None",
+        "None",
+        2048,
+        false,
+        1581,
+        "randomize",
+        true,
+        false,
+        10,
+        "1:1",
+        false,
+        1,
+        "",
+        null
+      ]
+    },
+    {
+      "id": 193,
+      "type": "IF_LLM",
+      "pos": [
+        838.4103393554688,
+        367.038330078125
+      ],
+      "size": [
+        278.79998779296875,
+        704
+      ],
+      "flags": {},
+      "order": 27,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 375,
+          "shape": 7
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": 376,
+          "shape": 7
+        },
+        {
+          "name": "Omni",
+          "type": "OMNI",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "prime_directives",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "prime_directives"
+          },
+          "shape": 7
+        },
+        {
+          "name": "user_prompt",
+          "type": "STRING",
+          "link": 365,
+          "widget": {
+            "name": "user_prompt"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "question",
+          "type": "STRING",
+          "links": [
+            372
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "response",
+          "type": "STRING",
+          "links": [
+            373
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "negative",
+          "type": "STRING",
+          "links": [
+            374
+          ],
+          "slot_index": 2
+        },
+        {
+          "name": "omni",
+          "type": "OMNI",
+          "links": [
+            350
+          ],
+          "slot_index": 3
+        },
+        {
+          "name": "generated_images",
+          "type": "IMAGE",
+          "links": [
+            343
+          ],
+          "slot_index": 4
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "links": [
+            347
+          ],
+          "slot_index": 5
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM"
+      },
+      "widgets_values": [
+        "ollama",
+        "learnlrn-1.5-pro-experimental",
+        "localhost",
+        "11434",
+        "a cat vs a dinosaur on the backyard",
+        "omost",
+        "",
+        "IF_Omost",
+        "None",
+        "None",
+        "None",
+        "None",
+        2048,
+        false,
+        388,
+        "randomize",
+        true,
+        true,
+        10,
+        "1:1",
+        false,
+        1,
+        "",
+        null
+      ]
+    },
+    {
+      "id": 232,
+      "type": "LoadImage",
+      "pos": [
+        -556.26904296875,
+        1298.52294921875
+      ],
+      "size": [
+        315,
+        314.0001220703125
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": null
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "01poem.wav",
+        "image"
+      ]
+    },
+    {
+      "id": 233,
+      "type": "Note",
+      "pos": [
+        -891.7816772460938,
+        696.3840942382812
+      ],
+      "size": [
+        240.11636352539062,
+        298.3386535644531
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "load images S",
+      "properties": {},
+      "widgets_values": [
+        "The load images s has a quirk where you need to make sure the start index is not hihgher than the max amounts of images of the imported folder or the stop index \nIs logic but easy to forget lol\n\nDon't use the upload button\n\nselect folder make sure to copy the address from the search bar and paste it into the pop up or directly into the input path hit refresh select your range of images to work with if the images are too large the api won't recognise it so you either resize them manualy or use the resizer node before feeding them to IF_LLM\nIf the images aren't too important you can use the backup button on the node otherwise I recommend saving your work before you start using this."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 230,
+      "type": "Note",
+      "pos": [
+        90.79487609863281,
+        1164.067138671875
+      ],
+      "size": [
+        281.1380615234375,
+        444.05731201171875
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 11,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "LLM node",
+      "properties": {},
+      "widgets_values": [
+        "MAKE SURE to select the right provider and model, when this first load the model might not be for the same provider youi have selected and it fails\n\nSome providers won't accept images or won't take the images into account\nyou need to chose vision compatible models to use images\n\nYou can use transformers QwenVL for local or any of the other local providers such as ollama\n\nFor online APIs you need to create either sytem \nEnviroment variables or place the variables on the custom node .env file\n\nthe names must the same as the providers list but in CAPITALS and adding _API_KEY\n\nDEEPSEEK_API_KEY  \nANTHROPIC_API_KEY\nGROQ_API_KEY\nHUGGINFACE_API_KEY (Not Yet available ComingUp)\nMISTRAL_API_KEY\nOPENAI_API_KEY\nGEMINI_API_KEY\nXAI_API_KEY\n\ncreate and edit only works with \nOpenAI API and dalle3 for now\n\n"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 234,
+      "type": "Note",
+      "pos": [
+        428.6761779785156,
+        1149.0897216796875
+      ],
+      "size": [
+        320.31707763671875,
+        136.79942321777344
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "omost strategy only works with a particular omost model \n\nollama run impactframes/dolphin_llama3_omost \n\nto install it"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 231,
+      "type": "Note",
+      "pos": [
+        -546.26904296875,
+        1198.52294921875
+      ],
+      "size": [
+        310.5646667480469,
+        61.201107025146484
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "You can use native comfy load image if you are not interested in processing a list or batch"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    }
+  ],
+  "links": [
+    [
+      247,
+      156,
+      0,
+      152,
+      0,
+      "IMAGE"
+    ],
+    [
+      250,
+      156,
+      1,
+      155,
+      0,
+      "MASK"
+    ],
+    [
+      255,
+      163,
+      0,
+      166,
+      0,
+      "STRING"
+    ],
+    [
+      256,
+      164,
+      0,
+      166,
+      1,
+      "STRING"
+    ],
+    [
+      257,
+      166,
+      0,
+      167,
+      0,
+      "STRING"
+    ],
+    [
+      258,
+      166,
+      1,
+      168,
+      0,
+      "STRING"
+    ],
+    [
+      343,
+      193,
+      4,
+      153,
+      0,
+      "IMAGE"
+    ],
+    [
+      347,
+      193,
+      5,
+      154,
+      0,
+      "MASK"
+    ],
+    [
+      350,
+      193,
+      3,
+      157,
+      0,
+      "OMNI"
+    ],
+    [
+      354,
+      157,
+      1,
+      196,
+      0,
+      "STRING"
+    ],
+    [
+      355,
+      170,
+      2,
+      165,
+      0,
+      "STRING"
+    ],
+    [
+      356,
+      170,
+      1,
+      159,
+      0,
+      "STRING"
+    ],
+    [
+      358,
+      170,
+      4,
+      197,
+      0,
+      "IMAGE"
+    ],
+    [
+      359,
+      170,
+      5,
+      198,
+      0,
+      "MASK"
+    ],
+    [
+      365,
+      170,
+      1,
+      193,
+      4,
+      "STRING"
+    ],
+    [
+      366,
+      170,
+      0,
+      199,
+      0,
+      "STRING"
+    ],
+    [
+      367,
+      170,
+      3,
+      200,
+      0,
+      "OMNI"
+    ],
+    [
+      370,
+      156,
+      0,
+      170,
+      0,
+      "IMAGE"
+    ],
+    [
+      371,
+      156,
+      1,
+      170,
+      1,
+      "MASK"
+    ],
+    [
+      372,
+      193,
+      0,
+      158,
+      0,
+      "STRING"
+    ],
+    [
+      373,
+      193,
+      1,
+      201,
+      0,
+      "STRING"
+    ],
+    [
+      374,
+      193,
+      2,
+      202,
+      0,
+      "STRING"
+    ],
+    [
+      375,
+      170,
+      4,
+      193,
+      0,
+      "IMAGE"
+    ],
+    [
+      376,
+      170,
+      5,
+      193,
+      1,
+      "MASK"
+    ],
+    [
+      391,
+      215,
+      0,
+      207,
+      0,
+      "LATENT"
+    ],
+    [
+      392,
+      226,
+      2,
+      207,
+      1,
+      "VAE"
+    ],
+    [
+      393,
+      207,
+      0,
+      208,
+      0,
+      "IMAGE"
+    ],
+    [
+      394,
+      212,
+      0,
+      210,
+      0,
+      "LATENT"
+    ],
+    [
+      395,
+      226,
+      2,
+      210,
+      1,
+      "VAE"
+    ],
+    [
+      396,
+      226,
+      1,
+      211,
+      0,
+      "CLIP"
+    ],
+    [
+      397,
+      224,
+      0,
+      212,
+      0,
+      "MODEL"
+    ],
+    [
+      398,
+      224,
+      1,
+      212,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      399,
+      211,
+      0,
+      212,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      400,
+      209,
+      0,
+      212,
+      3,
+      "LATENT"
+    ],
+    [
+      401,
+      226,
+      0,
+      213,
+      0,
+      "MODEL"
+    ],
+    [
+      402,
+      224,
+      1,
+      213,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      403,
+      211,
+      0,
+      213,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      404,
+      209,
+      0,
+      213,
+      3,
+      "LATENT"
+    ],
+    [
+      405,
+      210,
+      0,
+      214,
+      0,
+      "IMAGE"
+    ],
+    [
+      406,
+      226,
+      0,
+      215,
+      0,
+      "MODEL"
+    ],
+    [
+      407,
+      219,
+      0,
+      215,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      408,
+      211,
+      0,
+      215,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      409,
+      209,
+      0,
+      215,
+      3,
+      "LATENT"
+    ],
+    [
+      410,
+      213,
+      0,
+      217,
+      0,
+      "LATENT"
+    ],
+    [
+      411,
+      226,
+      2,
+      217,
+      1,
+      "VAE"
+    ],
+    [
+      412,
+      217,
+      0,
+      218,
+      0,
+      "IMAGE"
+    ],
+    [
+      413,
+      226,
+      1,
+      219,
+      1,
+      "CLIP"
+    ],
+    [
+      414,
+      216,
+      0,
+      220,
+      0,
+      "IMAGE"
+    ],
+    [
+      415,
+      223,
+      0,
+      221,
+      0,
+      "LATENT"
+    ],
+    [
+      416,
+      226,
+      2,
+      221,
+      1,
+      "VAE"
+    ],
+    [
+      417,
+      221,
+      0,
+      222,
+      0,
+      "IMAGE"
+    ],
+    [
+      418,
+      226,
+      0,
+      223,
+      0,
+      "MODEL"
+    ],
+    [
+      419,
+      225,
+      0,
+      223,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      420,
+      211,
+      0,
+      223,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      421,
+      209,
+      0,
+      223,
+      3,
+      "LATENT"
+    ],
+    [
+      422,
+      226,
+      0,
+      224,
+      0,
+      "MODEL"
+    ],
+    [
+      423,
+      226,
+      1,
+      224,
+      2,
+      "CLIP"
+    ],
+    [
+      424,
+      226,
+      1,
+      225,
+      1,
+      "CLIP"
+    ],
+    [
+      426,
+      216,
+      1,
+      227,
+      0,
+      "MASK"
+    ],
+    [
+      427,
+      157,
+      0,
+      225,
+      0,
+      "OMOST_CANVAS_CONDITIONING"
+    ],
+    [
+      428,
+      157,
+      0,
+      224,
+      1,
+      "OMOST_CANVAS_CONDITIONING"
+    ],
+    [
+      429,
+      157,
+      0,
+      219,
+      0,
+      "OMOST_CANVAS_CONDITIONING"
+    ],
+    [
+      430,
+      157,
+      0,
+      216,
+      0,
+      "OMOST_CANVAS_CONDITIONING"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "ComfyUI_Omost",
+      "bounding": [
+        1730,
+        -613.5999755859375,
+        1703.570068359375,
+        2500.388427734375
+      ],
+      "color": "#444",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 6,
+      "title": "OMOST",
+      "bounding": [
+        828.4103393554688,
+        290.60260009765625,
+        866.8931274414062,
+        797.2245483398438
+      ],
+      "color": "#444",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 7,
+      "title": "Wildcard",
+      "bounding": [
+        352.048095703125,
+        -593.0562133789062,
+        1343.47412109375,
+        812.6964111328125
+      ],
+      "color": "#444",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 8,
+      "title": "IF_LoadImagesS",
+      "bounding": [
+        -636.8613891601562,
+        286.47552490234375,
+        563.862060546875,
+        864.5818481445312
+      ],
+      "color": "#444",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 9,
+      "title": "Manual Text Prompt",
+      "bounding": [
+        -258.53778076171875,
+        -492.53875732421875,
+        423,
+        539.60009765625
+      ],
+      "color": "#444",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 10,
+      "title": "IMAGE-->PROMPT",
+      "bounding": [
+        -60.357933044433594,
+        288.7412414550781,
+        879.0398559570312,
+        793.0859375
+      ],
+      "color": "#444",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.5023188467494953,
+      "offset": [
+        1061.488595364272,
+        493.8082715259636
+      ]
+    },
+    "info": {
+      "name": "omost_agent_test",
+      "author": "",
+      "description": "",
+      "version": "1",
+      "created": "2024-06-03T15:41:46.655Z",
+      "modified": "2024-07-14T13:32:31.490Z",
+      "software": "ComfyUI"
+    },
+    "ue_links": []
+  },
+  "version": 0.4
+}

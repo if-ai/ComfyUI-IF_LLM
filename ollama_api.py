@@ -107,15 +107,30 @@ async def send_ollama_request(api_url, base64_images, model, system_message, use
         ollama_headers = {"Content-Type": "application/json"}
 
         async with aiohttp.ClientSession() as session:
-            async with session.post(api_url, headers=ollama_headers, json=data) as response:
-                response.raise_for_status()
-                response_json = await response.json()
+            try:
+                async with session.post(api_url, json=data, headers=ollama_headers) as response:
+                    response.raise_for_status()
+                    response_json = await response.json()
+
+            except aiohttp.ClientError as e:
+                error_msg = f"Error calling Ollama API: {str(e)}"
+                logger.error(error_msg)
+                return {"choices": [{"message": {"content": error_msg}}]}
 
         if tools:
             return response_json
         else:
             if "response" in response_json:
-                return {"choices": [{"message": {"content": response_json["response"].strip()}}]}
+                result = {
+                    "choices": [{
+                        "message": {
+                            "content": response_json["response"].strip()
+                        }
+                    }]
+                }
+                if "images" in response_json:
+                    result["choices"][0]["images"] = response_json["images"]
+                return result
             elif "message" in response_json:
                 return {"choices": [{"message": {"content": response_json["message"]["content"].strip()}}]}
             else:

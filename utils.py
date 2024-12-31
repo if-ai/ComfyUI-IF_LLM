@@ -10,6 +10,7 @@ import base64
 import logging
 import datetime
 import requests
+import time
 import numpy as np
 from io import BytesIO
 from aiohttp import web
@@ -86,6 +87,10 @@ def process_auto_mode_images(images, mask=None, batch_size=4):
     """
     try:
         # Convert images to list format
+        if images is None or (isinstance(images, (list, tuple)) and len(images) == 0):
+            # Return a tuple of empty lists
+            return ([], [])
+
         if isinstance(images, torch.Tensor):
             if images.dim() == 4:  # [B,H,W,C]
                 images = [images[i] for i in range(images.shape[0])]
@@ -749,25 +754,40 @@ def clean_text(generated_text, remove_weights=True, remove_author=True):
     return "\n".join(cleaned_lines)
 
 def get_api_key(api_key_name, engine):
-    local_engines = ["ollama", "llamacpp", "kobold", "lmstudio", "textgen", "sentence_transformers", "transformers"]
+    """
+    Retrieve API key from environment variables or .env file.
     
+    Args:
+        api_key_name (str): Name of the API key environment variable
+        engine (str): Name of the engine being used
+        
+    Returns:
+        str: API key if found and valid
+        
+    Raises:
+        ValueError: If API key is missing or invalid
+    """
+    local_engines = ["ollama", "llamacpp", "kobold", "lmstudio", "textgen", "sentence_transformers", "transformers"]
+    # Try to get the key from .env first
+    load_dotenv()
+    api_key = os.getenv(api_key_name)
     if engine.lower() in local_engines:
         print(f"You are using {engine} as the engine, no API key is required.")
         return "1234"
     
-    # Try to get the key from .env first
-    load_dotenv()
-    api_key = os.getenv(api_key_name)
+    # Special handling for HuggingFace
+    if engine.lower() == "huggingface":
+        # Try both conventional and HF-specific env var names
+        api_key = os.getenv("HUGGINGFACE_API_KEY") or os.getenv("HF_AUTH_TOKEN")
+        if api_key:
+            if validate_huggingface_token(api_key):
+                return api_key
+            else:
+                raise ValueError("Invalid HuggingFace API key")
+        raise ValueError("No HuggingFace API key found in environment variables")
     
-    if api_key:
-        print(f"API key for {api_key_name} found in .env file")
-        return api_key
-    
-    # If .env is empty, get the key from os.environ
-    api_key = os.getenv(api_key_name)
-    
-    if api_key:
-        print(f"API key for {api_key_name} found in environment variables")
+    elif api_key:
+        print(f"API key for {api_key_name} found in .env file or environment variables")
         return api_key
     
     print(f"API key for {api_key_name} not found in .env file or environment variables")
@@ -784,6 +804,134 @@ def get_models(engine, base_ip, port, api_key):
             return models
         except Exception as e:
             print(f"Failed to fetch models from Ollama: {e}")
+            return []
+    
+    
+    elif engine == "huggingface":
+        fallback_models = [
+            # Vision Language Models (VLM)
+            "meta-llama/Llama-3.2-11B-Vision-Instruct",
+            "Qwen/Qwen2-VL-7B-Chat",
+            "Qwen/Qwen2-VL-7B",
+            "Qwen/Qwen2-VL-2B-Chat",
+            "Qwen/Qwen2-VL-2B",
+            "Qwen/Qwen2-VL-7B-Instruct",
+            "Qwen/Qwen2-VL-2B-Instruct",
+            "microsoft/phi-2",
+            "HuggingFaceH4/zephyr-7b-beta",
+            
+            # Text to Image Models
+            "stabilityai/sdxl-turbo",
+            "stabilityai/stable-diffusion-xl-base-1.0",
+            "stabilityai/stable-diffusion-2-1",
+            "runwayml/stable-diffusion-v1-5",
+            "CompVis/stable-diffusion-v1-4",
+            "stabilityai/stable-diffusion-3-base",
+            "stabilityai/stable-diffusion-3-medium",
+            "stabilityai/stable-diffusion-3-small",
+            "black-forest-labs/FLUX.1-dev",
+            "playgroundai/playground-v2-256px",
+            "playgroundai/playground-v2-1024px",
+            
+            # Image to Image Models
+            "timbrooks/instruct-pix2pix",
+            "lambdalabs/sd-image-variations-diffusers",
+            "diffusers/controlnet-canny-sdxl-1.0",
+            
+            # Specialized Models
+            "kandinsky-community/kandinsky-3",
+            "stabilityai/stable-cascade",
+            "dataautogpt3/OpenDalle3",
+            "ByteDance/SDXL-Lightning",
+            
+            # ControlNet Models
+            "lllyasviel/control_v11p_sd15_canny",
+            "lllyasviel/control_v11p_sd15_openpose",
+            "lllyasviel/control_v11p_sd15_depth",
+            
+            # Text Feature Extraction
+            "sentence-transformers/all-MiniLM-L6-v2",
+            "sentence-transformers/all-mpnet-base-v2",
+            
+            # Image Feature Extraction  
+            "openai/clip-vit-base-patch32",
+            "openai/clip-vit-large-patch14",
+            
+            # Text Classification
+            "distilbert-base-uncased-finetuned-sst-2-english",
+            "roberta-base-openai-detector",
+            
+            # Text Generation
+            "gpt2",
+            "facebook/opt-350m",
+            
+            # Translation 
+            "Helsinki-NLP/opus-mt-en-fr",
+            "Helsinki-NLP/opus-mt-fr-en",
+            
+            # Question Answering
+            "deepset/roberta-base-squad2",
+            "distilbert-base-cased-distilled-squad"
+        ]
+
+        try:
+            # Verify API key
+            if not api_key or api_key == "1234":
+                print("No valid HuggingFace API key provided. Using fallback models.")
+                return fallback_models
+
+            headers = {
+                "Authorization": f"Bearer {api_key}",
+                "Accept": "application/json"
+            }
+
+            # Check inference API endpoint directly
+            inference_url = "https://api-inference.huggingface.co/status"
+            response = requests.get(inference_url, headers=headers)
+            
+            if response.status_code != 200:
+                print("Failed to verify HuggingFace Inference API access. Using fallback models.")
+                return fallback_models
+
+            # Get models available for inference API
+            models_url = "https://api-inference.huggingface.co/framework/all"
+            response = requests.get(models_url, headers=headers)
+
+            if response.status_code == 200:
+                api_models = []
+                data = response.json()
+                
+                # Extract models supporting inference API
+                for framework in data:
+                    for model in framework.get("models", []):
+                        model_id = model.get("model_id")
+                        if model_id:
+                            api_models.append(model_id)
+                
+                # Combine with fallback models and remove duplicates
+                combined_models = list(dict.fromkeys(api_models + fallback_models))
+                return combined_models
+            else:
+                print(f"Failed to fetch inference models. Status code: {response.status_code}")
+                return fallback_models
+
+        except Exception as e:
+            print(f"Error fetching HuggingFace models: {str(e)}")
+            return fallback_models
+
+    elif engine == "deepseek":
+        api_url = "https://api.deepseek.com/models"
+        headers = {
+            "Authorization": f"Bearer {api_key}",
+            "Accept": "application/json"
+        }
+        try:
+            response = requests.get(api_url, headers=headers)
+            response.raise_for_status()
+            models = [model["id"] for model in response.json()["data"]]
+            return models
+        except Exception as e:
+            print(f"Failed to fetch models from DeepSeek: {e}")
             return []
 
     elif engine == "lmstudio":
@@ -1008,6 +1156,10 @@ def get_models(engine, base_ip, port, api_key):
 
     elif engine == "gemini":
         return [
+            "learnlrn-1.5-pro-experimental",
+            "gemini-2.O-flash-thinking-exp-1219",
+            "gemini-2.O-flash-exp",
+            "gemini-exp-1206",
             "gemini-exp-1121",
             "gemini-exp-1114",
             "gemini-1.5-pro-002",
@@ -1055,6 +1207,55 @@ def str_presenter(dumper, data):
     return dumper.represent_scalar("tag:yaml.org,2002:str", data)
 
 EnhancedYAMLDumper.add_representer(str, str_presenter)
+
+
+def validate_huggingface_token(api_key):
+    """Validate HuggingFace API token"""
+    try:
+        headers = {"Authorization": f"Bearer {api_key}"}
+        # Try to access the API with the token
+        response = requests.get(
+            "https://huggingface.co/api/whoami",
+            headers=headers
+        )
+        return response.status_code == 200
+    except Exception as e:
+        logger.error(f"Error validating HuggingFace token: {e}")
+        return False
+
+def get_huggingface_url(model_or_url):
+    """Convert model name to full HuggingFace API URL if needed"""
+    if model_or_url.startswith(('http://', 'https://')):
+        return model_or_url
+    return f'https://api-inference.huggingface.co/models/{model_or_url}'
+
+def send_huggingface_request(endpoint, payload, api_key, max_retries=3):
+    """Send request to HuggingFace Inference API with retry logic"""
+    headers = {"Authorization": f"Bearer {api_key}"}
+    url = get_huggingface_url(endpoint)
+    
+    for attempt in range(max_retries):
+        try:
+            response = requests.post(url, headers=headers, json=payload)
+            
+            if response.status_code == 200:
+                return response
+                
+            elif 'estimated_time' in response.text:
+                # Handle model loading
+                estimated_time = response.json().get('estimated_time', 30)
+                logger.info(f"Model loading, waiting {estimated_time} seconds...")
+                time.sleep(estimated_time)
+                continue
+                
+            else:
+                raise Exception(f"HuggingFace API error: {response.text}")
+                
+        except Exception as e:
+            if attempt == max_retries - 1:
+                raise
+            logger.warning(f"Retry {attempt + 1}/{max_retries} after error: {e}")
+            time.sleep(2 ** attempt)  # Exponential backoff
 
 def numpy_int64_presenter(dumper, data):
     return dumper.represent_int(int(data))

@@ -1,0 +1,1702 @@
+{
+  "last_node_id": 170,
+  "last_link_id": 263,
+  "nodes": [
+    {
+      "id": 94,
+      "type": "PreviewImage",
+      "pos": [
+        502.2479248046875,
+        309.9156188964844
+      ],
+      "size": [
+        274.6120910644531,
+        336.0838317871094
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 184
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 98,
+      "type": "PreviewImage",
+      "pos": [
+        1110,
+        790
+      ],
+      "size": [
+        280.3531188964844,
+        250.9647979736328
+      ],
+      "flags": {},
+      "order": 24,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 243
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 99,
+      "type": "MaskPreview+",
+      "pos": [
+        1400,
+        790
+      ],
+      "size": [
+        275.4717712402344,
+        251.9647979736328
+      ],
+      "flags": {},
+      "order": 25,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": 244
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MaskPreview+"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 100,
+      "type": "MaskPreview+",
+      "pos": [
+        502.2479248046875,
+        699.91552734375
+      ],
+      "size": [
+        274.6120300292969,
+        330.48919677734375
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": 185
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MaskPreview+"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 103,
+      "type": "CheckpointLoaderSimple",
+      "pos": [
+        1716.3592529296875,
+        524.572509765625
+      ],
+      "size": [
+        315,
+        98
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            172
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            203,
+            261
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [],
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CheckpointLoaderSimple"
+      },
+      "widgets_values": [
+        "SDXL\\Proteus-v0.7.4.safetensors"
+      ]
+    },
+    {
+      "id": 104,
+      "type": "EmptyLatentImage",
+      "pos": [
+        1716.2359619140625,
+        378.11480712890625
+      ],
+      "size": [
+        315,
+        106
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            174
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptyLatentImage"
+      },
+      "widgets_values": [
+        1024,
+        1024,
+        1
+      ]
+    },
+    {
+      "id": 107,
+      "type": "VAELoader",
+      "pos": [
+        1716.3592529296875,
+        668.5723266601562
+      ],
+      "size": [
+        315,
+        58
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            177
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader"
+      },
+      "widgets_values": [
+        "madebyollin.bin"
+      ]
+    },
+    {
+      "id": 108,
+      "type": "PreviewImage",
+      "pos": [
+        1713.4896240234375,
+        785.8143920898438
+      ],
+      "size": [
+        652.5582885742188,
+        246
+      ],
+      "flags": {},
+      "order": 30,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 178
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 152,
+      "type": "IF_LLM_DisplayOmni",
+      "pos": [
+        1410,
+        650
+      ],
+      "size": [
+        253.60000610351562,
+        46
+      ],
+      "flags": {},
+      "order": 23,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "omni_input",
+          "type": "OMNI",
+          "link": 247,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "canvas_conditioning",
+          "type": "OMOST_CANVAS_CONDITIONING",
+          "links": null
+        },
+        {
+          "name": "text_output",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_DisplayOmni"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 158,
+      "type": "IF_LLM_TextTyper",
+      "pos": [
+        -148.24374389648438,
+        -23.261295318603516
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_TextTyper"
+      },
+      "widgets_values": [
+        "commercial,daylight,synthetic,sterile,isolated"
+      ]
+    },
+    {
+      "id": 156,
+      "type": "IF_LLM_TextTyper",
+      "pos": [
+        -147.04244995117188,
+        -269.4993896484375
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_TextTyper"
+      },
+      "widgets_values": [
+        "Patrons savor steaming ramen under neon kanji. Traditional izakaya ambiance with modern vending machine. Warm wood interiors contrast urban night chill. Culinary delight captured in bustling street scene."
+      ]
+    },
+    {
+      "id": 113,
+      "type": "Note",
+      "pos": [
+        406.88507080078125,
+        20.282377243041992
+      ],
+      "size": [
+        703.1499633789062,
+        157.93707275390625
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [],
+      "title": "USER_GUIDE",
+      "properties": {},
+      "widgets_values": [
+        "With WilcardMode enable\n1-. Enter the text prompt using the categoy name __Category__ to indicate the field that should be replace by values from the wildcards.yaml or .json file\n2. Use __Category/*__ to select rendom value from the item list use __Category/**__ to select the random value from within the subdirectories\n3. Enter the dynamic_prompt select the variable name for the category then enter the equal simbol= and the values between curly brackets{} values separated by pipes| Color={red|blue|white|black} the script will create a prompt for each values overriding the values contained on the wildcards yaml or json file for the specific categories variables\n4. select the maximun variant prompts you need with max_variants counter connect the text_list to a display text node\n5. Execute the node"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 159,
+      "type": "IF_LLM_TextTyper",
+      "pos": [
+        290,
+        -510
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            253
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_TextTyper"
+      },
+      "widgets_values": [
+        "__Prefix__ a woman wearing a __Colors/**__ __Clothing/**__ enjoying a delicious __Food__  photograph by __Artist__\n"
+      ]
+    },
+    {
+      "id": 160,
+      "type": "IF_LLM_TextTyper",
+      "pos": [
+        290,
+        -250
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            254
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_TextTyper"
+      },
+      "widgets_values": [
+        " Prefix={close-up, dramatic lighting, intense gaze into camera|full-body shot, dynamic pose, slightly tilted angle}}\nFood={a pizza|a cup of wine|a cup of coffe}}"
+      ]
+    },
+    {
+      "id": 161,
+      "type": "IF_LLM_DisplayTextWildcard",
+      "pos": [
+        706.7568969726562,
+        -406.68817138671875
+      ],
+      "size": [
+        400,
+        238
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 253,
+          "widget": {
+            "name": "text"
+          }
+        },
+        {
+          "name": "dynamic_prompt",
+          "type": "STRING",
+          "link": 254,
+          "widget": {
+            "name": "dynamic_prompt"
+          },
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": [
+            255
+          ],
+          "slot_index": 0,
+          "tooltip": "Full text content"
+        },
+        {
+          "name": "text_list",
+          "type": "STRING",
+          "links": [
+            256
+          ],
+          "slot_index": 1,
+          "shape": 6,
+          "tooltip": "Individual lines as separate outputs"
+        },
+        {
+          "name": "count",
+          "type": "INT",
+          "links": null,
+          "tooltip": "Total number of non-empty lines"
+        },
+        {
+          "name": "selected",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Currently selected line based on select input"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_DisplayTextWildcard"
+      },
+      "widgets_values": [
+        "",
+        0,
+        -1,
+        "",
+        2,
+        true,
+        "close-up, dramatic lighting, intense gaze into camera a woman wearing a rajah Striped golf dress with a flared skirt and built-in shorts with ball pocket enjoying a delicious a cup of wine  photograph by Cornelis Verbeeck\nfull-body shot, dynamic pose, slightly tilted angle a woman wearing a silver tree Embellished bustier top and tulle mini skirt enjoying a delicious a cup of wine  photograph by Paolo Roversi"
+      ]
+    },
+    {
+      "id": 162,
+      "type": "IF_LLM_DisplayText",
+      "pos": [
+        1202.8731689453125,
+        -500.4873046875
+      ],
+      "size": [
+        382.2735595703125,
+        169.0244903564453
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 255,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Full text content"
+        },
+        {
+          "name": "text_list",
+          "type": "STRING",
+          "links": null,
+          "shape": 6,
+          "tooltip": "Individual lines as separate outputs"
+        },
+        {
+          "name": "count",
+          "type": "INT",
+          "links": null,
+          "tooltip": "Total number of non-empty lines"
+        },
+        {
+          "name": "selected",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Currently selected line based on select input"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        0,
+        "\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n__Prefix__ a woman wearing a __Colors/**__ __Clothing/**__ enjoying a delicious __Food__  photograph by __Artist__"
+      ]
+    },
+    {
+      "id": 163,
+      "type": "IF_LLM_DisplayText",
+      "pos": [
+        1185.547119140625,
+        -245.89117431640625
+      ],
+      "size": [
+        404.4245910644531,
+        300.2899169921875
+      ],
+      "flags": {},
+      "order": 19,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 256,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Full text content"
+        },
+        {
+          "name": "text_list",
+          "type": "STRING",
+          "links": null,
+          "shape": 6,
+          "tooltip": "Individual lines as separate outputs"
+        },
+        {
+          "name": "count",
+          "type": "INT",
+          "links": null,
+          "tooltip": "Total number of non-empty lines"
+        },
+        {
+          "name": "selected",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Currently selected line based on select input"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        0,
+        "\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\nclose-up, dramatic lighting, intense gaze into camera a woman wearing a rajah Striped golf dress with a flared skirt and built-in shorts with ball pocket enjoying a delicious a cup of wine  photograph by Cornelis Verbeeck\nfull-body shot, dynamic pose, slightly tilted angle a woman wearing a silver tree Embellished bustier top and tulle mini skirt enjoying a delicious a cup of wine  photograph by Paolo Roversi"
+      ]
+    },
+    {
+      "id": 109,
+      "type": "SaveImage",
+      "pos": [
+        1711.6671142578125,
+        -297.2972412109375
+      ],
+      "size": [
+        681.7582397460938,
+        581.7973022460938
+      ],
+      "flags": {},
+      "order": 31,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 179
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "Proteus"
+      ]
+    },
+    {
+      "id": 155,
+      "type": "IF_LLM_DisplayText",
+      "pos": [
+        1410,
+        320
+      ],
+      "size": [
+        240.7464141845703,
+        203.14991760253906
+      ],
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 250,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Full text content"
+        },
+        {
+          "name": "text_list",
+          "type": "STRING",
+          "links": null,
+          "shape": 6,
+          "tooltip": "Individual lines as separate outputs"
+        },
+        {
+          "name": "count",
+          "type": "INT",
+          "links": null,
+          "tooltip": "Total number of non-empty lines"
+        },
+        {
+          "name": "selected",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Currently selected line based on select input"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        0,
+        "reply directly with the prompt no comentary"
+      ]
+    },
+    {
+      "id": 126,
+      "type": "CLIPTextEncode",
+      "pos": [
+        2339.598876953125,
+        405.8406677246094
+      ],
+      "size": [
+        420.9769592285156,
+        153.17686462402344
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 26,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 203
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 259,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            202
+          ],
+          "slot_index": 0
+        }
+      ],
+      "title": "+",
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "deformed and malformed with worst qualities. distortions and artifacts, low quality, bad ratings ☆☆☆☆☆, 0/10 review, 0/5 review ↓"
+      ]
+    },
+    {
+      "id": 154,
+      "type": "IF_LLM_DisplayText",
+      "pos": [
+        1120,
+        590
+      ],
+      "size": [
+        262.2288513183594,
+        183.82472229003906
+      ],
+      "flags": {},
+      "order": 22,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 252,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": [],
+          "slot_index": 0,
+          "tooltip": "Full text content"
+        },
+        {
+          "name": "text_list",
+          "type": "STRING",
+          "links": [
+            262
+          ],
+          "slot_index": 1,
+          "shape": 6,
+          "tooltip": "Individual lines as separate outputs"
+        },
+        {
+          "name": "count",
+          "type": "INT",
+          "links": null,
+          "slot_index": 2,
+          "tooltip": "Total number of non-empty lines"
+        },
+        {
+          "name": "selected",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Currently selected line based on select input"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        0,
+        "hand,NSFW,nude,naked,nipples,chibi, child,worst quality, low quality, lowres,bad proportions,missing arms,fused fingers,unclear eyes,missing fingers,out of frame,signature,logo,text,letters,username"
+      ]
+    },
+    {
+      "id": 164,
+      "type": "CLIPTextEncode",
+      "pos": [
+        2197.30126953125,
+        546.3858642578125
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 27,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 261
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 262,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            263
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 102,
+      "type": "KSampler",
+      "pos": [
+        2058.18017578125,
+        470.3729553222656
+      ],
+      "size": [
+        315,
+        262
+      ],
+      "flags": {},
+      "order": 28,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 172
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 202
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 263
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 174
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            176
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        595890212061307,
+        "increment",
+        30,
+        4.46,
+        "dpmpp_2m_sde",
+        "karras",
+        1
+      ]
+    },
+    {
+      "id": 106,
+      "type": "VAEDecode",
+      "pos": [
+        2059.88720703125,
+        398.71527099609375
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {},
+      "order": 29,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 176
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 177
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            178,
+            179
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 153,
+      "type": "IF_LLM_DisplayText",
+      "pos": [
+        1130,
+        330
+      ],
+      "size": [
+        250.5740966796875,
+        206.42579650878906
+      ],
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 249,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": [],
+          "slot_index": 0,
+          "tooltip": "Full text content"
+        },
+        {
+          "name": "text_list",
+          "type": "STRING",
+          "links": [
+            259
+          ],
+          "slot_index": 1,
+          "shape": 6,
+          "tooltip": "Individual lines as separate outputs"
+        },
+        {
+          "name": "count",
+          "type": "INT",
+          "links": null,
+          "tooltip": "Total number of non-empty lines"
+        },
+        {
+          "name": "selected",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Currently selected line based on select input"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        0,
+        "Fantasy art, dramatic, dynamic composition, high contrast, intense action. Archer, muscular, fierce, determined, barbarian. Two dragons, green dragon, brown dragon, large wings, sharp claws, open mouths. Mountainous landscape, snow, peaks, orange sky, dramatic lighting. Vibrant colors, detailed scales, textured skin, dynamic poses."
+      ]
+    },
+    {
+      "id": 151,
+      "type": "Fast Groups Muter (rgthree)",
+      "pos": [
+        -87.4652328491211,
+        265.2047119140625
+      ],
+      "size": [
+        295.38623046875,
+        226
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "OPT_CONNECTION",
+          "type": "*",
+          "links": null
+        }
+      ],
+      "properties": {
+        "matchColors": "",
+        "matchTitle": "",
+        "showNav": true,
+        "sort": "position",
+        "customSortAlphabet": "",
+        "toggleRestriction": "default"
+      }
+    },
+    {
+      "id": 167,
+      "type": "Note",
+      "pos": [
+        941.1468505859375,
+        1105.4801025390625
+      ],
+      "size": [
+        281.1380615234375,
+        444.05731201171875
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "LLM node",
+      "properties": {},
+      "widgets_values": [
+        "MAKE SURE to select the right provider and model, when this first load the model might not be for the same provider youi have selected and it fails\n\nSome providers won't accept images or won't take the images into account\nyou need to chose vision compatible models to use images\n\nYou can use transformers QwenVL for local or any of the other local providers such as ollama\n\nFor online APIs you need to create either sytem \nEnviroment variables or place the variables on the custom node .env file\n\nthe names must the same as the providers list but in CAPITALS and adding _API_KEY\n\nDEEPSEEK_API_KEY  \nANTHROPIC_API_KEY\nGROQ_API_KEY\nHUGGINFACE_API_KEY (Not Yet available ComingUp)\nMISTRAL_API_KEY\nOPENAI_API_KEY\nGEMINI_API_KEY\nXAI_API_KEY\n\ncreate and edit only works with \nOpenAI API and dalle3 for now\n\n"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 169,
+      "type": "LoadImage",
+      "pos": [
+        335.5325012207031,
+        1254.78857421875
+      ],
+      "size": [
+        315,
+        314
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": null
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "01poem.wav",
+        "image"
+      ]
+    },
+    {
+      "id": 168,
+      "type": "Note",
+      "pos": [
+        345.502197265625,
+        1155.5731201171875
+      ],
+      "size": [
+        310.5646667480469,
+        61.201107025146484
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "You can use native comfy load image if you are not interested in processing a list or batch"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 170,
+      "type": "Note",
+      "pos": [
+        -29.352243423461914,
+        630.2879638671875
+      ],
+      "size": [
+        240.11636352539062,
+        298.3386535644531
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "load images S",
+      "properties": {},
+      "widgets_values": [
+        "The load images s has a quirk where you need to make sure the start index is not hihgher than the max amounts of images of the imported folder or the stop index \nIs logic but easy to forget lol\n\nDon't use the upload button\n\nselect folder make sure to copy the address from the search bar and paste it into the pop up or directly into the input path hit refresh select your range of images to work with if the images are too large the api won't recognise it so you either resize them manualy or use the resizer node before feeding them to IF_LLM\nIf the images aren't too important you can use the backup button on the node otherwise I recommend saving your work before you start using this."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 116,
+      "type": "IF_LoadImagesS",
+      "pos": [
+        241,
+        306
+      ],
+      "size": [
+        247.7286376953125,
+        770
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": [
+            184,
+            238
+          ],
+          "slot_index": 0,
+          "shape": 6
+        },
+        {
+          "name": "masks",
+          "type": "MASK",
+          "links": [
+            185,
+            237
+          ],
+          "slot_index": 1,
+          "shape": 6
+        },
+        {
+          "name": "image_paths",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        },
+        {
+          "name": "filenames",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        },
+        {
+          "name": "count_str",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        },
+        {
+          "name": "count_int",
+          "type": "INT",
+          "links": null,
+          "shape": 6
+        },
+        {
+          "name": "images_batch",
+          "type": "IMAGE",
+          "links": null
+        },
+        {
+          "name": "masks_batch",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LoadImagesS"
+      },
+      "widgets_values": [
+        "thb_jpgs___Fantasy-Art-Images-0379.jpg",
+        "Refresh Previews 🔄",
+        "C:\\Users\\SOYYO\\Pictures\\img",
+        29,
+        30,
+        "1000",
+        true,
+        54,
+        true,
+        "alphabetical",
+        "none",
+        "blue",
+        "image",
+        "Select Folder 📂",
+        "Backup Input 💾",
+        "Restore Input ♻️"
+      ]
+    },
+    {
+      "id": 150,
+      "type": "IF_LLM",
+      "pos": [
+        800,
+        330
+      ],
+      "size": [
+        278.79998779296875,
+        704
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 238,
+          "shape": 7
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": 237,
+          "shape": 7
+        },
+        {
+          "name": "Omni",
+          "type": "OMNI",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "prime_directives",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "prime_directives"
+          },
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "question",
+          "type": "STRING",
+          "links": [
+            250
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "response",
+          "type": "STRING",
+          "links": [
+            249
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "STRING",
+          "links": [
+            252
+          ],
+          "slot_index": 2
+        },
+        {
+          "name": "omni",
+          "type": "OMNI",
+          "links": [
+            247
+          ],
+          "slot_index": 3
+        },
+        {
+          "name": "generated_images",
+          "type": "IMAGE",
+          "links": [
+            243
+          ]
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "links": [
+            244
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM"
+      },
+      "widgets_values": [
+        "gemini",
+        "gemini-1.5-flash-latest",
+        "localhost",
+        "11434",
+        "reply directly with the prompt no comentary\n",
+        "normal",
+        "",
+        "IF_PromptMKR_IMG",
+        "None",
+        "None",
+        "Simple_negative",
+        "None",
+        2048,
+        false,
+        890,
+        "randomize",
+        false,
+        true,
+        10,
+        "1:1",
+        false,
+        1,
+        "",
+        null
+      ]
+    }
+  ],
+  "links": [
+    [
+      172,
+      103,
+      0,
+      102,
+      0,
+      "MODEL"
+    ],
+    [
+      174,
+      104,
+      0,
+      102,
+      3,
+      "LATENT"
+    ],
+    [
+      176,
+      102,
+      0,
+      106,
+      0,
+      "LATENT"
+    ],
+    [
+      177,
+      107,
+      0,
+      106,
+      1,
+      "VAE"
+    ],
+    [
+      178,
+      106,
+      0,
+      108,
+      0,
+      "IMAGE"
+    ],
+    [
+      179,
+      106,
+      0,
+      109,
+      0,
+      "IMAGE"
+    ],
+    [
+      184,
+      116,
+      0,
+      94,
+      0,
+      "IMAGE"
+    ],
+    [
+      185,
+      116,
+      1,
+      100,
+      0,
+      "MASK"
+    ],
+    [
+      202,
+      126,
+      0,
+      102,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      203,
+      103,
+      1,
+      126,
+      0,
+      "CLIP"
+    ],
+    [
+      237,
+      116,
+      1,
+      150,
+      1,
+      "MASK"
+    ],
+    [
+      238,
+      116,
+      0,
+      150,
+      0,
+      "IMAGE"
+    ],
+    [
+      243,
+      150,
+      4,
+      98,
+      0,
+      "IMAGE"
+    ],
+    [
+      244,
+      150,
+      5,
+      99,
+      0,
+      "MASK"
+    ],
+    [
+      247,
+      150,
+      3,
+      152,
+      0,
+      "OMNI"
+    ],
+    [
+      249,
+      150,
+      1,
+      153,
+      0,
+      "STRING"
+    ],
+    [
+      250,
+      150,
+      0,
+      155,
+      0,
+      "STRING"
+    ],
+    [
+      252,
+      150,
+      2,
+      154,
+      0,
+      "STRING"
+    ],
+    [
+      253,
+      159,
+      0,
+      161,
+      0,
+      "STRING"
+    ],
+    [
+      254,
+      160,
+      0,
+      161,
+      1,
+      "STRING"
+    ],
+    [
+      255,
+      161,
+      0,
+      162,
+      0,
+      "STRING"
+    ],
+    [
+      256,
+      161,
+      1,
+      163,
+      0,
+      "STRING"
+    ],
+    [
+      259,
+      153,
+      1,
+      126,
+      1,
+      "STRING"
+    ],
+    [
+      261,
+      103,
+      1,
+      164,
+      0,
+      "CLIP"
+    ],
+    [
+      262,
+      154,
+      1,
+      164,
+      1,
+      "STRING"
+    ],
+    [
+      263,
+      164,
+      0,
+      102,
+      2,
+      "CONDITIONING"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 2,
+      "title": "IF_LLM",
+      "bounding": [
+        800,
+        240,
+        890.4718017578125,
+        816.8131103515625
+      ],
+      "color": "#444",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "ImageGeneration_SDXL",
+      "bounding": [
+        1703.4896240234375,
+        304.5148010253906,
+        711.6268310546875,
+        737.2998046875
+      ],
+      "color": "#444",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 4,
+      "title": "Wildcard",
+      "bounding": [
+        285.74566650390625,
+        -595.0835571289062,
+        1343.47412109375,
+        812.6964111328125
+      ],
+      "color": "#444",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 5,
+      "title": "IF_LoadImagesS",
+      "bounding": [
+        231,
+        232.39999389648438,
+        555.8599853515625,
+        853.5999755859375
+      ],
+      "color": "#444",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 7,
+      "title": "Manual Text Prompt",
+      "bounding": [
+        -158.45384216308594,
+        -344.4397888183594,
+        423,
+        539.60009765625
+      ],
+      "color": "#444",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.45949729863574423,
+      "offset": [
+        1506.7509484186246,
+        1016.568883154788
+      ]
+    },
+    "info": {
+      "name": "omost_agent_test",
+      "author": "",
+      "description": "",
+      "version": "1",
+      "created": "2024-06-03T15:41:46.655Z",
+      "modified": "2024-07-14T13:32:31.490Z",
+      "software": "ComfyUI"
+    },
+    "ue_links": []
+  },
+  "version": 0.4
+}

@@ -9,7 +9,6 @@ from PIL import Image
 from io import BytesIO
 from typing import List, Dict, Any, Optional, Union, Tuple
 from pathlib import Path
-from .omost import omost_function
 from .send_request import send_request
 from .utils import (
     get_api_key,
@@ -133,8 +132,8 @@ class IFLLM:
 
         self.base_ip = "localhost"
         self.port = "11434"
-        self.engine = "ollama"
-        self.selected_model = ""
+        self.engine = "gemini"
+        self.selected_model = "gemini-1.5-flash-latest"
         self.profile = "IF_PromptMKR_IMG"
         self.messages = []
         self.keep_alive = False
@@ -162,14 +161,14 @@ class IFLLM:
         node = cls() 
         return {
             "required": {
-                "images": ("IMAGE", {"list": True}),  # Primary image input
-                "llm_provider": (["xai","llamacpp", "ollama", "kobold", "lmstudio", "textgen", "groq", "gemini", "openai", "anthropic", "mistral", "transformers"], {}),
+                "llm_provider": (["transformers","llamacpp", "ollama", "kobold", "lmstudio", "textgen", "groq", "gemini", "openai", "anthropic", "mistral","deepseek","xai"], {"default": "gemini"}),
                 "llm_model": ((), {}),
                 "base_ip": ("STRING", {"default": "localhost"}),
                 "port": ("STRING", {"default": "11434"}),
                 "user_prompt": ("STRING", {"multiline": True}),
             },
             "optional": {
+                "images": ("IMAGE", {"list": True}),
                 "strategy": (["normal", "omost", "create", "edit", "variations"], {"default": "normal"}),
                 "mask": ("MASK", {}),
                 "prime_directives": ("STRING", {"forceInput": True, "tooltip": "The system prompt for the LLM."}),
@@ -181,7 +180,7 @@ class IFLLM:
                 "max_tokens": ("INT", {"default": 2048, "min": 1, "max": 8192, "tooltip": "Maximum number of tokens to generate in the response."}),
                 "random": ("BOOLEAN", {"default": False, "label_on": "Seed", "label_off": "Temperature", "tooltip": "Toggles between using a fixed seed or temperature-based randomness."}),
                 "seed": ("INT", {"default": 0, "tooltip": "Random seed for reproducible outputs."}),
-                "keep_alive": ("BOOLEAN", {"default": False, "label_on": "Keeps Model on Memory", "label_off": "Unloads Model from Memory", "tooltip": "Determines whether to keep the model loaded in memory between calls."}),
+                "keep_alive": ("BOOLEAN", {"default": True, "label_on": "Keeps Model on Memory", "label_off": "Unloads Model from Memory", "tooltip": "Determines whether to keep the model loaded in memory between calls."}),
                 "clear_history": ("BOOLEAN", {"default": True, "label_on": "Clear History", "label_off": "Keep History", "tooltip": "Determines whether to clear the history between calls."}),
                 "history_steps": ("INT", {"default": 10, "tooltip": "Number of steps to keep in history."}),
                 "aspect_ratio": (["1:1", "16:9", "4:5", "3:4", "5:4", "9:16"], {"default": "1:1", "tooltip": "Aspect ratio for the generated images."}),
@@ -205,7 +204,7 @@ class IFLLM:
 
     FUNCTION = "process_image_wrapper"
     OUTPUT_NODE = True
-    CATEGORY = "ImpactFrames💥🎞️"
+    CATEGORY = "ImpactFrames💥🎞️/IF_LLM"
 
     @classmethod
     def IS_CHANGED(cls, **kwargs):
@@ -255,6 +254,9 @@ class IFLLM:
             generated_masks = None
             tool_output = None
 
+            current_images = None
+            current_mask = None
+            
             if external_api_key != "":
                 llm_api_key = external_api_key
             else:
@@ -265,6 +267,7 @@ class IFLLM:
             validate_models(llm_model, llm_provider, "LLM", base_ip, port, llm_api_key)
 
             # Handle history
+            messages = messages or []
             if clear_history:
                 messages = []
             elif history_steps > 0:
@@ -332,11 +335,13 @@ class IFLLM:
                 'omni': tool_type,
             }
 
-            # Prepare images and mask
-            if images is not None:  
+            # If images is None or empty, skip "image-based" logic but still allow LLM tasks to proceed
+            if images is not None and len(images) > 0:
                 current_images = images
             else:
-                raise ValueError("No images provided you need to provide at least one image")
+                print("No images connected; continuing with text-based tasks only.")
+
+            # If no mask is connected, load a placeholder or just skip
             if mask is not None:
                 current_mask = mask
             else:
@@ -479,7 +484,6 @@ class IFLLM:
                 "Retrieved_Image": images,
                 "Mask": mask
             }]
-
         
     async def process_auto_batch(self, batch_images, batch_mask, strategy, prompt, messages, 
                             embellish_content="", style_content="", **kwargs):
@@ -510,7 +514,6 @@ class IFLLM:
                     user_prompt=prompt,
                     current_images=batch_images,
                     current_mask=batch_mask,
-                    omni=kwargs.get('omni'),
                     embellish_content=embellish_content,
                     style_content=style_content,
                     **batch_kwargs
@@ -524,87 +527,125 @@ class IFLLM:
             logger.error(f"Error processing auto batch: {str(e)}")
             return None
 
-    async def execute_normal_strategy(self, user_prompt, current_images, current_mask, 
-                                messages, embellish_content, style_content, **kwargs):
+    async def execute_normal_strategy(self, user_prompt, current_images, current_mask, messages, embellish_content, style_content, **kwargs):
         """
-        Execute normal strategy with batch count handling.
-        This can be called directly or through auto mode.
+        Execute normal strategy with robust error handling and response validation.
         """
         try:
             results = []
-            # Keep batch_count for direct calls
             batch_count = kwargs.get('batch_count', 1)
             
+            # Process and validate images
+            images_to_send = current_images if (current_images is not None and current_images.nelement() > 0) else None
+
             # Process batch_count times
             for i in range(batch_count):
-                # Update seed for each iteration if using random seeding
-                if kwargs.get('random', False) and 'seed' in kwargs:
-                    base_seed = kwargs['seed']
-                    if base_seed is not None:
-                        current_seed = base_seed + i
-                    else:
-                        current_seed = kwargs['seed']
-                else:
-                    current_seed = kwargs.get('seed')
+                try:
+                    # Update seed for each iteration if using random seeding
+                    current_seed = kwargs['seed'] + i if kwargs.get('random', False) and kwargs.get('seed') is not None else kwargs.get('seed')
 
-                response = await send_request(
-                    llm_provider=kwargs.get('llm_provider'),
-                    base_ip=kwargs.get('base_ip'),
-                    port=kwargs.get('port'),
-                    images=current_images,
-                    llm_model=kwargs.get('llm_model'),
-                    system_message=kwargs.get('system_message'),
-                    user_message=user_prompt,
-                    messages=messages,
-                    seed=current_seed,
-                    temperature=kwargs.get('temperature'),
-                    max_tokens=kwargs.get('max_tokens'),
-                    random=kwargs.get('random'),
-                    top_k=kwargs.get('top_k'),
-                    top_p=kwargs.get('top_p'),
-                    repeat_penalty=kwargs.get('repeat_penalty'),
-                    stop=kwargs.get('stop'),
-                    keep_alive=kwargs.get('keep_alive'),
-                    llm_api_key=kwargs.get('llm_api_key'),
-                    precision=kwargs.get('precision'),
-                    attention=kwargs.get('attention'),
-                    aspect_ratio=kwargs.get('aspect_ratio'),
-                    strategy="normal",
-                    mask=current_mask
-                )
-
-                if not response:
-                    continue
-
-                cleaned_response = clean_text(response)
-                final_prompt = "\n".join(filter(None, [
-                    embellish_content.strip(),
-                    cleaned_response.strip(),
-                    style_content.strip()
-                ]))
-                
-                if kwargs.get('neg_prompt') == "AI_Fill":
-                    neg_prompt = await self.generate_negative_prompt(
-                        cleaned_response, 
-                        images=current_images, 
-                        **kwargs
+                    # Make the API request
+                    response = await send_request(
+                        llm_provider=kwargs.get('llm_provider'),
+                        base_ip=kwargs.get('base_ip'),
+                        port=kwargs.get('port'),
+                        images=images_to_send,
+                        llm_model=kwargs.get('llm_model'),
+                        system_message=kwargs.get('system_message'),
+                        user_message=user_prompt,
+                        messages=messages or [],  # Ensure messages is never None
+                        seed=current_seed,
+                        temperature=kwargs.get('temperature', 0.7),
+                        max_tokens=kwargs.get('max_tokens', 2048),
+                        random=kwargs.get('random', False),
+                        top_k=kwargs.get('top_k', 40),
+                        top_p=kwargs.get('top_p', 0.9),
+                        repeat_penalty=kwargs.get('repeat_penalty', 1.1),
+                        stop=kwargs.get('stop'),
+                        keep_alive=kwargs.get('keep_alive', False),
+                        llm_api_key=kwargs.get('llm_api_key'),
+                        precision=kwargs.get('precision', 'fp16'),
+                        attention=kwargs.get('attention', 'sdpa'),
+                        aspect_ratio=kwargs.get('aspect_ratio', '1:1'),
+                        strategy="normal",
+                        mask=current_mask
                     )
-                else:
-                    neg_prompt = kwargs.get('neg_content', '')
 
-                results.append({
-                    "Question": user_prompt,
-                    "Response": final_prompt,
-                    "Negative": neg_prompt,
-                    "Tool_Output": None,
-                    "Retrieved_Image": current_images,
-                    "Mask": current_mask
-                })
+                    # Validate and extract response content
+                    response_content = ""
+                    if response is None:
+                        logger.error("Received a None response from the LLM API.")
+                        continue  # Skip to the next iteration
+                    elif isinstance(response, dict):
+                        if "choices" in response and response["choices"]:
+                            message = response["choices"][0].get("message", {})
+                            response_content = message.get("content", "")
+                            
+                            # Additional validation for empty content
+                            if not response_content:
+                                logger.warning("Empty response content in choices")
+                                continue
+                                
+                        elif "response" in response:
+                            response_content = response["response"]
+                        else:
+                            logger.warning(f"Unexpected response format: {response}")
+                            continue
+                            
+                    elif isinstance(response, str):
+                        response_content = response
+
+                    if not response_content:
+                        logger.warning("Empty response content received")
+                        continue
+
+                    # Proceed with cleaning and formatting the response
+                    cleaned_response = clean_text(response_content)
+                    final_prompt = "\n".join(filter(None, [
+                        embellish_content.strip() if embellish_content else "",
+                        cleaned_response.strip(),
+                        style_content.strip() if style_content else ""
+                    ]))
+
+                    # Generate negative prompt if needed
+                    if kwargs.get('neg_prompt') == "AI_Fill":
+                        neg_prompt = await self.generate_negative_prompt(
+                            cleaned_response, 
+                            images=current_images, 
+                            **kwargs
+                        )
+                    else:
+                        neg_prompt = kwargs.get('neg_content', '')
+
+                    # Add result to results list
+                    results.append({
+                        "Question": user_prompt,
+                        "Response": final_prompt,
+                        "Negative": neg_prompt,
+                        "Tool_Output": None,
+                        "Retrieved_Image": current_images,
+                        "Mask": current_mask
+                    })
+
+                except Exception as batch_error:
+                    logger.error(f"Error in batch {i}: {str(batch_error)}")
+                    continue
 
             # Keep message history if enabled
             if kwargs.get('keep_alive') and results:
-                messages.append({"role": "user", "content": user_prompt})
-                messages.append({"role": "assistant", "content": results[-1]["Response"]})
+                messages.extend([
+                    {"role": "user", "content": user_prompt},
+                    {"role": "assistant", "content": results[-1]["Response"]}
+                ])
+
+            # Return results or error response
+            if not results:
+                return [self.create_error_response(
+                    current_images,
+                    current_mask,
+                    "No valid results generated from normal strategy.",
+                    user_prompt
+                )]
 
             return results
 
@@ -613,13 +654,21 @@ class IFLLM:
             return [self.create_error_response(
                 current_images,
                 current_mask,
-                "No results generated from normal strategy.",
+                f"Error in normal strategy: {str(e)}",
                 user_prompt
             )]
         
-    async def execute_omost_strategy(self, user_prompt, current_images, current_mask,
-                             omni, embellish_content="", style_content="", **kwargs):
+    async def execute_omost_strategy(
+        self, user_prompt, current_images, current_mask,
+        embellish_content="", style_content="", **kwargs
+    ):
         """Execute OMOST strategy with batch processing and proper negative prompt generation"""
+        omni = kwargs.get("omni", None)
+
+        # Make sure user_prompt is a string, in case it's a list
+        if isinstance(user_prompt, list):
+            user_prompt = " ".join(user_prompt)
+
         try:
             batch_count = kwargs.get('batch_count', 1)
             messages = []
@@ -631,7 +680,7 @@ class IFLLM:
             # Process batch_count times
             for batch_idx in range(batch_count):
                 try:
-                    # Get LLM response
+                    # Get LLM response (dict or str).
                     llm_response = await send_request(
                         llm_provider=kwargs.get('llm_provider'),
                         base_ip=kwargs.get('base_ip'),
@@ -662,16 +711,35 @@ class IFLLM:
                         logger.warning(f"No response from LLM in batch {batch_idx}")
                         continue
 
-                    # Process LLM response
-                    cleaned_response = clean_text(llm_response)
-                    if isinstance(cleaned_response, list):
-                        cleaned_response = "\n".join(cleaned_response)
-                    final_prompt = "\n".join(filter(None, [
-                        embellish_content.strip(),
-                        cleaned_response.strip(),
-                        style_content.strip()
-                    ]))
+                    # If llm_response is dict, extract text from "choices"
+                    # or fallback to stringifying.
+                    if isinstance(llm_response, dict):
+                        if "choices" in llm_response and llm_response["choices"]:
+                            choice = llm_response["choices"][0]
+                            if "message" in choice and "content" in choice["message"]:
+                                llm_response = choice["message"]["content"]
+                            else:
+                                llm_response = json.dumps(llm_response)
+                        elif "response" in llm_response:
+                            llm_response = llm_response["response"]
+                        else:
+                            llm_response = json.dumps(llm_response)
+                    elif not isinstance(llm_response, str):
+                        llm_response = str(llm_response)
 
+                    # IMPORTANT: Avoid calling clean_text() so Canvas code remains intact.
+                    final_prompt = "\n".join(
+                        filter(None,
+                               [
+                                   embellish_content.strip(),
+                                   llm_response.strip(),
+                                   style_content.strip()
+                               ]
+                    )
+                    )
+
+                    # Lazy load omost_function
+                    omost_function = get_omost_function()
                     tool_result = await omost_function({
                         "name": "omost_tool", 
                         "description": "Analyzes images composition and generates a Canvas representation.",
@@ -682,20 +750,35 @@ class IFLLM:
                         "omni_input": omni
                     })
 
-                    # Handle negative prompt
+                    # Handle negative prompt if requested
                     if kwargs.get('neg_prompt') == "AI_Fill":
-                        neg_prompt = await self.generate_negative_prompt(cleaned_response, images=current_images, **kwargs)
+                        neg_prompt = await self.generate_negative_prompt(
+                            llm_response,  # pass raw text if you want the LLM to see code
+                            images=current_images,
+                            **kwargs
+                        )
                     else:
                         neg_prompt = kwargs.get('neg_content', '')
 
-                    # Extract canvas conditioning and create individual result
                     if isinstance(tool_result, dict):
                         if "error" in tool_result:
-                            logger.warning(f"OMOST tool warning in batch {batch_idx}: {tool_result['error']}")
+                            logger.warning(
+                                f"OMOST tool warning in batch {batch_idx}: {tool_result['error']}"
+                            )
                             continue
 
                         canvas_cond = tool_result.get("canvas_conditioning")
                         if canvas_cond is not None:
+                            # Ensure canvas_conditioning is a flat list of dicts
+                            if (
+                                isinstance(canvas_cond, list)
+                                and len(canvas_cond) == 1
+                                and isinstance(canvas_cond[0], list)
+                            ):
+                                # Flatten once
+                                canvas_cond = canvas_cond[0]
+                            tool_result["canvas_conditioning"] = canvas_cond
+
                             results.append({
                                 "Question": user_prompt,
                                 "Response": final_prompt,
@@ -716,27 +799,25 @@ class IFLLM:
 
             logger.debug(f"Generated {len(results)} results in OMOST strategy")
 
-            # Handle results
             if not results:
                 return [self.create_error_response(
-                            current_images,
-                            current_mask,
-                            "No valid results generated",
-                            user_prompt
-                        )]
+                    current_images,
+                    current_mask,
+                    "No valid results generated",
+                    user_prompt
+                )]
 
-            # Return list of individual results
             return results
 
         except Exception as e:
             logger.error(f"Error in OMOST strategy: {str(e)}")
             return [self.create_error_response(
-                            current_images,
-                            current_mask,
-                            "No valid results generated",
-                            user_prompt
-                        )]
-
+                current_images,
+                current_mask,
+                "No valid results generated",
+                user_prompt
+            )]
+    
     async def execute_create_strategy(self, user_prompt, current_mask, **kwargs):
         try:
             # Create strategy - no input images needed
@@ -993,7 +1074,7 @@ class IFLLM:
 
     def load_presets(self, file_path: str) -> Dict[str, Any]:
         """
-        Load JSON presets with support for multiple encodings.
+        Load JSON presets with support for multiple encodings and better error handling.
         
         Args:
             file_path (str): Path to the JSON preset file
@@ -1007,26 +1088,50 @@ class IFLLM:
         for encoding in encodings:
             try:
                 with codecs.open(file_path, 'r', encoding=encoding) as f:
-                    data = json.load(f)
+                    content = f.read()
                     
-                    # If successful, write back with UTF-8 encoding to prevent future issues
+                    # Debug: Print problematic content around error location
                     try:
-                        with codecs.open(file_path, 'w', encoding='utf-8') as out_f:
-                            json.dump(data, out_f, ensure_ascii=False, indent=2)
-                    except Exception as write_err:
-                        print(f"Warning: Could not write back UTF-8 encoded file: {write_err}")
+                        data = json.loads(content)
+                    except json.JSONDecodeError as je:
+                        # Get context around the error
+                        start = max(0, je.pos - 50)
+                        end = min(len(content), je.pos + 50)
+                        context = content[start:end]
                         
+                        print(f"\nError details for {file_path}:")
+                        print(f"Error position: Line {je.lineno}, Column {je.colno}")
+                        print(f"Context around error:\n{context}")
+                        print(f"Error message: {str(je)}")
+                        continue
+                    
+                    # Only rewrite if encoding was NOT utf-8 or utf-8-sig 
+                    if encoding.lower() not in ('utf-8', 'utf-8-sig'):
+                        try:
+                            with codecs.open(file_path, 'w', encoding='utf-8') as out_f:
+                                json.dump(data, out_f, ensure_ascii=False, indent=2)
+                        except Exception as write_err:
+                            print(f"Warning: Could not write back UTF-8 encoded file: {write_err}")
+
                     return data
                     
             except UnicodeDecodeError:
-                continue
-            except json.JSONDecodeError as e:
-                print(f"JSON parsing error with {encoding} encoding: {str(e)}")
+                print(f"Unicode decode error with {encoding} encoding")
                 continue
             except Exception as e:
                 print(f"Error loading presets from {file_path} with {encoding} encoding: {e}")
                 continue
                 
+        # If all attempts fail, try to load a backup or create empty dict
+        try:
+            backup_path = file_path + '.backup'
+            if os.path.exists(backup_path):
+                print(f"Attempting to load backup file: {backup_path}")
+                with codecs.open(backup_path, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+        except Exception as e:
+            print(f"Error loading backup file: {e}")
+        
         print(f"Error: Failed to load {file_path} with any supported encoding")
         return {}
 
@@ -1115,9 +1220,6 @@ class IFLLM:
                 asyncio.set_event_loop(loop)
 
             # Validate required inputs
-            if 'images' not in kwargs:
-                raise ValueError("Input images are required")
-
             required_params = ['llm_provider', 'llm_model', 'base_ip', 'port', 'user_prompt']
             missing_params = [p for p in required_params if p not in kwargs]
             if missing_params:
@@ -1145,8 +1247,24 @@ class IFLLM:
                         responses.append(result_item.get("Question", ""))
                         negatives.append(result_item.get("Negative", ""))
                         omnis.append(result_item.get("Tool_Output"))
-                        retrieved_images.append(result_item.get("Retrieved_Image"))
-                        masks.append(result_item.get("Mask"))
+
+                        # Safely handle None for images/masks
+                        img = result_item.get("Retrieved_Image")
+                        msk = result_item.get("Mask")
+                        if not isinstance(img, torch.Tensor):
+                            # Replace None with a placeholder image
+                            placeholder_img, placeholder_mask = load_placeholder_image(self.placeholder_image_path)
+                            img = placeholder_img
+                            # If we have a real mask, use it, else the same placeholder
+                            if not isinstance(msk, torch.Tensor):
+                                msk = placeholder_mask
+                        elif not isinstance(msk, torch.Tensor):
+                            # If the image is valid but mask isn’t, load just the placeholder mask
+                            _, msk = load_placeholder_image(self.placeholder_image_path)
+
+                        retrieved_images.append(img)
+                        masks.append(msk)
+
                     else:
                         raise ValueError(f"Unexpected result format: {type(result_item)}")
 
@@ -1155,22 +1273,29 @@ class IFLLM:
                 responses.append(result.get("Question", ""))
                 negatives.append(result.get("Negative", ""))
                 omnis.append(result.get("Tool_Output"))
-                retrieved_images.append(result.get("Retrieved_Image"))
-                masks.append(result.get("Mask"))
+
+                # Same handling for the single dictionary return
+                img = result.get("Retrieved_Image")
+                msk = result.get("Mask")
+                if not isinstance(img, torch.Tensor):
+                    placeholder_img, placeholder_mask = load_placeholder_image(self.placeholder_image_path)
+                    img = placeholder_img
+                    if not isinstance(msk, torch.Tensor):
+                        msk = placeholder_mask
+                elif not isinstance(msk, torch.Tensor):
+                    _, msk = load_placeholder_image(self.placeholder_image_path)
+
+                retrieved_images.append(img)
+                masks.append(msk)
+
             else:
                 raise ValueError(f"Unexpected result type: {type(result)}")
 
-            # Concatenate image tensors if present
-            if retrieved_images:
-                retrieved_images_tensor = torch.cat(retrieved_images, dim=0)  # Shape: [batch, 3, H, W]
-            else:
-                retrieved_images_tensor, _ = load_placeholder_image(self.placeholder_image_path)
+            # Concatenate image tensors
+            retrieved_images_tensor = torch.cat(retrieved_images, dim=0) if retrieved_images else load_placeholder_image(self.placeholder_image_path)[0]
 
-            # Concatenate mask tensors if present
-            if masks:
-                masks_tensor = torch.cat(masks, dim=0)  # Shape: [batch, 1, H, W]
-            else:
-                _, masks_tensor = load_placeholder_image(self.placeholder_image_path)
+            # Concatenate mask tensors
+            masks_tensor = torch.cat(masks, dim=0) if masks else load_placeholder_image(self.placeholder_image_path)[1]
 
             # Debug logging for verification
             for idx in range(len(retrieved_images)):
@@ -1265,6 +1390,7 @@ class IFLLM:
             neg_system_message = self.profiles.get("IF_NegativePromptEngineer_V2", "")
             if isinstance(neg_system_message, dict):
                 neg_system_message = json.dumps(neg_system_message)
+            
             # Generate negative prompt using cleaned response
             neg_prompt = await send_request(
                 llm_provider=kwargs.get('llm_provider'),
@@ -1286,6 +1412,19 @@ class IFLLM:
                 keep_alive=kwargs.get('keep_alive'),
                 llm_api_key=kwargs.get('llm_api_key'),
             )
+
+            # If the response is a dict, extract the actual text before calling clean_text
+            if isinstance(neg_prompt, dict):
+                extracted = ""
+                if "choices" in neg_prompt and neg_prompt["choices"]:
+                    extracted = neg_prompt["choices"][0].get("message", {}).get("content", "")
+                elif "response" in neg_prompt:
+                    extracted = neg_prompt["response"]
+                else:
+                    # Fallback: just serialize the dict
+                    extracted = json.dumps(neg_prompt)
+                neg_prompt = extracted
+
             if neg_prompt:
                 return clean_text(neg_prompt)
             else:
@@ -1302,5 +1441,17 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "IF_LLM": "IF LLM 🎨"
+    "IF_LLM": "IF LLM🎨"
 }
+
+def get_omost_function():
+    """Lazily import omost_function only when needed"""
+    try:
+        if "omost" not in sys.modules:
+            from .omost import omost_function
+        else:
+            omost_function = sys.modules["omost"].omost_function
+        return omost_function
+    except ImportError as e:
+        print(f"Error importing omost_function: {e}")
+        raise

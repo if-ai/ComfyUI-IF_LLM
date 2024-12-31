@@ -13,33 +13,37 @@ import folder_paths
 # Then import your other modules
 from .IFLLMNode import IFLLM
 from .IFDisplayTextWildcardNode import IFDisplayTextWildcard
-from .IFSaveTextNode import IFSaveText
-from .IFDisplayTextNode import IFDisplayText
-from .IFDisplayOmniNode import IFDisplayOmni
-from .IFTextTyperNode import IFTextTyper
-from .IFJoinTextNode import IFJoinText
-from .IFLoadImagesNodeS import IFLoadImagess
+from .IFLLMSaveTextNode import IFSaveText
+from .IFLLMDisplayTextNode import IFDisplayText
+from .IFLLMDisplayOmniNode import IFDisplayOmni
+from .IFLLMTextTyperNode import IFTextTyper
+from .IFLLMJoinTextNode import IFJoinText
+from .IFLLMLoadImagesNodeS import IFLoadImagess
 from .send_request import *
 
 
+'''# Unified omost import handling
 try:
-    from .omost import omost_function
-    print("Successfully imported omost_function from omost.py in the current directory")
-except ImportError as e:
-    print(f"Error importing omost from current directory: {e}")
-    
-    # If import fails, try to import from the parent directory
-    parent_dir = os.path.dirname(current_dir)
-    parent_dir_name = os.path.basename(parent_dir)
-    if parent_dir_name == 'ComfyUI-IF_LLM':
-        sys.path.insert(0, parent_dir)
+    if "omost" not in sys.modules:  # Check if already imported
         try:
-            from omost import omost_function
-            print(f"Successfully imported omost_function from {parent_dir}/omost.py")
-        except ImportError as e:
-            print(f"Error importing omost from parent directory: {e}")
-            print(f"Current sys.path: {sys.path}")
-            raise
+            from .omost import omost_function  # Try relative import first
+            print("Successfully imported omost_function from current directory")
+        except ImportError:
+            # If relative import fails, try from parent directory
+            parent_dir = os.path.dirname(current_dir)
+            parent_dir_name = os.path.basename(parent_dir)
+            if parent_dir_name == 'ComfyUI-IF_LLM':
+                sys.path.insert(0, parent_dir)
+                from omost import omost_function
+                print(f"Successfully imported omost_function from {parent_dir}/omost.py")
+    else:
+        omost_function = sys.modules["omost"].omost_function
+        print("Using already imported omost_function")
+except ImportError as e:
+    print(f"Error importing omost_function: {e}")
+    print(f"Current sys.path: {sys.path}")
+    raise'''
+
 class OmniType(str):
     """A special string type that acts as a wildcard for universal input/output. 
        It always evaluates as equal in comparisons."""
@@ -50,24 +54,24 @@ OMNI = OmniType("*")
                        
 NODE_CLASS_MAPPINGS = {
     "IF_LLM": IFLLM,
-    "IF_SaveText": IFSaveText,
-    "IF_DisplayText": IFDisplayText,
-    "IF_DisplayTextWildcard": IFDisplayTextWildcard,
-    "IF_DisplayOmni": IFDisplayOmni,
-    "IF_TextTyper": IFTextTyper,
-    "IF_JoinText": IFJoinText,
-    "IF_LoadImagesS": IFLoadImagess,
+    "IF_LLM_SaveText": IFSaveText,
+    "IF_LLM_DisplayText": IFDisplayText,
+    "IF_LLM_DisplayTextWildcard": IFDisplayTextWildcard,
+    "IF_LLM_DisplayOmni": IFDisplayOmni,
+    "IF_LLM_TextTyper": IFTextTyper,
+    "IF_LLM_JoinText": IFJoinText,
+    "IF_LLM_LoadImagesS": IFLoadImagess,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
     "IF_LLM": "IF LLM🎨",
-    "IF_SaveText": "IF Save Text📝",
-    "IF_DisplayText": "IF Display Text📟",
-    "IF_DisplayTextWildcard": "IF Display Text Wildcard📟",
-    "IF_DisplayOmni": "IF Display Omni🔍",
-    "IF_TextTyper": "IF Text Typer✍️",
-    "IF_JoinText": "IF Join Text 📝",
-    "IF_LoadImagesS": "IF Load Images S 🖼️"
+    "IF_LLM_SaveText": "IF Save Text📝",
+    "IF_LLM_DisplayText": "IF Display Text📟",
+    "IF_LLM_DisplayTextWildcard": "IF Display Text Wildcard📟",
+    "IF_LLM_DisplayOmni": "IF Display Omni🔍",
+    "IF_LLM_TextTyper": "IF Text Typer✍️",
+    "IF_LLM_JoinText": "IF Join Text 📝",
+    "IF_LLM_LoadImagesS": "IF LLM Load Images S 🖼️"
 }
 
 WEB_DIRECTORY = "./web"
