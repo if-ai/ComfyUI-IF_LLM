@@ -1157,8 +1157,8 @@ def get_models(engine, base_ip, port, api_key):
     elif engine == "gemini":
         return [
             "learnlrn-1.5-pro-experimental",
-            "gemini-2.O-flash-thinking-exp-1219",
-            "gemini-2.O-flash-exp",
+            "gemini-2.0-flash-thinking-exp-1219",
+            "gemini-2.0-flash-exp",
             "gemini-exp-1206",
             "gemini-exp-1121",
             "gemini-exp-1114",
