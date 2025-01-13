@@ -7,7 +7,8 @@ python-dotenv
 tiktoken
 pydantic
 rich
-
+# It's highly recommanded to use `[decord]` feature for faster video loading.
+qwen-vl-utils[decord]
 
 
 
