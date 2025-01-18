@@ -19,6 +19,7 @@ from .IFLLMDisplayOmniNode import IFDisplayOmni
 from .IFLLMTextTyperNode import IFTextTyper
 from .IFLLMJoinTextNode import IFJoinText
 from .IFLLMLoadImagesNodeS import IFLoadImagess
+from .ListModelsNode import ListModelsNode
 from .send_request import *
 
 
@@ -61,6 +62,7 @@ NODE_CLASS_MAPPINGS = {
     "IF_LLM_TextTyper": IFTextTyper,
     "IF_LLM_JoinText": IFJoinText,
     "IF_LLM_LoadImagesS": IFLoadImagess,
+    "IF_LLM_ListModels": ListModelsNode,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -71,7 +73,8 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "IF_LLM_DisplayOmni": "IF Display Omni🔍",
     "IF_LLM_TextTyper": "IF Text Typer✍️",
     "IF_LLM_JoinText": "IF Join Text 📝",
-    "IF_LLM_LoadImagesS": "IF LLM Load Images S 🖼️"
+    "IF_LLM_LoadImagesS": "IF LLM Load Images S 🖼️",
+    "IF_LLM_ListModels": "IF LLM List Models 📚",
 }
 
 WEB_DIRECTORY = "./web"

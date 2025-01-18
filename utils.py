@@ -920,19 +920,34 @@ def get_models(engine, base_ip, port, api_key):
             return fallback_models
 
     elif engine == "deepseek":
-        api_url = "https://api.deepseek.com/models"
+        fallback_models = [
+            "deepseek-chat",
+            "deepseek-coder"
+        ]
+
+        #api_key = get_api_key("DEEPSEEK_API_KEY", engine)
+        if not api_key or api_key == "1234":
+            print("Warning: Invalid DeepSeek API key. Using fallback model list.")
+            return fallback_models
+
         headers = {
             "Authorization": f"Bearer {api_key}",
-            "Accept": "application/json"
+            "Content-Type": "application/json"
         }
+        api_url = "https://api.deepseek.com/v1/models"  # Adjust URL if needed
         try:
             response = requests.get(api_url, headers=headers)
             response.raise_for_status()
-            models = [model["id"] for model in response.json()["data"]]
-            return models
+            api_models = [model["id"] for model in response.json()["data"]]
+            print(f"Successfully fetched {len(api_models)} models from DeepSeek API")
+            
+            # Combine API models with fallback models, prioritizing API models
+            combined_models = list(set(api_models + fallback_models))
+            return combined_models
         except Exception as e:
             print(f"Failed to fetch models from DeepSeek: {e}")
-            return []
+            print(f"Returning fallback list of {len(fallback_models)} DeepSeek models")
+            return fallback_models
 
     elif engine == "lmstudio":
         api_url = f"http://{base_ip}:{port}/v1/models"
@@ -999,11 +1014,57 @@ def get_models(engine, base_ip, port, api_key):
 
     elif engine == "openai":
         fallback_models = [
-            "tts-l-hd", "dall-e-3", "whisper-I", "text-embedding-3-large", 
-            "text-embedding-3-small", "text-embedding-ada-002", "gpt-4-turbo", 
-            "gpt-4-turbo-2024-04-09", "gpt-4-0125-preview", "gpt-3.5-turbo", 
-            "gpt-4-turbo-preview", "gpt-4", "davinci-002", "gpt-4o-mini", 
-            "gpt-4o", "gpt40-0806-loco-vm"
+            "o1-preview-2024-09-12",
+            "whisper-I",
+            "o1-mini",
+            "gpt-4o-audio-preview-2024-10-01",
+            "dall-e-3",
+            "whisper-1",
+            "chatgpt-4o-latest",
+            "gpt-4o-audio-preview",
+            "gpt-4o-realtime-preview-2024-12-17",
+            "o1-preview",
+            "gpt-4o-mini-audio-preview-2024-12-17",
+            "gpt-4-0613",
+            "gpt-4o-2024-11-20",
+            "gpt-4o-realtime-preview",
+            "dall-e-2",
+            "tts-1-hd-1106",
+            "gpt-4",
+            "gpt-3.5-turbo-instruct-0914",
+            "gpt-4-turbo-preview",
+            "gpt-4o",
+            "gpt-3.5-turbo",
+            "o1-mini-2024-09-12",
+            "tts-1-1106",
+            "gpt-4o-mini-realtime-preview-2024-12-17",
+            "gpt-4o-mini",
+            "gpt-4o-realtime-preview-2024-10-01",
+            "gpt-4-turbo",
+            "tts-l-hd",
+            "omni-moderation-latest",
+            "omni-moderation-2024-09-26",
+            "gpt-4o-audio-preview-2024-12-17",
+            "gpt-4o-mini-realtime-preview",
+            "gpt-4o-2024-08-06",
+            "text-embedding-ada-002",
+            "gpt40-0806-loco-vm",
+            "tts-1",
+            "gpt-3.5-turbo-0125",
+            "text-embedding-3-small",
+            "gpt-4-0125-preview",
+            "gpt-4o-mini-2024-07-18",
+            "babbage-002",
+            "text-embedding-3-large",
+            "davinci-002",
+            "gpt-4o-mini-audio-preview",
+            "gpt-3.5-turbo-1106",
+            "gpt-3.5-turbo-16k",
+            "gpt-4-turbo-2024-04-09",
+            "gpt-3.5-turbo-instruct",
+            "tts-1-hd",
+            "gpt-4-1106-preview",
+            "gpt-4o-2024-05-13"
         ]
 
         #api_key = get_api_key("OPENAI_API_KEY", engine)
@@ -1035,12 +1096,19 @@ def get_models(engine, base_ip, port, api_key):
     
     elif engine == "xai":
         fallback_models = [
-            "grok-beta"
+            "grok-beta",
+            "grok-vision-beta",
+            "grok-2-vision-1212",
+            "grok-2-vision",
+            "grok-2-vision-latest",
+            "grok-2-1212",
+            "grok-2",
+            "grok-2-latest"
         ]
 
         #api_key = get_api_key("XAI_API_KEY", engine)
         if not api_key or api_key == "1234":
-            print("Warning: Invalid OpenAI API key. Using fallback model list.")
+            print("Warning: Invalid XAI API key. Using fallback model list.")
             return fallback_models
 
         headers = {
@@ -1067,15 +1135,48 @@ def get_models(engine, base_ip, port, api_key):
 
     elif engine == "mistral":
         fallback_models = [
-            "open-mistral-7b", "mistral-tiny", "mistral-tiny-2312",
-            "open-mistral-nemo", "open-mistral-nemo-2407", "mistral-tiny-2407",
-            "mistral-tiny-latest", "open-mixtral-8x7b", "mistral-small",
-            "mistral-small-2312", "open-mixtral-8x22b", "open-mixtral-8x22b-2404",
-            "mistral-small-2402", "mistral-small-latest", "mistral-medium-2312",
-            "mistral-medium", "mistral-medium-latest", "mistral-large-2402",
-            "mistral-large-2407", "mistral-large-latest", "codestral-2405",
-            "codestral-latest", "codestral-mamba-2407", "open-codestral-mamba",
-            "codestral-mamba-latest", "mistral-embed"
+            "ministral-3b-latest",
+            "pixtral-large-latest",
+            "codestral-2411-rc5",
+            "mistral-moderation-2411",
+            "mistral-small-2402",
+            "mistral-large-2407",
+            "mistral-small-2409",
+            "mistral-small",
+            "open-mistral-nemo-2407",
+            "ministral-3b-2410",
+            "codestral-mamba-2407",
+            "pixtral-12b",
+            "pixtral-12b-latest",
+            "mistral-tiny-2407",
+            "pixtral-12b-2409",
+            "mistral-tiny-2312",
+            "open-mixtral-8x7b",
+            "codestral-2412",
+            "open-mistral-7b",
+            "ministral-8b-latest",
+            "mistral-large-2411",
+            "codestral-latest",
+            "codestral-2501",
+            "mistral-embed",
+            "mistral-medium",
+            "mistral-large-latest",
+            "mistral-small-2312",
+            "open-mixtral-8x22b-2404",
+            "pixtral-large-2411",
+            "open-mixtral-8x22b",
+            "mistral-small-latest",
+            "mistral-medium-2312",
+            "mistral-moderation-latest",
+            "codestral-2405",
+            "open-codestral-mamba",
+            "open-mistral-nemo",
+            "mistral-tiny",
+            "mistral-tiny-latest",
+            "mistral-large-2402",
+            "codestral-mamba-latest",
+            "ministral-8b-2410",
+            "mistral-medium-latest"
         ]
 
         #api_key = get_api_key("MISTRAL_API_KEY", engine)
@@ -1104,18 +1205,25 @@ def get_models(engine, base_ip, port, api_key):
 
     elif engine == "groq":
         fallback_models = [
-            "llama-3.1-8b-instant",
-            "llava-v1.5-7b-4096-preview",
-            "gemma2-9b-it",
-            "whisper-large-v3",
-            "llama-3.1-70b-versatile",
-            "llama3-groq-70b-8192-tool-use-preview",
-            "llama3-groq-8b-8192-tool-use-preview",
             "llama-guard-3-8b",
             "llama3-70b-8192",
-            "distil-whisper-large-v3-en",
-            "mixtral-8x7b-32768",
+            "llava-v1.5-7b-4096-preview",
+            "llama-3.2-1b-preview",
+            "whisper-large-v3",
+            "llama-3.2-3b-preview",
+            "llama3-groq-70b-8192-tool-use-preview",
+            "whisper-large-v3-turbo",
             "llama3-8b-8192",
+            "llama-3.2-90b-vision-preview",
+            "distil-whisper-large-v3-en",
+            "llama-3.1-70b-versatile",
+            "llama-3.3-70b-versatile",
+            "llama-3.3-70b-specdec",
+            "llama3-groq-8b-8192-tool-use-preview",
+            "gemma2-9b-it",
+            "llama-3.2-11b-vision-preview",
+            "llama-3.1-8b-instant",
+            "mixtral-8x7b-32768"
         ]
 
         #api_key = get_api_key("GROQ_API_KEY", engine)
@@ -1151,7 +1259,7 @@ def get_models(engine, base_ip, port, api_key):
             "claude-3-sonnet-20240229",
             "claude-3-haiku-20240307",
             "claude-3-5-haiku-latest",
-            "claude-3-5-haiku-20241022",
+            "claude-3-5-haiku-20241022"
         ]
 
     elif engine == "gemini":
@@ -1400,3 +1508,55 @@ def format_response(self, response):
             formatted_paragraphs.append(para.strip())
 
         return "\n\n".join(formatted_paragraphs)
+
+def print_available_models():
+    """Print available models for each supported API engine"""
+    
+    # Test API key - using a dummy value since we'll mostly see fallback models
+    test_api_key = "1234"
+    
+    # List of all supported engines
+    engines = [
+        "ollama",
+        "huggingface",
+        "deepseek", 
+        "lmstudio",
+        "textgen",
+        "kobold",
+        "llamacpp",
+        "vllm",
+        "openai",
+        "xai",
+        "mistral",
+        "groq",
+        "anthropic",
+        "gemini",
+        "sentence_transformers",
+        "transformers"
+    ]
+    
+    print("\n=== Available Models by Engine ===\n")
+    
+    for engine in engines:
+        print(f"\n{engine.upper()} Models:")
+        print("-" * (len(engine) + 8))
+        
+        try:
+            # Get models for the current engine
+            models = get_models(engine, "localhost", "11434", test_api_key)
+            
+            if models:
+                # Print each model with an index
+                for i, model in enumerate(models, 1):
+                    print(f"{i}. {model}")
+            else:
+                print("No models available or engine requires valid API key/connection")
+                
+        except Exception as e:
+            print(f"Error fetching models: {str(e)}")
+            
+        print() # Add blank line between engines
+
+# Usage example:
+if __name__ == "__main__":
+    print_available_models()

@@ -1259,8 +1259,21 @@ class IFLLM:
                             if not isinstance(msk, torch.Tensor):
                                 msk = placeholder_mask
                         elif not isinstance(msk, torch.Tensor):
-                            # If the image is valid but mask isn’t, load just the placeholder mask
+                            # If the image is valid but mask isn't, load just the placeholder mask
                             _, msk = load_placeholder_image(self.placeholder_image_path)
+                        
+                        # Convert 4-channel images to 3-channel if needed
+                        if isinstance(img, torch.Tensor):
+                            if img.dim() == 4:  # Batch of images [B, C, H, W]
+                                if img.shape[1] == 4:  # Check if channels = 4
+                                    # Convert RGBA to RGB by removing alpha channel
+                                    img = img[:, :3, :, :]
+                                    logger.debug(f"Converted batch of 4-channel images to 3-channel, new shape: {img.shape}")
+                            elif img.dim() == 3:  # Single image [C, H, W]
+                                if img.shape[0] == 4:  # Check if channels = 4
+                                    # Convert RGBA to RGB by removing alpha channel
+                                    img = img[:3, :, :]
+                                    logger.debug(f"Converted single 4-channel image to 3-channel, new shape: {img.shape}")
 
                         retrieved_images.append(img)
                         masks.append(msk)
