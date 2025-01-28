@@ -921,6 +921,7 @@ def get_models(engine, base_ip, port, api_key):
 
     elif engine == "deepseek":
         fallback_models = [
+            "deepseek-reasoner",
             "deepseek-chat",
             "deepseek-coder"
         ]
@@ -1014,6 +1015,7 @@ def get_models(engine, base_ip, port, api_key):
 
     elif engine == "openai":
         fallback_models = [
+            "gpt-4o-mini",
             "o1-preview-2024-09-12",
             "whisper-I",
             "o1-mini",
@@ -1038,7 +1040,6 @@ def get_models(engine, base_ip, port, api_key):
             "o1-mini-2024-09-12",
             "tts-1-1106",
             "gpt-4o-mini-realtime-preview-2024-12-17",
-            "gpt-4o-mini",
             "gpt-4o-realtime-preview-2024-10-01",
             "gpt-4-turbo",
             "tts-l-hd",
@@ -1205,6 +1206,7 @@ def get_models(engine, base_ip, port, api_key):
 
     elif engine == "groq":
         fallback_models = [
+            "deepseek-r1-distill-llama-70b",
             "llama-guard-3-8b",
             "llama3-70b-8192",
             "llava-v1.5-7b-4096-preview",
