@@ -10,6 +10,9 @@
    
 ###############################################
 
+# Run The Workflows on ComfyDeploy 
+
+[![Character_Mixer](https://beta.app.comfydeploy.com/home?gpu=a10g&comfyui_version=recommend&timeout=15&nodes=if-ai/ComfyUI-IF_LLM%404ce0b04%2Crgthree/rgthree-comfy%405d771b8%2CJonseed/ComfyUI-Detail-Daemon%4090e703d%2CFannovel16/comfyui_controlnet_aux%405a049bd%2Ckijai/ComfyUI-KJNodes%40a22b269%2Ccubiq/ComfyUI_essentials%4033ff89f%2CGreenLandisaLie/AuraSR-ComfyUI%404ceef92%2Cjohn-mnz/ComfyUI-Inspyrenet-Rembg%4087ac452%2CTinyTerra/ComfyUI_tinyterraNodes%40b292f8e%2Casagi4/ComfyUI-Adaptive-Guidance%408fc3b00&workflowLink=https%3A//raw.githubusercontent.com/if-ai/ComfyUI-IF_LLM/main/workflows/CD_Character_Mixer_Simple.json)
 
 [![Video Thumbnail](https://github.com/user-attachments/assets/7430c137-9193-48dd-be34-fddbb2cd0387)](https://youtu.be/0sR4hu98pDo?si=EhF24ugy7RpLvUjV)
 
