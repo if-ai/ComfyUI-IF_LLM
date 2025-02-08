@@ -1,0 +1,3109 @@
+{
+  "last_node_id": 185,
+  "last_link_id": 535,
+  "nodes": [
+    {
+      "id": 37,
+      "type": "Note",
+      "pos": [
+        680,
+        -1670
+      ],
+      "size": [
+        289.71588134765625,
+        96.7723159790039
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [],
+      "title": "Models",
+      "properties": {},
+      "widgets_values": [
+        "You can Use your own API to call the models with this node to make prompts you can rerverse engeneer an image and \nreplace the sobject for the keyword <Your Lora Trigger word>"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 51,
+      "type": "VHS_VideoCombine",
+      "pos": [
+        3335.4560546875,
+        -1603.4893798828125
+      ],
+      "size": [
+        540,
+        669.3125
+      ],
+      "flags": {},
+      "order": 48,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 65
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "meta_batch",
+          "type": "VHS_BatchManager",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Filenames",
+          "type": "VHS_FILENAMES",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VHS_VideoCombine"
+      },
+      "widgets_values": {
+        "frame_rate": 24,
+        "loop_count": 0,
+        "filename_prefix": "HunyuanVideo_A_",
+        "format": "video/h264-mp4",
+        "pix_fmt": "yuv420p",
+        "crf": 9,
+        "save_metadata": true,
+        "pingpong": false,
+        "save_output": true,
+        "videopreview": {
+          "muted": false,
+          "hidden": false,
+          "params": {
+            "type": "output",
+            "format": "video/h264-mp4",
+            "filename": "HunyuanVideo_A__00002.mp4",
+            "fullpath": "/comfyui/output/HunyuanVideo_A__00001.mp4",
+            "workflow": "HunyuanVideo_A__00001.png",
+            "subfolder": "",
+            "frame_rate": 24
+          },
+          "paused": false
+        }
+      }
+    },
+    {
+      "id": 45,
+      "type": "VHS_VideoCombine",
+      "pos": [
+        3886.482666015625,
+        -1610.337158203125
+      ],
+      "size": [
+        540,
+        669.3125
+      ],
+      "flags": {},
+      "order": 49,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 53
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "meta_batch",
+          "type": "VHS_BatchManager",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Filenames",
+          "type": "VHS_FILENAMES",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VHS_VideoCombine"
+      },
+      "widgets_values": {
+        "frame_rate": 48,
+        "loop_count": 0,
+        "filename_prefix": "HunyuanVideo_B_",
+        "format": "video/h264-mp4",
+        "pix_fmt": "yuv420p",
+        "crf": 9,
+        "save_metadata": true,
+        "pingpong": false,
+        "save_output": true,
+        "videopreview": {
+          "muted": false,
+          "hidden": false,
+          "params": {
+            "type": "output",
+            "format": "video/h264-mp4",
+            "filename": "HunyuanVideo_B__00001.mp4",
+            "fullpath": "/comfyui/output/HunyuanVideo_B__00001.mp4",
+            "workflow": "HunyuanVideo_B__00001.png",
+            "subfolder": "",
+            "frame_rate": 48
+          },
+          "paused": false
+        }
+      }
+    },
+    {
+      "id": 48,
+      "type": "ImageUpscaleWithModel",
+      "pos": [
+        2987.17138671875,
+        -1031.4866943359375
+      ],
+      "size": [
+        226.8000030517578,
+        61.38042449951172
+      ],
+      "flags": {},
+      "order": 43,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "upscale_model",
+          "type": "UPSCALE_MODEL",
+          "link": 56
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 533
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            55
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageUpscaleWithModel"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 49,
+      "type": "UpscaleModelLoader",
+      "pos": [
+        2977.17138671875,
+        -1151.4866943359375
+      ],
+      "size": [
+        315,
+        58
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "UPSCALE_MODEL",
+          "type": "UPSCALE_MODEL",
+          "links": [
+            56
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "UpscaleModelLoader"
+      },
+      "widgets_values": [
+        "4x-UltraSharp.pth"
+      ]
+    },
+    {
+      "id": 8,
+      "type": "IF_LLM_DisplayText",
+      "pos": [
+        1000,
+        -1070
+      ],
+      "size": [
+        331.66424560546875,
+        321.51513671875
+      ],
+      "flags": {},
+      "order": 35,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 8,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Full text content"
+        },
+        {
+          "name": "text_list",
+          "type": "STRING",
+          "links": [],
+          "slot_index": 1,
+          "shape": 6,
+          "tooltip": "Individual lines as separate outputs"
+        },
+        {
+          "name": "count",
+          "type": "INT",
+          "links": null,
+          "slot_index": 2,
+          "tooltip": "Total number of non-empty lines"
+        },
+        {
+          "name": "selected",
+          "type": "STRING",
+          "links": [],
+          "slot_index": 3,
+          "tooltip": "Currently selected line based on select input"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        1,
+        "\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\nlowres,  text,  error,  cropped,  worst quality,  low quality,  jpeg artifacts,  ugly,  duplicate,  morbid,  mutilated,  out of frame,  mutation,  deformed,  blurry,  dehydrated,  bad anatomy,  bad proportions,  disfigured, username,  watermark,  signature, backgound out of focus, black and white,  monochrome"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "Display Int (rgthree)",
+      "pos": [
+        272.7060241699219,
+        -44.040584564208984
+      ],
+      "size": [
+        315,
+        76
+      ],
+      "flags": {},
+      "order": 26,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "input",
+          "type": "INT",
+          "link": 404,
+          "dir": 3,
+          "widget": {
+            "name": "input"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "Display Int (rgthree)"
+      },
+      "widgets_values": [
+        0,
+        ""
+      ]
+    },
+    {
+      "id": 132,
+      "type": "Display Int (rgthree)",
+      "pos": [
+        1022.6820678710938,
+        -2062.025390625
+      ],
+      "size": [
+        315,
+        76
+      ],
+      "flags": {},
+      "order": 30,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "input",
+          "type": "INT",
+          "link": 334,
+          "dir": 3,
+          "widget": {
+            "name": "input"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "Display Int (rgthree)"
+      },
+      "widgets_values": [
+        0,
+        ""
+      ]
+    },
+    {
+      "id": 133,
+      "type": "Display Int (rgthree)",
+      "pos": [
+        1022.6820678710938,
+        -1922.0252685546875
+      ],
+      "size": [
+        315,
+        76
+      ],
+      "flags": {},
+      "order": 31,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "input",
+          "type": "INT",
+          "link": 335,
+          "dir": 3,
+          "widget": {
+            "name": "input"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "Display Int (rgthree)"
+      },
+      "widgets_values": [
+        0,
+        ""
+      ]
+    },
+    {
+      "id": 46,
+      "type": "RIFE VFI",
+      "pos": [
+        2960.504150390625,
+        -1596.04638671875
+      ],
+      "size": [
+        356.5840148925781,
+        198
+      ],
+      "flags": {},
+      "order": 47,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "frames",
+          "type": "IMAGE",
+          "link": 54
+        },
+        {
+          "name": "optional_interpolation_states",
+          "type": "INTERPOLATION_STATES",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            53
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RIFE VFI"
+      },
+      "widgets_values": [
+        "rife47.pth",
+        10,
+        2,
+        true,
+        true,
+        1
+      ]
+    },
+    {
+      "id": 1,
+      "type": "GetImageRangeFromBatch",
+      "pos": [
+        333.70166015625,
+        -1509.4566650390625
+      ],
+      "size": [
+        285.6000061035156,
+        102
+      ],
+      "flags": {},
+      "order": 23,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 511,
+          "shape": 7
+        },
+        {
+          "name": "masks",
+          "type": "MASK",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            342
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "GetImageRangeFromBatch"
+      },
+      "widgets_values": [
+        -1,
+        1
+      ]
+    },
+    {
+      "id": 47,
+      "type": "ImageScale",
+      "pos": [
+        2967.17138671875,
+        -1351.48681640625
+      ],
+      "size": [
+        315,
+        130
+      ],
+      "flags": {},
+      "order": 46,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 55
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            54,
+            65
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageScale"
+      },
+      "widgets_values": [
+        "lanczos",
+        1920,
+        1280,
+        "disabled"
+      ]
+    },
+    {
+      "id": 17,
+      "type": "ImageResizeKJ",
+      "pos": [
+        288.0645446777344,
+        -652.1201782226562
+      ],
+      "size": [
+        315,
+        266
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 275
+        },
+        {
+          "name": "get_image_size",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "width_input",
+          "type": "INT",
+          "link": null,
+          "shape": 7,
+          "widget": {
+            "name": "width_input"
+          }
+        },
+        {
+          "name": "height_input",
+          "type": "INT",
+          "link": null,
+          "shape": 7,
+          "widget": {
+            "name": "height_input"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            402
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "links": [],
+          "slot_index": 1
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "links": [],
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageResizeKJ"
+      },
+      "widgets_values": [
+        960,
+        640,
+        "lanczos",
+        false,
+        2,
+        0,
+        0,
+        "center"
+      ]
+    },
+    {
+      "id": 16,
+      "type": "VHS_VideoCombine",
+      "pos": [
+        2994.8798828125,
+        -798.8174438476562
+      ],
+      "size": [
+        377.0668029785156,
+        561.1146850585938
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 44,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 534
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "meta_batch",
+          "type": "VHS_BatchManager",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Filenames",
+          "type": "VHS_FILENAMES",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VHS_VideoCombine"
+      },
+      "widgets_values": {
+        "frame_rate": 24,
+        "loop_count": 0,
+        "filename_prefix": "HunyuanVideo_CD_",
+        "format": "video/h264-mp4",
+        "pix_fmt": "yuv420p",
+        "crf": 12,
+        "save_metadata": true,
+        "pingpong": false,
+        "save_output": true,
+        "videopreview": {
+          "muted": false,
+          "hidden": false,
+          "params": {
+            "type": "output",
+            "format": "video/h264-mp4",
+            "filename": "HunyuanVideo_CD__00018.mp4",
+            "fullpath": "/comfyui/output/HunyuanVideo_CD__00001.mp4",
+            "workflow": "HunyuanVideo_CD__00001.png",
+            "subfolder": "",
+            "frame_rate": 24
+          },
+          "paused": false
+        }
+      }
+    },
+    {
+      "id": 130,
+      "type": "ImageNoiseAugmentation",
+      "pos": [
+        1373.746337890625,
+        -2072.12158203125
+      ],
+      "size": [
+        315,
+        106
+      ],
+      "flags": {},
+      "order": 29,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 333
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            495
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageNoiseAugmentation"
+      },
+      "widgets_values": [
+        0.044,
+        123,
+        "fixed"
+      ]
+    },
+    {
+      "id": 30,
+      "type": "GetImageSizeAndCount",
+      "pos": [
+        296.1799011230469,
+        -344.19219970703125
+      ],
+      "size": [
+        314.3602600097656,
+        87.85798645019531
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 402
+        }
+      ],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": [
+            496
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "links": [
+            134,
+            403
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "links": [
+            135,
+            404
+          ],
+          "slot_index": 2
+        },
+        {
+          "name": "count",
+          "type": "INT",
+          "links": [
+            167
+          ],
+          "slot_index": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "GetImageSizeAndCount"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 157,
+      "type": "HyVideoVAELoader",
+      "pos": [
+        1812.275146484375,
+        -424.571533203125
+      ],
+      "size": [
+        379.166748046875,
+        82
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "compile_args",
+          "type": "COMPILEARGS",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "vae",
+          "type": "VAE",
+          "links": [
+            471,
+            473,
+            497
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "HyVideoVAELoader"
+      },
+      "widgets_values": [
+        "hyvid\\hunyuan_video_vae_bf16.safetensors",
+        "bf16"
+      ]
+    },
+    {
+      "id": 180,
+      "type": "SaveImage",
+      "pos": [
+        2573.93408203125,
+        -386.2218017578125
+      ],
+      "size": [
+        311.02923583984375,
+        285.3271179199219
+      ],
+      "flags": {},
+      "order": 45,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 535
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "HyVid_Character_"
+      ]
+    },
+    {
+      "id": 15,
+      "type": "IF_LLM_DisplayText",
+      "pos": [
+        1010,
+        -1590
+      ],
+      "size": [
+        315,
+        457.3929748535156
+      ],
+      "flags": {},
+      "order": 34,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 16,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": null,
+          "tooltip": "Full text content"
+        },
+        {
+          "name": "text_list",
+          "type": "STRING",
+          "links": [],
+          "slot_index": 1,
+          "shape": 6,
+          "tooltip": "Individual lines as separate outputs"
+        },
+        {
+          "name": "count",
+          "type": "INT",
+          "links": null,
+          "tooltip": "Total number of non-empty lines"
+        },
+        {
+          "name": "selected",
+          "type": "STRING",
+          "links": [
+            525
+          ],
+          "slot_index": 3,
+          "tooltip": "Currently selected line based on select input"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        1,
+        "\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\nAnthropomorphic cat in sequin dress against black backdrop. Long brunette hair framing feline features, ears perked with curiosity. Tail a plume of white fur. Glimmering fabric catching ambient light. Stylized portrait evoking glamour and mystery."
+      ]
+    },
+    {
+      "id": 181,
+      "type": "Note",
+      "pos": [
+        2609.548583984375,
+        -551.5859375
+      ],
+      "size": [
+        240.28477478027344,
+        115.22935485839844
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "You can select a frame with the latent range or just generate a single frame with incremented steps for a still image and generate for our character maybe something after the 2 sec mark"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 27,
+      "type": "VHS_LoadVideo",
+      "pos": [
+        343.7544250488281,
+        -1345.2900390625
+      ],
+      "size": [
+        247.455078125,
+        475.8037109375
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "meta_batch",
+          "type": "VHS_BatchManager",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            275
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "frame_count",
+          "type": "INT",
+          "links": null,
+          "slot_index": 1
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "links": null
+        },
+        {
+          "name": "video_info",
+          "type": "VHS_VIDEOINFO",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VHS_LoadVideo"
+      },
+      "widgets_values": {
+        "video": "15731089-hd_1280_720_60fps.mp4",
+        "force_rate": 0,
+        "force_size": "Custom",
+        "custom_width": 960,
+        "custom_height": 640,
+        "frame_load_cap": 75,
+        "skip_first_frames": 121,
+        "select_every_nth": 1,
+        "choose video to upload": "image",
+        "videopreview": {
+          "muted": false,
+          "hidden": false,
+          "params": {
+            "type": "input",
+            "format": "video/mp4",
+            "filename": "15731089-hd_1280_720_60fps.mp4",
+            "force_rate": 0,
+            "force_size": "960x640",
+            "frame_load_cap": 75,
+            "select_every_nth": 1,
+            "skip_first_frames": 121
+          },
+          "paused": false
+        }
+      }
+    },
+    {
+      "id": 176,
+      "type": "IF_LLM_JoinText",
+      "pos": [
+        1029.8912353515625,
+        -593.5699462890625
+      ],
+      "size": [
+        244.84837341308594,
+        118
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text1",
+          "type": "STRING",
+          "link": 506,
+          "shape": 7,
+          "widget": {
+            "name": "text1"
+          },
+          "tooltip": "First text to join"
+        },
+        {
+          "name": "text2",
+          "type": "STRING",
+          "link": 515,
+          "shape": 7,
+          "widget": {
+            "name": "text2"
+          },
+          "tooltip": "Second text to join"
+        },
+        {
+          "name": "text3",
+          "type": "STRING",
+          "link": null,
+          "shape": 7,
+          "widget": {
+            "name": "text3"
+          },
+          "tooltip": "Third text to join"
+        },
+        {
+          "name": "text4",
+          "type": "STRING",
+          "link": null,
+          "shape": 7,
+          "widget": {
+            "name": "text4"
+          },
+          "tooltip": "Fourth text to join"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "joined_text",
+          "type": "STRING",
+          "links": [
+            499
+          ],
+          "slot_index": 0,
+          "tooltip": "Combined text output with separator"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_JoinText"
+      },
+      "widgets_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 6,
+      "type": "Display Int (rgthree)",
+      "pos": [
+        272.7060241699219,
+        -184.04061889648438
+      ],
+      "size": [
+        315,
+        76
+      ],
+      "flags": {},
+      "order": 25,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "input",
+          "type": "INT",
+          "link": 403,
+          "dir": 3,
+          "widget": {
+            "name": "input"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "Display Int (rgthree)"
+      },
+      "widgets_values": [
+        0,
+        ""
+      ]
+    },
+    {
+      "id": 10,
+      "type": "IF_LLM_JoinText",
+      "pos": [
+        1394.3990478515625,
+        -1304.6026611328125
+      ],
+      "size": [
+        244.84837341308594,
+        118
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 38,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "text1",
+          "type": "STRING",
+          "link": 524,
+          "shape": 7,
+          "widget": {
+            "name": "text1"
+          },
+          "tooltip": "First text to join"
+        },
+        {
+          "name": "text2",
+          "type": "STRING",
+          "link": 525,
+          "shape": 7,
+          "widget": {
+            "name": "text2"
+          },
+          "tooltip": "Second text to join"
+        },
+        {
+          "name": "text3",
+          "type": "STRING",
+          "link": null,
+          "shape": 7,
+          "widget": {
+            "name": "text3"
+          },
+          "tooltip": "Third text to join"
+        },
+        {
+          "name": "text4",
+          "type": "STRING",
+          "link": null,
+          "shape": 7,
+          "widget": {
+            "name": "text4"
+          },
+          "tooltip": "Fourth text to join"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "joined_text",
+          "type": "STRING",
+          "links": [
+            36
+          ],
+          "slot_index": 0,
+          "tooltip": "Combined text output with separator"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_JoinText"
+      },
+      "widgets_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 43,
+      "type": "PreviewImage",
+      "pos": [
+        1446.159912109375,
+        -1631.6422119140625
+      ],
+      "size": [
+        210,
+        246
+      ],
+      "flags": {},
+      "order": 36,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 44
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 131,
+      "type": "GetImageSizeAndCount",
+      "pos": [
+        689.0048217773438,
+        -1984.9024658203125
+      ],
+      "size": [
+        314.3602600097656,
+        87.85798645019531
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 22,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 391
+        }
+      ],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": [
+            333
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "links": [
+            334,
+            526
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "links": [
+            335,
+            527
+          ],
+          "slot_index": 2
+        },
+        {
+          "name": "count",
+          "type": "INT",
+          "links": [],
+          "slot_index": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "GetImageSizeAndCount"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 35,
+      "type": "IF_LLM_DisplayText",
+      "pos": [
+        1369.631591796875,
+        -1126.2435302734375
+      ],
+      "size": [
+        366.9659423828125,
+        314.165283203125
+      ],
+      "flags": {},
+      "order": 40,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 36,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": [],
+          "slot_index": 0,
+          "tooltip": "Full text content"
+        },
+        {
+          "name": "text_list",
+          "type": "STRING",
+          "links": [],
+          "slot_index": 1,
+          "shape": 6,
+          "tooltip": "Individual lines as separate outputs"
+        },
+        {
+          "name": "count",
+          "type": "INT",
+          "links": null,
+          "tooltip": "Total number of non-empty lines"
+        },
+        {
+          "name": "selected",
+          "type": "STRING",
+          "links": null,
+          "slot_index": 3,
+          "tooltip": "Currently selected line based on select input"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        0,
+        "\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\nAnthropomorphic cat in sequin dress against black backdrop. Long brunette hair framing feline features, ears perked with curiosity. Tail a plume of white fur. Glimmering fabric catching ambient light. Stylized portrait evoking glamour and mystery.3d hand painted film noir style csetiarcane animation style alone in the frame"
+      ]
+    },
+    {
+      "id": 179,
+      "type": "Note",
+      "pos": [
+        1015.6405639648438,
+        -437.88189697265625
+      ],
+      "size": [
+        271.62274169921875,
+        158.33627319335938
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "To Generate a character for the sdataset we will use HyVid to generate from a prompt then use the same seed models and settings to create a full body, cowboy shot (above the weist) 3/4 view, portrait and close_up. We can then use this on the Mix Character WF with flux to inmitate HyVid or just generate here directly or you can make this on iterations"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 9,
+      "type": "IF_LLM_TextTyper",
+      "pos": [
+        1406.5731201171875,
+        -1320.3155517578125
+      ],
+      "size": [
+        271.817626953125,
+        137.64117431640625
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            524
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_TextTyper"
+      },
+      "widgets_values": [
+        "Fashion shoot, 3/4 view, full body shot image of an "
+      ]
+    },
+    {
+      "id": 178,
+      "type": "IF_LLM_DisplayText",
+      "pos": [
+        1298.9903564453125,
+        -595.8284912109375
+      ],
+      "size": [
+        366.9659423828125,
+        314.165283203125
+      ],
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 499,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": [],
+          "slot_index": 0,
+          "tooltip": "Full text content"
+        },
+        {
+          "name": "text_list",
+          "type": "STRING",
+          "links": [
+            507
+          ],
+          "slot_index": 1,
+          "shape": 6,
+          "tooltip": "Individual lines as separate outputs"
+        },
+        {
+          "name": "count",
+          "type": "INT",
+          "links": null,
+          "tooltip": "Total number of non-empty lines"
+        },
+        {
+          "name": "selected",
+          "type": "STRING",
+          "links": null,
+          "slot_index": 3,
+          "tooltip": "Currently selected line based on select input"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        0,
+        "\n0\n0\n0\n0\n0\nfull body shot,  Anthropomorphic cat in sequin dress against black backdrop. Long brunette hair framing feline features, ears perked with curiosity. Tail a plume of white fur. furry paw hands, Glimmering fabric catching ambient light. Stylized portrait evoking glamour and mystery, 3d stylized animation pixar"
+      ]
+    },
+    {
+      "id": 177,
+      "type": "IF_LLM_TextTyper",
+      "pos": [
+        729.7658081054688,
+        -595.8975830078125
+      ],
+      "size": [
+        271.817626953125,
+        137.64117431640625
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            506
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_TextTyper"
+      },
+      "widgets_values": [
+        "full body shot,  "
+      ]
+    },
+    {
+      "id": 183,
+      "type": "IF_LLM_TextTyper",
+      "pos": [
+        734.5501708984375,
+        -403.500244140625
+      ],
+      "size": [
+        273.6223449707031,
+        151.1779022216797
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            515
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM_TextTyper"
+      },
+      "widgets_values": [
+        "Anthropomorphic cat in sequin dress against black backdrop. Long brunette hair framing feline features, ears perked with curiosity. Tail a plume of white fur. furry paw hands, Glimmering fabric catching ambient light. Stylized portrait evoking glamour and mystery, 3d stylized animation pixar "
+      ]
+    },
+    {
+      "id": 184,
+      "type": "GetLatentRangeFromBatch",
+      "pos": [
+        2558.513427734375,
+        -769.1176147460938
+      ],
+      "size": [
+        340.20001220703125,
+        82
+      ],
+      "flags": {},
+      "order": 39,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "latents",
+          "type": "LATENT",
+          "link": 529
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            530
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "GetLatentRangeFromBatch"
+      },
+      "widgets_values": [
+        -1,
+        1
+      ]
+    },
+    {
+      "id": 164,
+      "type": "HyVideoEncode",
+      "pos": [
+        1771.125244140625,
+        -2092.03955078125
+      ],
+      "size": [
+        315,
+        198
+      ],
+      "flags": {},
+      "order": 33,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 473
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 495
+        }
+      ],
+      "outputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "links": [
+            531
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "HyVideoEncode"
+      },
+      "widgets_values": [
+        false,
+        64,
+        256,
+        true,
+        0,
+        1
+      ]
+    },
+    {
+      "id": 31,
+      "type": "EmptyHunyuanLatentVideo",
+      "pos": [
+        1843.9398193359375,
+        -323.75244140625
+      ],
+      "size": [
+        210,
+        98
+      ],
+      "flags": {},
+      "order": 27,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "width",
+          "type": "INT",
+          "link": 134,
+          "widget": {
+            "name": "width"
+          }
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "link": 135,
+          "widget": {
+            "name": "height"
+          }
+        },
+        {
+          "name": "length",
+          "type": "INT",
+          "link": 167,
+          "widget": {
+            "name": "length"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptyHunyuanLatentVideo"
+      },
+      "widgets_values": [
+        640,
+        368,
+        121,
+        1
+      ]
+    },
+    {
+      "id": 105,
+      "type": "Fast Groups Muter (rgthree)",
+      "pos": [
+        1415.8641357421875,
+        -88.16238403320312
+      ],
+      "size": [
+        226.8000030517578,
+        274
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "OPT_CONNECTION",
+          "type": "*",
+          "links": null
+        }
+      ],
+      "properties": {
+        "matchColors": "",
+        "matchTitle": "",
+        "showNav": true,
+        "sort": "position",
+        "customSortAlphabet": "",
+        "toggleRestriction": "default"
+      }
+    },
+    {
+      "id": 32,
+      "type": "Note",
+      "pos": [
+        1695.8460693359375,
+        42.04899978637695
+      ],
+      "size": [
+        241.79051208496094,
+        113.2983169555664
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "From Image and text",
+      "properties": {},
+      "widgets_values": [
+        "Connect This node to the latent image on the Sampler custom advanced\n\nto work from one image and text prompt I recomend start with 49 frames (2seconds) to test then increase it"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 175,
+      "type": "HyVideoEncode",
+      "pos": [
+        2137.274658203125,
+        -326.0289306640625
+      ],
+      "size": [
+        315,
+        198
+      ],
+      "flags": {},
+      "order": 24,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 497
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 496
+        }
+      ],
+      "outputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "links": [],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "HyVideoEncode"
+      },
+      "widgets_values": [
+        false,
+        64,
+        256,
+        true,
+        0,
+        1
+      ]
+    },
+    {
+      "id": 155,
+      "type": "DownloadAndLoadHyVideoTextEncoder",
+      "pos": [
+        1825.2279052734375,
+        -898.1586303710938
+      ],
+      "size": [
+        441,
+        202
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "hyvid_text_encoder",
+          "type": "HYVIDTEXTENCODER",
+          "links": [
+            475
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "DownloadAndLoadHyVideoTextEncoder"
+      },
+      "widgets_values": [
+        "Kijai/llava-llama-3-8b-text-encoder-tokenizer",
+        "openai/clip-vit-large-patch14",
+        "fp16",
+        false,
+        2,
+        "fp8_e4m3fn",
+        "offload_device"
+      ]
+    },
+    {
+      "id": 171,
+      "type": "HyVideoLoraBlockEdit",
+      "pos": [
+        2138.545654296875,
+        -1641.6221923828125
+      ],
+      "size": [
+        352.79998779296875,
+        1474
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 12,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "blocks",
+          "type": "SELECTEDBLOCKS",
+          "links": [
+            490
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "HyVideoLoraBlockEdit"
+      },
+      "widgets_values": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": 85,
+      "type": "LoadImage",
+      "pos": [
+        329.8406677246094,
+        -2169.5615234375
+      ],
+      "size": [
+        315,
+        314
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            390
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "d2e58dbaf937fb549ece7a9d819794ee.jpg",
+        "image"
+      ]
+    },
+    {
+      "id": 145,
+      "type": "ImagePadForOutpaintTargetSize",
+      "pos": [
+        345.52520751953125,
+        -1764.5518798828125
+      ],
+      "size": [
+        285.6000061035156,
+        150
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 390
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            391,
+            511
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImagePadForOutpaintTargetSize"
+      },
+      "widgets_values": [
+        960,
+        640,
+        0,
+        "lanczos"
+      ]
+    },
+    {
+      "id": 161,
+      "type": "HyVideoSampler",
+      "pos": [
+        2564.756103515625,
+        -1804.6397705078125
+      ],
+      "size": [
+        315,
+        622
+      ],
+      "flags": {},
+      "order": 37,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "HYVIDEOMODEL",
+          "link": 464
+        },
+        {
+          "name": "hyvid_embeds",
+          "type": "HYVIDEMBEDS",
+          "link": 465
+        },
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 531,
+          "shape": 7
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "link": 526,
+          "widget": {
+            "name": "width"
+          }
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "link": 527,
+          "widget": {
+            "name": "height"
+          }
+        },
+        {
+          "name": "feta_args",
+          "type": "FETAARGS",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "teacache_args",
+          "type": "TEACACHEARGS",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "stg_args",
+          "type": "STGARGS",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "context_options",
+          "type": "HYVIDCONTEXT",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "links": [
+            529
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "HyVideoSampler"
+      },
+      "widgets_values": [
+        512,
+        512,
+        129,
+        28,
+        6,
+        9,
+        11,
+        "fixed",
+        1,
+        1,
+        "FlowMatchDiscreteScheduler"
+      ]
+    },
+    {
+      "id": 166,
+      "type": "HyVideoTextEncode",
+      "pos": [
+        2044.3240966796875,
+        -624.5943603515625
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 28,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text_encoders",
+          "type": "HYVIDTEXTENCODER",
+          "link": 475
+        },
+        {
+          "name": "custom_prompt_template",
+          "type": "PROMPT_TEMPLATE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "clip_l",
+          "type": "CLIP",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "hyvid_cfg",
+          "type": "HYVID_CFG",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "link": 507,
+          "widget": {
+            "name": "prompt"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "hyvid_embeds",
+          "type": "HYVIDEMBEDS",
+          "links": [
+            465
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "HyVideoTextEncode"
+      },
+      "widgets_values": [
+        "high quality nature video of a excited brown bear running down a stream, masterpiece, best quality",
+        "bad quality video",
+        "image"
+      ]
+    },
+    {
+      "id": 167,
+      "type": "HyVideoLoraSelect",
+      "pos": [
+        2135.037841796875,
+        -1609.1834716796875
+      ],
+      "size": [
+        315,
+        102
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "prev_lora",
+          "type": "HYVIDLORA",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "blocks",
+          "type": "SELECTEDBLOCKS",
+          "link": 490,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "lora",
+          "type": "HYVIDLORA",
+          "links": [
+            522
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "HyVideoLoraSelect"
+      },
+      "widgets_values": [
+        "hyvideo\\leapfusion_img2vid544p_comfy.safetensors",
+        1
+      ]
+    },
+    {
+      "id": 165,
+      "type": "HyVideoModelLoader",
+      "pos": [
+        1954.4923095703125,
+        -1453.250244140625
+      ],
+      "size": [
+        509.7506103515625,
+        242
+      ],
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "compile_args",
+          "type": "COMPILEARGS",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "block_swap_args",
+          "type": "BLOCKSWAPARGS",
+          "link": 528,
+          "shape": 7
+        },
+        {
+          "name": "lora",
+          "type": "HYVIDLORA",
+          "link": 522,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "model",
+          "type": "HYVIDEOMODEL",
+          "links": [
+            464
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "HyVideoModelLoader"
+      },
+      "widgets_values": [
+        "hyvideo\\hunyuan_video_720_fp8_e4m3fn.safetensors",
+        "bf16",
+        "fp8_e4m3fn",
+        "offload_device",
+        "sdpa",
+        false,
+        true
+      ]
+    },
+    {
+      "id": 173,
+      "type": "HyVideoBlockSwap",
+      "pos": [
+        1781.835205078125,
+        -1647.8165283203125
+      ],
+      "size": [
+        315,
+        130
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 14,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "block_swap_args",
+          "type": "BLOCKSWAPARGS",
+          "links": [
+            528
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "HyVideoBlockSwap"
+      },
+      "widgets_values": [
+        0,
+        0,
+        false,
+        false
+      ]
+    },
+    {
+      "id": 36,
+      "type": "IF_LLM",
+      "pos": [
+        690,
+        -1510
+      ],
+      "size": [
+        278.79998779296875,
+        759.4346313476562
+      ],
+      "flags": {},
+      "order": 32,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 342,
+          "shape": 7
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "Omni",
+          "type": "OMNI",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "prime_directives",
+          "type": "STRING",
+          "link": null,
+          "shape": 7,
+          "widget": {
+            "name": "prime_directives"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "question",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "name": "response",
+          "type": "STRING",
+          "links": [
+            16
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "negative",
+          "type": "STRING",
+          "links": [
+            8
+          ],
+          "slot_index": 2
+        },
+        {
+          "name": "omni",
+          "type": "OMNI",
+          "links": null
+        },
+        {
+          "name": "generated_images",
+          "type": "IMAGE",
+          "links": [
+            44
+          ],
+          "slot_index": 4
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_LLM"
+      },
+      "widgets_values": [
+        "gemini",
+        "learnlrn-1.5-pro-experimental",
+        "localhost",
+        "11434",
+        "Replace the subject to an antropomorphic white Cat femme fatale with cat ears and furry paws, wearing a onepiece dress\nBe sure to describe action-movement perform by the subject ",
+        "normal",
+        "",
+        "IF_PromptMkr_experienced_single",
+        "None",
+        "None",
+        "Standard",
+        "None",
+        448,
+        false,
+        643,
+        "randomize",
+        true,
+        true,
+        10,
+        "1:1",
+        false,
+        1,
+        "AIzaSyDurqL2--6VLqAKOGUW6WlCKfG4gy0EMQg",
+        null
+      ]
+    },
+    {
+      "id": 163,
+      "type": "HyVideoDecode",
+      "pos": [
+        2550.177978515625,
+        -1112.3602294921875
+      ],
+      "size": [
+        345.4285888671875,
+        150
+      ],
+      "flags": {},
+      "order": 41,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 471
+        },
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 530
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": [
+            532
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "HyVideoDecode"
+      },
+      "widgets_values": [
+        true,
+        64,
+        256,
+        true
+      ]
+    },
+    {
+      "id": 185,
+      "type": "ImageDesaturate+",
+      "pos": [
+        2577.5087890625,
+        -904.3211669921875
+      ],
+      "size": [
+        315,
+        82
+      ],
+      "flags": {},
+      "order": 42,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 532
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            533,
+            534,
+            535
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageDesaturate+"
+      },
+      "widgets_values": [
+        0.9400000000000001,
+        "luminance (Rec.709)"
+      ]
+    }
+  ],
+  "links": [
+    [
+      8,
+      36,
+      2,
+      8,
+      0,
+      "STRING"
+    ],
+    [
+      16,
+      36,
+      1,
+      15,
+      0,
+      "STRING"
+    ],
+    [
+      36,
+      10,
+      0,
+      35,
+      0,
+      "STRING"
+    ],
+    [
+      44,
+      36,
+      4,
+      43,
+      0,
+      "IMAGE"
+    ],
+    [
+      53,
+      46,
+      0,
+      45,
+      0,
+      "IMAGE"
+    ],
+    [
+      54,
+      47,
+      0,
+      46,
+      0,
+      "IMAGE"
+    ],
+    [
+      55,
+      48,
+      0,
+      47,
+      0,
+      "IMAGE"
+    ],
+    [
+      56,
+      49,
+      0,
+      48,
+      0,
+      "UPSCALE_MODEL"
+    ],
+    [
+      65,
+      47,
+      0,
+      51,
+      0,
+      "IMAGE"
+    ],
+    [
+      134,
+      30,
+      1,
+      31,
+      0,
+      "INT"
+    ],
+    [
+      135,
+      30,
+      2,
+      31,
+      1,
+      "INT"
+    ],
+    [
+      167,
+      30,
+      3,
+      31,
+      2,
+      "INT"
+    ],
+    [
+      275,
+      27,
+      0,
+      17,
+      0,
+      "IMAGE"
+    ],
+    [
+      333,
+      131,
+      0,
+      130,
+      0,
+      "IMAGE"
+    ],
+    [
+      334,
+      131,
+      1,
+      132,
+      0,
+      "INT"
+    ],
+    [
+      335,
+      131,
+      2,
+      133,
+      0,
+      "INT"
+    ],
+    [
+      342,
+      1,
+      0,
+      36,
+      0,
+      "IMAGE"
+    ],
+    [
+      390,
+      85,
+      0,
+      145,
+      0,
+      "IMAGE"
+    ],
+    [
+      391,
+      145,
+      0,
+      131,
+      0,
+      "IMAGE"
+    ],
+    [
+      402,
+      17,
+      0,
+      30,
+      0,
+      "IMAGE"
+    ],
+    [
+      403,
+      30,
+      1,
+      6,
+      0,
+      "INT"
+    ],
+    [
+      404,
+      30,
+      2,
+      4,
+      0,
+      "INT"
+    ],
+    [
+      464,
+      165,
+      0,
+      161,
+      0,
+      "HYVIDEOMODEL"
+    ],
+    [
+      465,
+      166,
+      0,
+      161,
+      1,
+      "HYVIDEMBEDS"
+    ],
+    [
+      471,
+      157,
+      0,
+      163,
+      0,
+      "VAE"
+    ],
+    [
+      473,
+      157,
+      0,
+      164,
+      0,
+      "VAE"
+    ],
+    [
+      475,
+      155,
+      0,
+      166,
+      0,
+      "HYVIDTEXTENCODER"
+    ],
+    [
+      490,
+      171,
+      0,
+      167,
+      1,
+      "SELECTEDBLOCKS"
+    ],
+    [
+      495,
+      130,
+      0,
+      164,
+      1,
+      "IMAGE"
+    ],
+    [
+      496,
+      30,
+      0,
+      175,
+      1,
+      "IMAGE"
+    ],
+    [
+      497,
+      157,
+      0,
+      175,
+      0,
+      "VAE"
+    ],
+    [
+      499,
+      176,
+      0,
+      178,
+      0,
+      "STRING"
+    ],
+    [
+      506,
+      177,
+      0,
+      176,
+      0,
+      "STRING"
+    ],
+    [
+      507,
+      178,
+      1,
+      166,
+      4,
+      "STRING"
+    ],
+    [
+      511,
+      145,
+      0,
+      1,
+      0,
+      "IMAGE"
+    ],
+    [
+      515,
+      183,
+      0,
+      176,
+      1,
+      "STRING"
+    ],
+    [
+      522,
+      167,
+      0,
+      165,
+      2,
+      "HYVIDLORA"
+    ],
+    [
+      524,
+      9,
+      0,
+      10,
+      0,
+      "STRING"
+    ],
+    [
+      525,
+      15,
+      3,
+      10,
+      1,
+      "STRING"
+    ],
+    [
+      526,
+      131,
+      1,
+      161,
+      3,
+      "INT"
+    ],
+    [
+      527,
+      131,
+      2,
+      161,
+      4,
+      "INT"
+    ],
+    [
+      528,
+      173,
+      0,
+      165,
+      1,
+      "BLOCKSWAPARGS"
+    ],
+    [
+      529,
+      161,
+      0,
+      184,
+      0,
+      "LATENT"
+    ],
+    [
+      530,
+      184,
+      0,
+      163,
+      1,
+      "LATENT"
+    ],
+    [
+      531,
+      164,
+      0,
+      161,
+      2,
+      "LATENT"
+    ],
+    [
+      532,
+      163,
+      0,
+      185,
+      0,
+      "IMAGE"
+    ],
+    [
+      533,
+      185,
+      0,
+      48,
+      1,
+      "IMAGE"
+    ],
+    [
+      534,
+      185,
+      0,
+      16,
+      0,
+      "IMAGE"
+    ],
+    [
+      535,
+      185,
+      0,
+      180,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 2,
+      "title": "UPSCALE+Interpolation",
+      "bounding": [
+        2955.184326171875,
+        -1719.0479736328125,
+        1481.3341064453125,
+        1670.1712646484375
+      ],
+      "color": "#444",
+      "font_size": 44,
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "Model_LOADING",
+      "bounding": [
+        1772.2137451171875,
+        -1760.802490234375,
+        708.76611328125,
+        710.5394287109375
+      ],
+      "color": "#444",
+      "font_size": 44,
+      "flags": {}
+    },
+    {
+      "id": 4,
+      "title": "CLIP",
+      "bounding": [
+        1777.025634765625,
+        -1024.2926025390625,
+        686.5938720703125,
+        631.5703735351562
+      ],
+      "color": "#444",
+      "font_size": 44,
+      "flags": {}
+    },
+    {
+      "id": 5,
+      "title": "Prompts",
+      "bounding": [
+        670,
+        -1771.5999755859375,
+        1076.5975341796875,
+        1033.1151123046875
+      ],
+      "color": "#444",
+      "font_size": 44,
+      "flags": {}
+    },
+    {
+      "id": 6,
+      "title": "SOURCE",
+      "bounding": [
+        278.0645751953125,
+        -2292.049072265625,
+        372.90264892578125,
+        2045.7161865234375
+      ],
+      "color": "#444",
+      "font_size": 44,
+      "flags": {}
+    },
+    {
+      "id": 7,
+      "title": "LoraImage",
+      "bounding": [
+        679.0048217773438,
+        -2193.6396484375,
+        1424.763916015625,
+        359.7982482910156
+      ],
+      "color": "#444",
+      "font_size": 44,
+      "flags": {}
+    },
+    {
+      "id": 8,
+      "title": "Gen",
+      "bounding": [
+        2535.52294921875,
+        -1941.3914794921875,
+        393.41796875,
+        1267.840576171875
+      ],
+      "color": "#444",
+      "font_size": 44,
+      "flags": {}
+    },
+    {
+      "id": 9,
+      "title": "Character_stills",
+      "bounding": [
+        2563.93408203125,
+        -653.1859130859375,
+        331.029296875,
+        562.291259765625
+      ],
+      "color": "#444",
+      "font_size": 44,
+      "flags": {}
+    },
+    {
+      "id": 10,
+      "title": "Prompt Character",
+      "bounding": [
+        719.7657470703125,
+        -697.49755859375,
+        957.8358154296875,
+        455.20263671875
+      ],
+      "color": "#444",
+      "font_size": 44,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.7400249944259055,
+      "offset": [
+        -439.02007863123237,
+        2309.4737176811936
+      ]
+    },
+    "node_versions": {
+      "rgthree-comfy": "5d771b8b56a343c24a26e8cea1f0c87c3d58102f",
+      "comfy-core": "0.3.12",
+      "ComfyUI_ExtraModels": "92f556ed4d3bec1a3f16117d2de10f195c36d68e",
+      "comfyui-various": "36454f91606bbff4fc36d90234981ca4a47e2695",
+      "ComfyUI-VideoHelperSuite": "c47b10ca1798b4925ff5a5f07d80c51ca80a837d",
+      "ComfyUI-Frame-Interpolation": "c336f7184cb1ac1243381e725fea1ad2c0a10c09",
+      "ComfyUI-IF_LLM": "dbfd43643b7ea6d62af9611bc9167fe926fde4ad",
+      "ComfyUI-KJNodes": "3f141b8f1ca1c832a1c6accd806f2d2f40fd4075",
+      "ComfyUI-HunyuanVideoMultiLora": "7e3e3444d4e34557a24b3e0c502c94fe556237e4",
+      "ComfyUI-bleh": "850f840feee1905130596361f4ccfdccffe08d1e",
+      "ComfyUI-Detail-Daemon": "90e703d3d3f979438471c646a5d030840a2caac3",
+      "Comfy-WaveSpeed": "beff1b0f76ed2ee550811d68db675083085ca64c",
+      "Comfyui_TTP_Toolset": "6dd3f3566ce0925b71e9cdb54243119685ccbc10"
+    },
+    "VHS_latentpreview": false,
+    "VHS_latentpreviewrate": 0
+  },
+  "version": 0.4
+}
