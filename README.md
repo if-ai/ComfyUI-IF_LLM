@@ -105,6 +105,15 @@ None yet
 ancient Megastructure, small lone figure 
 
 
+## Workflow Examples
+You can try out these workflow examples directly in ComfyDeploy!
+
+| Workflow | Try It |
+|--------------|---------|
+|[CD_HYVid_I2V_&_T2V_Native_IFLLM](workflows/CD_HYVid_I2V_%26_T2V_Native_IFLLM.json)|[![Try CD_HYVid_I2V_&_T2V_Native_IFLLM](https://beta.app.comfydeploy.com/button)](https://beta.app.comfydeploy.com/home?gpu=L40S&comfyui_version=a7fe0a94dee08754f97b0171e15c1f2271aa37be&timeout=15&nodes=if-ai%2FComfyUI-IF_LLM%40c80e379%2Crgthree%2Frgthree-comfy%405d771b8%2CJonseed%2FComfyUI-Detail-Daemon%4090e703d%2Ckijai%2FComfyUI-KJNodes%40a22b269%2Ccubiq%2FComfyUI_essentials%4033ff89f%2CTinyTerra%2FComfyUI_tinyterraNodes%40b292f8e%2Cchengzeyi%2FComfy-WaveSpeed%403db162b%2CTTPlanetPig%2FComfyui_TTP_Toolset%406dd3f35%2Ckijai%2FComfyUI-HunyuanVideoWrapper%409f50ed1%2CKosinkadink%2FComfyUI-VideoHelperSuite%403bfbd99%2CFannovel16%2FComfyUI-Frame-Interpolation%40c336f71%2Cfacok%2FComfyUI-HunyuanVideoMultiLora%407e3e344%2Ccity96%2FComfyUI_ExtraModels%4092f556e%2Cblepping%2FComfyUI-bleh%40850f840%2CjamesWalker55%2Fcomfyui-various%4036454f9&workflowLink=https%3A%2F%2Fraw.githubusercontent.com%2Fif-ai%2FComfyUI-IF_LLM%2Fmain%2Fworkflows%2FCD_HYVid_I2V_%26_T2V_Native_IFLLM.json)|
+|[CD_HYVid_I2V_&_T2V_i2VLora_Native](workflows/CD_HYVid_I2V_%26_T2V_i2VLora_Native.json)|[![Try CD_HYVid_I2V_&_T2V_i2VLora_Native](https://beta.app.comfydeploy.com/button)](https://beta.app.comfydeploy.com/home?gpu=l40s&comfyui_version=a7fe0a94dee08754f97b0171e15c1f2271aa37be&timeout=15&nodes=if-ai/ComfyUI-IF_LLM%40c80e379%2Crgthree/rgthree-comfy%405d771b8%2CJonseed/ComfyUI-Detail-Daemon%4090e703d%2Ckijai/ComfyUI-KJNodes%40a22b269%2Ccubiq/ComfyUI_essentials%4033ff89f%2CTinyTerra/ComfyUI_tinyterraNodes%40b292f8e%2Cchengzeyi/Comfy-WaveSpeed%403db162b%2CTTPlanetPig/Comfyui_TTP_Toolset%406dd3f35%2Ckijai/ComfyUI-HunyuanVideoWrapper%409f50ed1%2CKosinkadink/ComfyUI-VideoHelperSuite%403bfbd99%2CFannovel16/ComfyUI-Frame-Interpolation%40c336f71%2Cfacok/ComfyUI-HunyuanVideoMultiLora%407e3e344&workflowLink=https%3A//raw.githubusercontent.com/if-ai/ComfyUI-IF_LLM/main/workflows/CD_HYVid_I2V_%26_T2V_i2VLora_Native.json)|
+|[CD_HYVid_I2V_Lora_KjWrapper](workflows/CD_HYVid_I2V_Lora_KjWrapper.json)|[![Try CD_HYVid_I2V_Lora_KjWrapper](https://beta.app.comfydeploy.com/button)](https://beta.app.comfydeploy.com/home?gpu=l40s&comfyui_version=a7fe0a94dee08754f97b0171e15c1f2271aa37be&timeout=15&nodes=if-ai/ComfyUI-IF_LLM%40c80e379%2Crgthree/rgthree-comfy%405d771b8%2CJonseed/ComfyUI-Detail-Daemon%4090e703d%2Ckijai/ComfyUI-KJNodes%40a22b269%2Ccubiq/ComfyUI_essentials%4033ff89f%2CTinyTerra/ComfyUI_tinyterraNodes%40b292f8e%2Cchengzeyi/Comfy-WaveSpeed%403db162b%2CTTPlanetPig/Comfyui_TTP_Toolset%406dd3f35%2Ckijai/ComfyUI-HunyuanVideoWrapper%409f50ed1%2CKosinkadink/ComfyUI-VideoHelperSuite%403bfbd99%2CFannovel16/ComfyUI-Frame-Interpolation%40c336f71%2Cfacok/ComfyUI-HunyuanVideoMultiLora%407e3e344&workflowLink=https%3A//raw.githubusercontent.com/if-ai/ComfyUI-IF_LLM/main/workflows/CD_HYVid_I2V_Lora_KjWrapper.json)|
+
 ## TODO
 - [ ] IMPROVED PROFILES
 - [ ] OMNIGEN
