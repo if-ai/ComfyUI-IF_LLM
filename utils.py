@@ -26,6 +26,86 @@ from typing import Union, List, Tuple
 
 logger = logging.getLogger(__name__)
 
+def process_frames(self, images_tensor, frame_sample_count, max_pixels=512*512):
+    """
+    Process image frames for the model by sampling and resizing.
+
+    Args:
+        images_tensor: Input tensor in shape [B,H,W,C]
+        frame_sample_count: Number of frames to sample
+        max_pixels: Max pixels for each frame
+
+    Returns:
+        List of processed PIL images
+    """
+    try:
+        # Get the batch size (number of frames)
+        batch_size = images_tensor.shape[0]
+
+        # Sample the frames evenly from the batch
+        if batch_size <= frame_sample_count:
+            # Use all frames if we have fewer than requested
+            sampled_indices = list(range(batch_size))
+        else:
+            # Sample evenly across the frames
+            sampled_indices = [
+                int(i * (batch_size - 1) / (frame_sample_count - 1))
+                for i in range(frame_sample_count)
+            ]
+
+        # Extract the sampled frames from the tensor
+        sampled_frames = [images_tensor[i] for i in sampled_indices]
+
+        # Convert to PIL images with proper preprocessing
+        pil_images = []
+        for frame in sampled_frames:
+            # Convert tensor to numpy
+            frame_np = frame.cpu().numpy()
+
+            # Scale from [0,1] to [0,255] if needed
+            if frame_np.max() <= 1.0:
+                frame_np = (frame_np * 255).astype(np.uint8)
+            else:
+                frame_np = frame_np.astype(np.uint8)
+
+            # Convert to PIL
+            pil_image = Image.fromarray(frame_np)
+
+            # Ensure RGB mode
+            if pil_image.mode != "RGB":
+                pil_image = pil_image.convert("RGB")
+
+            # Calculate resize dimensions if needed
+            if max_pixels > 0:
+                width, height = pil_image.size
+                if width * height > max_pixels:
+                    # Calculate new dimensions while maintaining aspect ratio
+                    ratio = math.sqrt(max_pixels / (width * height))
+                    new_width = int(width * ratio)
+                    new_height = int(height * ratio)
+
+                    # Ensure dimensions are multiples of 32 for better compatibility
+                    new_width = (new_width // 32) * 32
+                    new_height = (new_height // 32) * 32
+
+                    # Resize using LANCZOS for better quality
+                    pil_image = pil_image.resize((new_width, new_height), Image.LANCZOS)
+
+            # Add final checks
+            if pil_image.size[0] > 2048 or pil_image.size[1] > 2048:
+                # Limit maximum dimension to 2048
+                pil_image.thumbnail((2048, 2048), Image.LANCZOS)
+
+            pil_images.append(pil_image)
+
+        return pil_images
+
+    except Exception as e:
+        logger.error(f"Error processing frames: {e}")
+        # Return a single black frame as fallback
+        fallback_size = (512, 512)
+        return [Image.new("RGB", fallback_size, (0, 0, 0))]
+
 def resize_image_max_side(img, max_size):
     """Resize image so its longest side is max_size while maintaining aspect ratio"""
     ratio = max_size / max(img.size)
@@ -606,8 +686,6 @@ def convert_mask_to_grayscale_alpha(mask_input):
                 else:  # Convert to grayscale
                     weights = torch.tensor([0.299, 0.587, 0.114]).to(mask_input.device)
                     return (mask_input * weights.view(-1,1,1)).sum(0).unsqueeze(0).unsqueeze(0)
-            else:  # Assume batch dimension
-                return mask_input.unsqueeze(1)  # Add channel dim
         elif mask_input.dim() == 4:  # [B,C,H,W]
             if mask_input.shape[1] == 4:  # Use alpha channel
                 return mask_input[:,3:4]
@@ -681,13 +759,47 @@ def tensor_to_base64(tensor: torch.Tensor) -> str:
         raise
 
 def tensor_to_pil(tensor):
-   
-    tensor = tensor.cpu()  
-    tensor = tensor.squeeze(0) if tensor.dim() == 4 else tensor
-    tensor = tensor.permute(1, 2, 0) if tensor.shape[0] in [1, 3] else tensor
-    tensor = tensor.numpy()
-    tensor = np.clip(tensor * 255, 0, 255).astype(np.uint8) 
-    return Image.fromarray(tensor)
+    """
+    Convert a tensor to a PIL image with better error handling and format detection.
+    
+    Args:
+        tensor: A PyTorch tensor representing an image
+        
+    Returns:
+        PIL.Image: The converted PIL image
+    """
+    try:
+        # Ensure tensor is on CPU
+        tensor = tensor.cpu()
+        
+        # Handle different tensor shapes
+        if tensor.dim() == 4 and tensor.shape[0] == 1:  # [1, C, H, W] or [1, H, W, C]
+            tensor = tensor.squeeze(0)  # Remove batch dimension
+            
+        # Determine if we have a channels-first or channels-last format
+        if tensor.dim() == 3:
+            # Handle both [C, H, W] and [H, W, C] formats
+            if tensor.shape[0] in [1, 3, 4]:  # Channels-first format [C, H, W]
+                tensor = tensor.permute(1, 2, 0)  # Convert to [H, W, C]
+                
+        # Special case for grayscale
+        if tensor.dim() == 2:
+            # Add a channel dimension for grayscale [H, W] -> [H, W, 1]
+            tensor = tensor.unsqueeze(-1)
+            
+        # Convert to numpy array
+        tensor_np = tensor.numpy()
+        
+        # Scale to 0-255 range for uint8
+        tensor_np = np.clip(tensor_np * 255, 0, 255).astype(np.uint8)
+        
+        # Create PIL image
+        pil_image = Image.fromarray(tensor_np)
+        return pil_image
+        
+    except Exception as e:
+        logger.error(f"Error in tensor_to_pil: {e}")
+        raise ValueError(f"Failed to convert tensor to PIL image: {e}")
 
 def pil_to_tensor(pil_image):
     # Convert PIL image to tensor
@@ -1015,57 +1127,83 @@ def get_models(engine, base_ip, port, api_key):
 
     elif engine == "openai":
         fallback_models = [
-            "gpt-4o-mini",
-            "o1-preview-2024-09-12",
-            "whisper-I",
-            "o1-mini",
-            "gpt-4o-audio-preview-2024-10-01",
-            "dall-e-3",
-            "whisper-1",
-            "chatgpt-4o-latest",
-            "gpt-4o-audio-preview",
-            "gpt-4o-realtime-preview-2024-12-17",
-            "o1-preview",
-            "gpt-4o-mini-audio-preview-2024-12-17",
-            "gpt-4-0613",
-            "gpt-4o-2024-11-20",
-            "gpt-4o-realtime-preview",
-            "dall-e-2",
-            "tts-1-hd-1106",
-            "gpt-4",
-            "gpt-3.5-turbo-instruct-0914",
-            "gpt-4-turbo-preview",
+            # GPT-4o Models
             "gpt-4o",
-            "gpt-3.5-turbo",
-            "o1-mini-2024-09-12",
-            "tts-1-1106",
-            "gpt-4o-mini-realtime-preview-2024-12-17",
-            "gpt-4o-realtime-preview-2024-10-01",
-            "gpt-4-turbo",
-            "tts-l-hd",
-            "omni-moderation-latest",
-            "omni-moderation-2024-09-26",
-            "gpt-4o-audio-preview-2024-12-17",
-            "gpt-4o-mini-realtime-preview",
+            "gpt-4o-2024-05-13",
             "gpt-4o-2024-08-06",
-            "text-embedding-ada-002",
-            "gpt40-0806-loco-vm",
-            "tts-1",
-            "gpt-3.5-turbo-0125",
-            "text-embedding-3-small",
-            "gpt-4-0125-preview",
+            "gpt-4o-2024-11-20",
+            "gpt-4o-audio-preview",
+            "gpt-4o-audio-preview-2024-10-01",
+            "gpt-4o-audio-preview-2024-12-17",
+            "gpt-4o-mini",
             "gpt-4o-mini-2024-07-18",
-            "babbage-002",
-            "text-embedding-3-large",
-            "davinci-002",
             "gpt-4o-mini-audio-preview",
+            "gpt-4o-mini-audio-preview-2024-12-17",
+            "gpt-4o-mini-realtime-preview",
+            "gpt-4o-mini-realtime-preview-2024-12-17",
+            "gpt-4o-realtime-preview",
+            "gpt-4o-realtime-preview-2024-10-01",
+            "gpt-4o-realtime-preview-2024-12-17",
+
+            # GPT-4 Models
+            "gpt-4",
+            "gpt-4-0125-preview",
+            "gpt-4-0613",
+            "gpt-4-1106-preview",
+            "gpt-4-turbo",
+            "gpt-4-turbo-2024-04-09",
+            "gpt-4-turbo-preview",
+
+            # GPT-3.5 Models
+            "gpt-3.5-turbo",
+            "gpt-3.5-turbo-0125",
             "gpt-3.5-turbo-1106",
             "gpt-3.5-turbo-16k",
-            "gpt-4-turbo-2024-04-09",
             "gpt-3.5-turbo-instruct",
+            "gpt-3.5-turbo-instruct-0914",
+
+            # DALL-E Models
+            "dall-e-2",
+            "dall-e-3",
+
+            # Whisper Models
+            "whisper-1",
+            "whisper-I",
+
+            # TTS Models
+            "tts-1",
+            "tts-1-1106",
             "tts-1-hd",
-            "gpt-4-1106-preview",
-            "gpt-4o-2024-05-13"
+            "tts-1-hd-1106",
+            "tts-l-hd",
+
+            # Embedding Models
+            "text-embedding-3-large",
+            "text-embedding-3-small",
+            "text-embedding-ada-002",
+
+            # Specialized Models
+            "babbage-002",
+            "chatgpt-4o-latest",
+            "davinci-002",
+            "gpt40-0806-loco-vm",
+
+            # O1 Models
+            "o1",
+            "o1-mini",
+            "o1-mini-2024-09-12",
+            "o1-preview",
+            "o1-preview-2024-09-12",
+
+            # Omni Moderation
+            "omni-moderation-2024-09-26",
+            "omni-moderation-latest",
+
+            # Future/Experimental
+            "gpt-4.5-preview",
+            "gpt-4.5-preview-2025-02-27",
+            "o3-mini",
+            "o3-mini-2025-01-31"
         ]
 
         #api_key = get_api_key("OPENAI_API_KEY", engine)
@@ -1097,14 +1235,14 @@ def get_models(engine, base_ip, port, api_key):
     
     elif engine == "xai":
         fallback_models = [
-            "grok-beta",
-            "grok-vision-beta",
-            "grok-2-vision-1212",
-            "grok-2-vision",
-            "grok-2-vision-latest",
-            "grok-2-1212",
             "grok-2",
-            "grok-2-latest"
+            "grok-2-1212",
+            "grok-2-latest",
+            "grok-2-vision",
+            "grok-2-vision-1212",
+            "grok-2-vision-latest",
+            "grok-beta",
+            "grok-vision-beta"
         ]
 
         #api_key = get_api_key("XAI_API_KEY", engine)
@@ -1136,48 +1274,54 @@ def get_models(engine, base_ip, port, api_key):
 
     elif engine == "mistral":
         fallback_models = [
-            "ministral-3b-latest",
-            "pixtral-large-latest",
-            "codestral-2411-rc5",
-            "mistral-moderation-2411",
-            "mistral-small-2402",
-            "mistral-large-2407",
-            "mistral-small-2409",
-            "mistral-small",
-            "open-mistral-nemo-2407",
-            "ministral-3b-2410",
-            "codestral-mamba-2407",
-            "pixtral-12b",
-            "pixtral-12b-latest",
-            "mistral-tiny-2407",
-            "pixtral-12b-2409",
-            "mistral-tiny-2312",
-            "open-mixtral-8x7b",
-            "codestral-2412",
-            "open-mistral-7b",
-            "ministral-8b-latest",
-            "mistral-large-2411",
-            "codestral-latest",
-            "codestral-2501",
-            "mistral-embed",
-            "mistral-medium",
-            "mistral-large-latest",
-            "mistral-small-2312",
-            "open-mixtral-8x22b-2404",
-            "pixtral-large-2411",
-            "open-mixtral-8x22b",
-            "mistral-small-latest",
-            "mistral-medium-2312",
-            "mistral-moderation-latest",
             "codestral-2405",
-            "open-codestral-mamba",
-            "open-mistral-nemo",
-            "mistral-tiny",
-            "mistral-tiny-latest",
-            "mistral-large-2402",
+            "codestral-2411-rc5",
+            "codestral-2412",
+            "codestral-2501",
+            "codestral-latest",
+            "codestral-mamba-2407",
             "codestral-mamba-latest",
+            "ministral-3b-2410",
+            "ministral-3b-latest",
             "ministral-8b-2410",
-            "mistral-medium-latest"
+            "ministral-8b-latest",
+            "mistral-embed",
+            "mistral-large-2402",
+            "mistral-large-2407",
+            "mistral-large-2411",
+            "mistral-large-latest",
+            "mistral-large-pixtral-2411",
+            "mistral-medium",
+            "mistral-medium-2312",
+            "mistral-medium-latest",
+            "mistral-moderation-2411",
+            "mistral-moderation-latest",
+            "mistral-ocr-2503",
+            "mistral-ocr-latest",
+            "mistral-saba-2502",
+            "mistral-saba-latest",
+            "mistral-small",
+            "mistral-small-2312",
+            "mistral-small-2402",
+            "mistral-small-2409",
+            "mistral-small-2501",
+            "mistral-small-latest",
+            "mistral-tiny",
+            "mistral-tiny-2312",
+            "mistral-tiny-2407",
+            "mistral-tiny-latest",
+            "open-codestral-mamba",
+            "open-mistral-7b",
+            "open-mistral-nemo",
+            "open-mistral-nemo-2407",
+            "open-mixtral-8x22b",
+            "open-mixtral-8x22b-2404",
+            "open-mixtral-8x7b",
+            "pixtral-12b",
+            "pixtral-12b-2409",
+            "pixtral-12b-latest",
+            "pixtral-large-2411",
+            "pixtral-large-latest"
         ]
 
         #api_key = get_api_key("MISTRAL_API_KEY", engine)
@@ -1207,25 +1351,30 @@ def get_models(engine, base_ip, port, api_key):
     elif engine == "groq":
         fallback_models = [
             "deepseek-r1-distill-llama-70b",
-            "llama-guard-3-8b",
-            "llama3-70b-8192",
-            "llava-v1.5-7b-4096-preview",
-            "llama-3.2-1b-preview",
-            "whisper-large-v3",
-            "llama-3.2-3b-preview",
-            "llama3-groq-70b-8192-tool-use-preview",
-            "whisper-large-v3-turbo",
-            "llama3-8b-8192",
-            "llama-3.2-90b-vision-preview",
+            "deepseek-r1-distill-qwen-32b",
             "distil-whisper-large-v3-en",
-            "llama-3.1-70b-versatile",
-            "llama-3.3-70b-versatile",
-            "llama-3.3-70b-specdec",
-            "llama3-groq-8b-8192-tool-use-preview",
             "gemma2-9b-it",
-            "llama-3.2-11b-vision-preview",
+            "llama-guard-3-8b",
+            "llama-3.1-70b-versatile",
             "llama-3.1-8b-instant",
-            "mixtral-8x7b-32768"
+            "llama-3.2-1b-preview",
+            "llama-3.2-3b-preview",
+            "llama-3.2-11b-vision-preview",
+            "llama-3.2-90b-vision-preview",
+            "llama-3.3-70b-specdec",
+            "llama-3.3-70b-versatile",
+            "llama3-8b-8192",
+            "llama3-70b-8192",
+            "llama3-groq-8b-8192-tool-use-preview",
+            "llama3-groq-70b-8192-tool-use-preview",
+            "llava-v1.5-7b-4096-preview",
+            "mixtral-8x7b-32768",
+            "mistral-saba-24b",
+            "qwen-2.5-32b",
+            "qwen-2.5-coder-32b",
+            "qwen-qwq-32b",
+            "whisper-large-v3",
+            "whisper-large-v3-turbo"
         ]
 
         #api_key = get_api_key("GROQ_API_KEY", engine)
@@ -1290,11 +1439,65 @@ def get_models(engine, base_ip, port, api_key):
         ]
 
     elif engine == "transformers":
-        return [            
+        # Standard list of transformers models to show
+        fallback_models = [
+            "Qwen/Qwen2.5-VL-3B-Instruct-AWQ",  # Default model we want to use
+            "Qwen/Qwen2.5-VL-7B-Instruct-AWQ",
+            "Qwen/QwQ-32B-AWQ",  # Keep QwQ-32B-AWQ model
+            "Qwen/Qwen2.5-VL-3B-Instruct",
+            "Qwen/Qwen2.5-VL-7B-Instruct",
+            "Qwen/Qwen2.5-7B-Instruct",
             "Qwen/Qwen2-7B-Instruct",
-            "Qwen/Qwen2-VL-2B-Instruct",
-            "Qwen/Qwen2-VL-7B-Instruct"
+            "Qwen/Qwen2-VL-7B-Instruct",
+            "Qwen/Qwen2-72B-Instruct"
         ]
+        
+        # Check if we have a transformers model manager to list models
+        try:
+            from transformers_api import _transformers_manager
+            
+            # Get list of models from LLM directory
+            try:
+                # Get models directory dynamically
+                try:
+                    import folder_paths
+                    models_dir = folder_paths.models_dir
+                except (ImportError, AttributeError):
+                    # Fallback to a default location if folder_paths is not available
+                    models_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "models")
+                    os.makedirs(models_dir, exist_ok=True)
+                    print(f"Could not import folder_paths.models_dir, using fallback: {models_dir}")
+                
+                llm_path = os.path.join(models_dir, "LLM")
+                if os.path.exists(llm_path) and os.path.isdir(llm_path):
+                    # List directories in the LLM folder
+                    local_models = []
+                    for model_dir in os.listdir(llm_path):
+                        model_path = os.path.join(llm_path, model_dir)
+                        if os.path.isdir(model_path):
+                            # Check if it has config.json to verify it's a model
+                            if os.path.exists(os.path.join(model_path, "config.json")):
+                                if "/" not in model_dir and "\\" not in model_dir:
+                                    # For non-namespaced models, use the directory name
+                                    local_models.append(model_dir)
+                                else:
+                                    # For models with namespaces, keep the structure
+                                    local_models.append(model_dir)
+                    
+                    # If we found local models, add them to our list
+                    if local_models:
+                        print(f"Found {len(local_models)} local transformers models")
+                        # Combine local models with fallback models (local models first)
+                        combined_models = list(dict.fromkeys(local_models + fallback_models))
+                        return combined_models
+            except Exception as e:
+                print(f"Error scanning local models directory: {e}")
+            
+            # If we couldn't find local models, return fallback list
+            return fallback_models
+        except ImportError:
+            print("TransformersModelManager not available, using fallback models list")
+            return fallback_models
 
     else:
         print(f"Unsupported engine - {engine}")

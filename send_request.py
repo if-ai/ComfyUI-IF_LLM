@@ -127,20 +127,21 @@ async def send_request(
                 # Send request to transformer model
                 response = await _transformers_manager.send_transformers_request(
                     model_name=llm_model,
-                    system_message=system_message,
-                    user_message=user_message,
+                    user_prompt=user_message,
+                    system_prompt=system_message,
                     messages=messages,
-                    max_new_tokens=max_tokens,
-                    images=images,  # Use processed images
-                    temperature=temperature,
-                    top_p=top_p,
-                    top_k=top_k,
-                    stop_strings_list=stop,
-                    repetition_penalty=repeat_penalty,
+                    images=images,
                     seed=seed,
-                    keep_alive=keep_alive,
+                    random=random,
+                    max_tokens=max_tokens,
+                    temperature=temperature,
+                    top_k=top_k,
+                    top_p=top_p,
+                    repeat_penalty=repeat_penalty,
+                    stop_string=stop,
                     precision=precision,
-                    attention=attention
+                    attention=attention,
+                    keep_alive=keep_alive
                 )
                 return response
                 

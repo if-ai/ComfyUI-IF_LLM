@@ -26,6 +26,8 @@ from .utils import (
 import base64
 import numpy as np
 import codecs
+import random
+import math
 
 # Add ComfyUI directory to path
 comfy_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -132,8 +134,8 @@ class IFLLM:
 
         self.base_ip = "localhost"
         self.port = "11434"
-        self.engine = "gemini"
-        self.selected_model = "gemini-1.5-flash-latest"
+        self.engine = "transformers"
+        self.selected_model = "Qwen2.5-VL-3B-Instruct-AWQ"
         self.profile = "IF_PromptMKR_IMG"
         self.messages = []
         self.keep_alive = False
@@ -161,7 +163,7 @@ class IFLLM:
         node = cls() 
         return {
             "required": {
-                "llm_provider": (["transformers","llamacpp", "ollama", "kobold", "lmstudio", "textgen", "groq", "gemini", "openai", "anthropic", "mistral","deepseek","xai"], {"default": "gemini"}),
+                "llm_provider": (["transformers","llamacpp", "ollama", "kobold", "lmstudio", "textgen", "groq", "gemini", "openai", "anthropic", "mistral","deepseek","xai"], {"default": "transformers"}),
                 "llm_model": ((), {}),
                 "base_ip": ("STRING", {"default": "localhost"}),
                 "port": ("STRING", {"default": "11434"}),
@@ -188,6 +190,7 @@ class IFLLM:
                 "batch_count": ("INT", {"default": 1, "tooltip": "Number of images to generate. only for create, edit and variations strategies."}),
                 "external_api_key": ("STRING", {"default": "", "tooltip": "If this is not empty, it will be used instead of the API key from the .env file. Make sure it is empty to use the .env file."}),
                 "Omni": ("OMNI", {"default": None, "tooltip": "Additional input for the selected tool."}),
+                "attention": (["sdpa", "flash_attention_2", "xformers"], {"default": "sdpa", "tooltip": "Select attention mechanism on Transformer models."}),
             },
             "hidden": {
                 "temperature": ("FLOAT", {"default": 0.8, "min": 0.0, "max": 1.0, "tooltip": "Controls randomness in output generation. Higher values increase creativity but may reduce coherence."}),
@@ -195,7 +198,6 @@ class IFLLM:
                 "top_p": ("FLOAT", {"default": 0.9, "tooltip": "Cumulative probability cutoff for token selection."}),
                 "repeat_penalty": ("FLOAT", {"default": 1.1, "tooltip": "Penalizes repetition in generated text."}),
                 "precision": (["fp16", "fp32", "bf16"], {"tooltip": "Select preccision on Transformer models."}),
-                "attention": (["sdpa", "flash_attention_2", "xformers"], {"tooltip": "Select attention mechanism on Transformer models."}),
             },
         }
 
@@ -207,8 +209,20 @@ class IFLLM:
     CATEGORY = "ImpactFrames💥🎞️/IF_LLM"
 
     @classmethod
-    def IS_CHANGED(cls, **kwargs):
-        return float("NaN")
+    def IS_CHANGED(cls, llm_provider, llm_model, **kwargs):
+        # Only report a change when the model or provider has actually changed
+        # This prevents ComfyUI from resetting the model selection
+        # Using a unique identifier instead of random to maintain consistency
+        import hashlib
+        
+        # Create a unique hash based on the provider and model
+        unique_id = f"{llm_provider}:{llm_model}"
+        hash_obj = hashlib.md5(unique_id.encode())
+        
+        # Return a deterministic value based on the hash
+        # This ensures the same provider/model combo always returns the same value
+        # but different combos return different values
+        return int(hash_obj.hexdigest(), 16) / (2**128)
 
     async def process_image(
         self,
