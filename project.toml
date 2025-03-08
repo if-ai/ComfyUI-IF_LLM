@@ -1,0 +1,73 @@
+[project]
+name = "comfyui-if_llm"
+description = "Run Local and API LLMs, Features Conditioning manipulation via Omost, supports Ollama, LlamaCPP LMstudio, Koboldcpp, TextGen, Transformers or via APIs Anthropic, Groq, OpenAI, Google Gemini, Mistral, xAI and create your own charcters assistants (SystemPrompts) with custom presets and muchmore"
+version = "0.1.2"
+license = { file = "LICENSE.txt" } 
+dependencies = [
+    # Core dependencies
+    "torch>=2.0.0",
+    "pillow>=10.0.0",
+    "numpy>=1.24.0",
+    "huggingface_hub>=0.26.0",
+    
+    # AI API clients
+    "anthropic",
+    "groq",
+    "mistralai",
+    
+    # AutoAWQ - MUST be installed before transformers
+    "autoawq==0.2.8",
+    "flash-attn>=2.0.0;platform_system!='Darwin'",  # Optional for performance, excluded on MacOS
+    
+    # Transformers - MUST be installed after AutoAWQ
+    "transformers>=4.49.0",
+    "accelerate>=0.21.0",
+    "sentence-transformers",
+    
+    # Qwen model dependencies
+    "tokenizers>=0.15.0",
+    "safetensors>=0.3.1",
+    "qwen-vl-utils[decord]>=0.0.8",
+    
+    # Video processing
+    "opencv-python>=4.8.0",
+    "decord>=0.6.0",
+    "ffmpeg-python>=0.2.0",
+    "imageio_ffmpeg>=0.6.0",
+    "moviepy>=2.1.2",
+    "scenedetect>=0.6.2",
+    
+    # Downloading
+    "yt-dlp>=2023.3.4",
+    
+    # Utilities and data processing
+    "tqdm>=4.66.1",
+    "requests>=2.31.0",
+    "python-slugify>=8.0.1",
+    "psutil>=5.9.0",
+    "packaging>=23.1",
+    "aiohttp>=3.8.5",
+    "python-dotenv",
+    "tiktoken",
+    "pydantic",
+    "rich",
+    
+    # Additional dependencies from original TOML
+    "IPython",
+    "nltk",
+    "matplotlib",
+    "plotly",
+    "kaleido",
+    "networkx",
+    "fastparquet",
+    "timm",
+]
+
+[project.urls]
+Repository = "https://github.com/if-ai/ComfyUI-IF_LLM"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = "impactframes"
+DisplayName = "ComfyUI-IF_LLM"
+Icon = "https://impactframes.ai/System/Icons/48x48/if.png"
