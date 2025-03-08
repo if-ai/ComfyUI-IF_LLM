@@ -1,7 +1,7 @@
 [project]
 name = "comfyui-if_llm"
 description = "Run Local and API LLMs, Features Conditioning manipulation via Omost, supports Ollama, LlamaCPP LMstudio, Koboldcpp, TextGen, Transformers or via APIs Anthropic, Groq, OpenAI, Google Gemini, Mistral, xAI and create your own charcters assistants (SystemPrompts) with custom presets and muchmore"
-version = "0.1.2"
+version = "0.1.3"
 license = { file = "LICENSE.txt" } 
 dependencies = [
     # Core dependencies
@@ -69,5 +69,5 @@ Repository = "https://github.com/if-ai/ComfyUI-IF_LLM"
 
 [tool.comfy]
 PublisherId = "impactframes"
-DisplayName = "ComfyUI-IF_LLM"
+DisplayName = "impactframes"
 Icon = "https://impactframes.ai/System/Icons/48x48/if.png"
