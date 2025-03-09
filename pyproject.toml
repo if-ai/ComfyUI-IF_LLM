@@ -1,7 +1,7 @@
 [project]
 name = "comfyui-if_llm"
 description = "Run Local and API LLMs, Features Conditioning manipulation via Omost, supports Ollama, LlamaCPP LMstudio, Koboldcpp, TextGen, Transformers or via APIs Anthropic, Groq, OpenAI, Google Gemini, Mistral, xAI and create your own charcters assistants (SystemPrompts) with custom presets and muchmore"
-version = "0.1.8"
+version = "0.1.9"
 license = { file = "MIT License" }
 dependencies = [
     # Core dependencies
@@ -14,10 +14,16 @@ dependencies = [
     "anthropic",
     "groq",
     "mistralai",
-    "autoawq",
+    
+    # AutoAWQ - MUST be installed before transformers
+    #"autoawq",
+    # triton
+    # Optional for performance, excluded on MacOS
+    #"flash-attn>=2.0.0;platform_system!='Darwin'",
+    
     # Transformers - MUST be installed after AutoAWQ
     "transformers",
-    "accelerate>=0.21.0",
+    "accelerate",
     "sentence-transformers",
     
     # Qwen model dependencies
@@ -48,7 +54,7 @@ dependencies = [
     "pydantic",
     "rich",
     
-    # Additional dependencies from original TOML
+    # Additional dependencies
     "IPython",
     "nltk",
     "matplotlib",
@@ -57,15 +63,12 @@ dependencies = [
     "networkx",
     "fastparquet",
     "timm",
-
-    # AutoAWQ - MUST be installed before transformer
-    #"flash-attn>=2.0.0;platform_system!='Darwin'",  # Optional for performance, excluded on MacOS
 ]
 
 [project.urls]
 Repository = "https://github.com/if-ai/ComfyUI-IF_LLM"
-#  Used by Comfy Registry https://comfyregistry.org
 
+# Used by Comfy Registry https://comfyregistry.org
 [tool.comfy]
 PublisherId = "impactframes"
 DisplayName = "IF_LLM"
