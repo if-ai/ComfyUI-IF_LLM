@@ -10,12 +10,11 @@ groq
 mistralai
 
 # AutoAWQ with specific version - MUST be installed before transformers
-autoawq
-#flash-attn>=2.0.0;platform_system!="Darwin"  # Optional for performance, excluded on MacOS
-
-# Transformers - MUST be installed after AutoAWQ
-transformers
-accelerate>=0.21.0
+# 
+# flash-attn>=2.0.0;platform_system!="Darwin"  # Optional for performance, excluded on MacOS
+# triton
+# autoawq
+git+https://github.com/huggingface/transformers accelerate
 sentence-transformers
 
 # Qwen model dependencies
@@ -49,8 +48,6 @@ pydantic
 rich
 
 
-# AutoAWQ with specific version - MUST be installed before transformers
-autoawq==0.2.8
-#flash-attn>=2.0.0;platform_system!="Darwin"  # Optional for performance, excluded on MacOS
+
 
 
