@@ -18,8 +18,8 @@ sentence-transformers
 tokenizers>=0.15.0
 safetensors>=0.3.1
 # It's highly recommanded to use `[decord]` feature for faster video loading.
-qwen-vl-utils[decord]>=0.0.8
-
+qwen-vl-utils
+decord
 # Video processing
 opencv-python>=4.8.0
 decord>=0.6.0
