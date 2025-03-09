@@ -43,6 +43,7 @@ scenedetect>=0.6.2
 yt-dlp>=2023.3.4
 
 # Utilities
+python-dotenv
 tqdm>=4.66.1
 requests>=2.31.0
 python-slugify>=8.0.1
