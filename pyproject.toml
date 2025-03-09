@@ -16,7 +16,7 @@ dependencies = [
     "mistralai",
     "autoawq",
     # Transformers - MUST be installed after AutoAWQ
-    "transformers>=4.49.0",
+    "transformers",
     "accelerate>=0.21.0",
     "sentence-transformers",
     
