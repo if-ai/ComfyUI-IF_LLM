@@ -99,6 +99,10 @@ OR
   pip install triton
   pip install --no-deps autoawq
   ```
+I also have precompiled wheels for 
+FA2 sageattention and trton for windows 10 for cu126 and pytorch 2.6.3 and python 12+
+https://huggingface.co/impactframes/ComfyUI_desktop_wheels_win_cp12_cu126/tree/main
+
 
 ![thorium_59oWhA71y7](https://github.com/user-attachments/assets/e9641052-4838-4ee3-91c4-7e02190e9064)
 
