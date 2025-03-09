@@ -10,23 +10,23 @@ groq
 mistralai
 
 # AutoAWQ with specific version - MUST be installed before transformers
-# 
 # flash-attn>=2.0.0;platform_system!="Darwin"  # Optional for performance, excluded on MacOS
 # triton
 # autoawq
-git+https://github.com/huggingface/transformers accelerate
+
+# Transformers and related
+git+https://github.com/huggingface/transformers
+accelerate
 sentence-transformers
 
 # Qwen model dependencies
 tokenizers>=0.15.0
 safetensors>=0.3.1
-# It's highly recommanded to use `[decord]` feature for faster video loading.
 
-decord
-qwen-vl-utils[decord]
-# Video processing
-opencv-python>=4.8.0
+# Video processing with decord for faster loading
 decord>=0.6.0
+qwen-vl-utils[decord]
+opencv-python>=4.8.0
 ffmpeg-python>=0.2.0
 imageio_ffmpeg>=0.6.0
 moviepy>=2.1.2
