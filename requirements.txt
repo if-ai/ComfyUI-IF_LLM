@@ -14,7 +14,7 @@ autoawq
 #flash-attn>=2.0.0;platform_system!="Darwin"  # Optional for performance, excluded on MacOS
 
 # Transformers - MUST be installed after AutoAWQ
-transformers>=4.49.0
+transformers
 accelerate>=0.21.0
 sentence-transformers
 
