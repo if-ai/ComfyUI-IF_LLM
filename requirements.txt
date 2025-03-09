@@ -50,7 +50,6 @@ python-slugify>=8.0.1
 psutil>=5.9.0
 packaging>=23.1
 aiohttp>=3.8.5
-python-dotenv
 tiktoken
 pydantic
 rich
