@@ -14,7 +14,7 @@ dependencies = [
     "anthropic",
     "groq",
     "mistralai",
-    
+    "autoawq",
     # Transformers - MUST be installed after AutoAWQ
     "transformers>=4.49.0",
     "accelerate>=0.21.0",
@@ -58,8 +58,7 @@ dependencies = [
     "fastparquet",
     "timm",
 
-    # AutoAWQ - MUST be installed before transformers
-    "autoawq==0.2.8",
+    # AutoAWQ - MUST be installed before transformer
     #"flash-attn>=2.0.0;platform_system!='Darwin'",  # Optional for performance, excluded on MacOS
 ]
 
