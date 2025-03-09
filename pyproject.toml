@@ -18,6 +18,14 @@ dependencies = [
     # AutoAWQ - MUST be installed before transformers
     #"autoawq",
     # triton
+    # triton for linux
+    'triton; sys_platform == "linux"',
+    # triton for windows
+    'https://github.com/woct0rdho/triton-windows/releases/download/v3.1.0-windows.post8/triton-3.1.0-cp312-cp312-win_amd64.whl; sys_platform == "win64" and (python_version >= "3.12" and python_version < "3.13")',
+    'https://github.com/woct0rdho/triton-windows/releases/download/v3.1.0-windows.post8/triton-3.1.0-cp311-cp311-win_amd64.whl; sys_platform == "win64" and (python_version >= "3.11" and python_version < "3.12")',
+    'https://github.com/woct0rdho/triton-windows/releases/download/v3.1.0-windows.post8/triton-3.1.0-cp310-cp310-win_amd64.whl; sys_platform == "win64" and (python_version >= "3.10" and python_version < "3.11")',
+    'https://github.com/woct0rdho/triton-windows/releases/download/v3.1.0-windows.post8/triton-3.1.0-cp38-cp38-win_amd64.whl; sys_platform == "win64" and (python_version >= "3.8" and python_version < "3.9")',
+
     # Optional for performance, excluded on MacOS
     #"flash-attn>=2.0.0;platform_system!='Darwin'",
     
@@ -55,6 +63,7 @@ dependencies = [
     "rich",
     
     # Additional dependencies
+    "python-dotenv"
     "IPython",
     "nltk",
     "matplotlib",
