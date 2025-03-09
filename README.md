@@ -91,6 +91,15 @@ OR
       cd ComfyUI-IF_LLM
       python -m pip install -r requirements.txt
       ```
+
+   If you want to use AWQ to save VRAM and up to 3x faster inference
+  you need to install triton and autoawq
+  
+  ```
+  pip install triton
+  pip install --no-deps autoawq
+  ```
+
 ![thorium_59oWhA71y7](https://github.com/user-attachments/assets/e9641052-4838-4ee3-91c4-7e02190e9064)
 
 ## Related Tools
