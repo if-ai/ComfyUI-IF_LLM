@@ -24,7 +24,7 @@ safetensors>=0.3.1
 # It's highly recommanded to use `[decord]` feature for faster video loading.
 
 decord
-qwen-vl-utils
+qwen-vl-utils[decord]
 # Video processing
 opencv-python>=4.8.0
 decord>=0.6.0
