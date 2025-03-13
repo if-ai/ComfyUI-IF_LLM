@@ -97,7 +97,7 @@ OR
   
   ```
   pip install triton
-  pip install --no-deps autoawq
+  pip install --no-deps --no-build-isolation autoawq
   ```
 I also have precompiled wheels for 
 FA2 sageattention and trton for windows 10 for cu126 and pytorch 2.6.3 and python 12+
