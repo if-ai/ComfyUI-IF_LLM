@@ -12,52 +12,52 @@ import aiohttp
 logger = logging.getLogger(__name__)
 
 async def send_anthropic_request(api_key, model, system_message, user_message, messages, temperature, max_tokens, base64_images, tools=None, tool_choice=None):
-    client = AsyncAnthropic(
-        api_key=api_key,
-        base_url="https://api.anthropic.com",
-        default_headers={
-            "anthropic-version": "2023-06-01",
-            "anthropic-beta": "prompt-caching-2024-07-31"
-        }
-    )
-    
-    anthropic_messages = prepare_anthropic_messages(user_message, messages, base64_images)
-    
-    data = {
-        "model": model,
-        "messages": anthropic_messages,
-        "temperature": temperature,
-        "max_tokens": max_tokens
-    }
-    
-    if system_message:
-        data["system"] = system_message
-    
-    if tools:
-        data["tools"] = tools
-    if tool_choice:
-        data["tool_choice"] = tool_choice
-
     try:
-        response = await client.messages.create(**data)
+        # Create client with minimal parameters
+        client = AsyncAnthropic(
+            api_key=api_key
+        )
+        
+        anthropic_messages = prepare_anthropic_messages(user_message, messages, base64_images)
+        
+        data = {
+            "model": model,
+            "messages": anthropic_messages,
+            "temperature": temperature,
+            "max_tokens": max_tokens
+        }
+        
+        if system_message:
+            data["system"] = system_message
         
         if tools:
-            # If tools were used, return the full response
-            return response
-        else:
-            # If no tools were used, format the response to match the specified structure
-            generated_text = response.content[0].text if response.content else ""
-            return {
-                "choices": [{
-                    "message": {
-                        "content": generated_text
-                    }
-                }]
-            }
+            data["tools"] = tools
+        if tool_choice:
+            data["tool_choice"] = tool_choice
+
+        try:
+            response = await client.messages.create(**data)
+            
+            if tools:
+                # If tools were used, return the full response
+                return response
+            else:
+                # If no tools were used, format the response to match the specified structure
+                generated_text = response.content[0].text if response.content else ""
+                return {
+                    "choices": [{
+                        "message": {
+                            "content": generated_text
+                        }
+                    }]
+                }
+        except Exception as e:
+            error_msg = f"Error: An exception occurred while processing the Anthropic request: {str(e)}"
+            logger.error(error_msg)
+            return {"choices": [{"message": {"content": error_msg}}]}
     except Exception as e:
-        error_msg = f"Error: An exception occurred while processing the Anthropic request: {str(e)}"
-        logger.error(error_msg)
-        return {"choices": [{"message": {"content": error_msg}}]}
+        logger.error(f"Error initializing Anthropic client: {str(e)}")
+        return {"choices": [{"message": {"content": f"Error initializing Anthropic client: {str(e)}"}}]}
 
 def detect_image_type(base64_string):
     """

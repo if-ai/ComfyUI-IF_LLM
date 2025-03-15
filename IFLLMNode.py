@@ -7,6 +7,8 @@ import asyncio
 import requests
 from PIL import Image
 from io import BytesIO
+import tempfile
+import time
 from typing import List, Dict, Any, Optional, Union, Tuple
 from pathlib import Path
 from .send_request import send_request
@@ -21,13 +23,27 @@ from .utils import (
     load_combo_settings,                            
     create_settings_from_ui,
     prepare_batch_images,
-    process_auto_mode_images
+    process_auto_mode_images,
+    tensor_to_pil,
+    gemini2_process_images,
+    gemini2_prepare_response,
+    gemini2_create_client,
+    validate_gemini_key
 )
 import base64
 import numpy as np
 import codecs
 import random
 import math
+
+# Add Google Gemini SDK imports
+try:
+    from google import genai
+    from google.genai import types
+    GEMINI_SDK_AVAILABLE = True
+except ImportError:
+    GEMINI_SDK_AVAILABLE = False
+    print("Google Generative AI SDK not found. Install with: pip install google-generativeai")
 
 # Add ComfyUI directory to path
 comfy_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -171,7 +187,7 @@ class IFLLM:
             },
             "optional": {
                 "images": ("IMAGE", {"list": True}),
-                "strategy": (["normal", "omost", "create", "edit", "variations"], {"default": "normal"}),
+                "strategy": (["normal", "omost", "create", "edit", "variations", "gemini2_create"], {"default": "normal"}),
                 "mask": ("MASK", {}),
                 "prime_directives": ("STRING", {"forceInput": True, "tooltip": "The system prompt for the LLM."}),
                 "profiles": (["None"] + list(cls().profiles.keys()), {"default": "None", "tooltip": "The pre-defined system_prompt from the json profile file on the presets folder you can edit or make your own will be listed here."}),
@@ -409,6 +425,9 @@ class IFLLM:
                         user_prompt, current_images, **kwargs)
                 elif strategy_name == "edit":
                     return await self.execute_edit_strategy(
+                        user_prompt, current_images, current_mask, **kwargs)
+                elif strategy_name == "gemini2_create":
+                    return await self.execute_gemini2_create_strategy(
                         user_prompt, current_images, current_mask, **kwargs)
                 else:
                     raise ValueError(f"Unsupported strategy: {strategy_name}")
@@ -1082,6 +1101,217 @@ class IFLLM:
                             f"Error in edit strategy: {str(e)}",
                             user_prompt
                         )
+
+    async def execute_gemini2_create_strategy(self, user_prompt, current_images, current_mask=None, **kwargs):
+        """
+        Execute Gemini 2.0 create strategy using the Google Gemini API SDK.
+        Handles batches of images as input and returns generated images.
+        
+        Args:
+            user_prompt (str): The prompt for image generation
+            current_images (torch.Tensor): Batch of input images [B,H,W,C]
+            current_mask (torch.Tensor, optional): Mask tensor
+            **kwargs: Additional arguments including API key, model settings, etc.
+        
+        Returns:
+            dict: Response dictionary with generated images and other metadata
+        """
+        try:
+            # Check if Gemini SDK is available
+            if not GEMINI_SDK_AVAILABLE:
+                error_msg = "Google Generative AI SDK not installed. Install with: pip install google-generativeai"
+                logger.error(error_msg)
+                return self.create_error_response(
+                    current_images, 
+                    current_mask,
+                    error_msg,
+                    user_prompt
+                )
+            
+            # Initialize variables for response
+            response_text = ""
+            temp_img_paths = []
+            
+            # Get API key
+            if kwargs.get('external_api_key'):
+                api_key = kwargs.get('external_api_key')
+            else:
+                api_key = kwargs.get('llm_api_key')
+            
+            if not api_key:
+                logger.error("No valid Gemini API key provided")
+                return self.create_error_response(
+                    current_images, 
+                    current_mask,
+                    "Error: No valid Gemini API key provided. Please set GEMINI_API_KEY in your environment or provide external_api_key.",
+                    user_prompt
+                )
+            
+            # Process parameters
+            temperature = kwargs.get('temperature', 0.8)
+            seed = kwargs.get('seed', 0)
+            batch_count = kwargs.get('batch_count', 1)
+            
+            # Use random seed if seed is 0 or random is True
+            if seed == 0 or kwargs.get('random', False):
+                import random
+                seed = random.randint(1, 2**31 - 1)
+            
+            logger.info(f"Using Gemini 2.0 Create strategy with seed: {seed}, temperature: {temperature}")
+            
+            # Create Gemini client
+            client = genai.Client(api_key=api_key)
+            
+            # Process input images
+            if current_images is not None and current_images.nelement() > 0:
+                # Prepare input images for Gemini API
+                input_images = prepare_batch_images(current_images)
+                logger.info(f"Processing {len(input_images)} input images for Gemini")
+                
+                # Convert images to format required by Gemini
+                contents = []
+                
+                # Add each image to the request
+                for idx, img in enumerate(input_images):
+                    try:
+                        # Convert tensor to PIL image
+                        pil_image = tensor_to_pil(img)
+                        
+                        # Save as temporary file
+                        temp_img_path = os.path.join(tempfile.gettempdir(), f"gemini_input_{idx}_{int(time.time())}.png")
+                        pil_image.save(temp_img_path)
+                        temp_img_paths.append(temp_img_path)
+                        
+                        # Read image data
+                        with open(temp_img_path, "rb") as f:
+                            image_bytes = f.read()
+                        
+                        # Add image to content
+                        contents.append({
+                            "inline_data": {
+                                "mime_type": "image/png", 
+                                "data": image_bytes
+                            }
+                        })
+                        
+                    except Exception as img_error:
+                        logger.error(f"Error processing input image {idx}: {str(img_error)}")
+                
+                # Add the prompt after all images
+                contents.append({"text": user_prompt})
+            else:
+                # No input images, just use the prompt
+                contents = user_prompt
+                logger.info("No input images provided, using text prompt only")
+            
+            # Configure generation parameters
+            gen_config = types.GenerateContentConfig(
+                temperature=temperature,
+                seed=seed,
+                response_modalities=['Text', 'Image']
+                # Request multiple images based on batch_count
+                # generation_parameters parameter is not supported and causing errors
+                # generation_parameters={
+                #     "num_iterations": batch_count
+                # }
+            )
+            
+            # Note: Gemini 2.0 API doesn't support the num_iterations parameter directly
+            # It can return multiple images for some prompts but doesn't guarantee batch_count
+            # The API will decide how many images to return based on the prompt
+            
+            # Call Gemini API
+            logger.info(f"Calling Gemini API with {len(contents) if isinstance(contents, list) else 1} content parts")
+            response = client.models.generate_content(
+                model="models/gemini-2.0-flash-exp",  # Using the latest image generation model
+                contents=contents,
+                config=gen_config
+            )
+            
+            logger.info("Received response from Gemini API")
+            
+            # Process the response to extract generated images
+            if not hasattr(response, 'candidates') or not response.candidates:
+                logger.error("API response contained no candidates")
+                return self.create_error_response(
+                    current_images,
+                    current_mask,
+                    "Error: Gemini API returned no candidates in the response",
+                    user_prompt
+                )
+            
+            # Extract generated images and text
+            generated_images = []
+            
+            for candidate_idx, candidate in enumerate(response.candidates):
+                if not hasattr(candidate, 'content') or not hasattr(candidate.content, 'parts'):
+                    continue
+                
+                for part in candidate.content.parts:
+                    # Extract text content
+                    if hasattr(part, 'text') and part.text:
+                        response_text += part.text + "\n"
+                    
+                    # Extract image content
+                    if hasattr(part, 'inline_data') and part.inline_data:
+                        try:
+                            # Get binary image data
+                            image_binary = part.inline_data.data
+                            generated_images.append(image_binary)
+                            logger.info(f"Extracted image {len(generated_images)} from response")
+                        except Exception as img_error:
+                            logger.error(f"Error extracting image from response: {str(img_error)}")
+            
+            # Clean up temporary files
+            for temp_path in temp_img_paths:
+                try:
+                    if os.path.exists(temp_path):
+                        os.remove(temp_path)
+                except Exception as e:
+                    logger.warning(f"Failed to remove temporary file {temp_path}: {str(e)}")
+            
+            # If no images were generated, return error
+            if not generated_images:
+                logger.warning("No images found in Gemini API response")
+                return self.create_error_response(
+                    current_images,
+                    current_mask,
+                    f"No images generated. API response: {response_text[:500]}...",
+                    user_prompt
+                )
+            
+            # Process generated images for ComfyUI
+            image_data = {
+                "data": [{"b64_json": base64.b64encode(img).decode('utf-8')} for img in generated_images]
+            }
+            
+            # Convert binary image data to tensors
+            images_tensor, mask_tensor = process_images_for_comfy(
+                image_data,
+                placeholder_image_path=self.placeholder_image_path,
+                response_key="data",
+                field_name="b64_json"
+            )
+            
+            logger.info(f"Successfully processed {len(generated_images)} generated images")
+            
+            return {
+                "Question": user_prompt,
+                "Response": f"Generated {len(generated_images)} images with Gemini 2.0.\n\n{response_text}",
+                "Negative": kwargs.get('neg_content', ''),
+                "Tool_Output": generated_images,
+                "Retrieved_Image": images_tensor,
+                "Mask": mask_tensor
+            }
+        
+        except Exception as e:
+            logger.error(f"Error in Gemini 2.0 create strategy: {str(e)}", exc_info=True)
+            return self.create_error_response(
+                current_images,
+                current_mask,
+                f"Error in Gemini 2.0 create strategy: {str(e)}",
+                user_prompt
+            )
 
     def get_models(self, engine, base_ip, port, api_key=None):
         return get_models(engine, base_ip, port, api_key)

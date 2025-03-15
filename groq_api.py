@@ -46,25 +46,28 @@ async def send_groq_request(
         Union[str, Dict[str, Any]]: Standardized response.
     """
     try:
+        # Initialize client with minimal parameters
         client = AsyncGroq(api_key=api_key)
+        
         # Prepare messages
         groq_messages = prepare_groq_messages(base64_images, user_message, messages)
 
-        # Create completion using AsyncGroq client
-        completion = await client.chat.completions.create(
-            model=model,
-            messages=groq_messages,
-            temperature=temperature,
-            max_tokens=max_tokens,
-            top_p=top_p,
-            stream=False,  # Assuming streaming is not required
-            stop=None,      # Adjust stop sequences if necessary
-        )
-
-        # Convert completion to a serializable format
-        completion_dict = completion.to_dict() if hasattr(completion, 'to_dict') else {}
-        logger.debug(f"Received response: {json.dumps(completion_dict, indent=2)}")
         try:
+            # Create completion using AsyncGroq client
+            completion = await client.chat.completions.create(
+                model=model,
+                messages=groq_messages,
+                temperature=temperature,
+                max_tokens=max_tokens,
+                top_p=top_p,
+                stream=False,  # Assuming streaming is not required
+                stop=None,      # Adjust stop sequences if necessary
+            )
+
+            # Convert completion to a serializable format
+            completion_dict = completion.to_dict() if hasattr(completion, 'to_dict') else {}
+            logger.debug(f"Received response: {json.dumps(completion_dict, indent=2)}")
+            
             if tools:
                 return completion_dict if completion_dict else completion
             else:
@@ -88,8 +91,8 @@ async def send_groq_request(
             logger.error(f"Groq API error: {e}")
             return {"choices": [{"message": {"content": str(e)}}]}
     except Exception as e:
-        logger.error(f"Unexpected error: {e}")
-        return {"choices": [{"message": {"content": "An unexpected error occurred."}}]}
+        logger.error(f"Error initializing Groq client: {str(e)}")
+        return {"choices": [{"message": {"content": f"Error initializing Groq client: {str(e)}"}}]}
 
 def prepare_groq_messages(
     base64_images: List[str],
