@@ -1,7 +1,7 @@
 [project]
 name = "comfyui-if_llm"
-description = "Run Local and API LLMs, Features Conditioning manipulation via Omost, supports Ollama, LlamaCPP LMstudio, Koboldcpp, TextGen, Transformers or via APIs Anthropic, Groq, OpenAI, Google Gemini, Mistral, xAI and create your own charcters assistants (SystemPrompts) with custom presets and muchmore"
-version = "0.2.1"
+description = "Run Local and API LLMs, Features Gemini2 image generation, supports Ollama, LlamaCPP LMstudio, Koboldcpp, TextGen, Transformers or via APIs Anthropic, Groq, OpenAI, Google Gemini, Mistral, xAI and create your own charcters assistants (SystemPrompts) with custom presets and muchmore"
+version = "0.2.2"
 license = { file = "MIT License" }
 dependencies = [
     # Core dependencies
