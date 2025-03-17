@@ -3,7 +3,7 @@
 
 ################# ATENTION ####################
 
-   *It Might comflict with IF_AI_tools so if you have 
+   *It Might conflict with IF_AI_tools so if you have 
    it installed please remove it before installing IF_LLM 
    I am working on adding this tools to IF_AI_tools 
    so you only need one or the other*
