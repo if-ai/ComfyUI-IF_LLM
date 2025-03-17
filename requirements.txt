@@ -8,6 +8,8 @@ huggingface_hub>=0.26.0
 anthropic
 groq
 mistralai
+google-genai
+
 
 # AutoAWQ with specific version - MUST be installed before transformers
 # flash-attn>=2.0.0;platform_system!="Darwin"  # Optional for performance, excluded on MacOS
