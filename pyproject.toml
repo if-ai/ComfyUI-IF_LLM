@@ -1,7 +1,7 @@
 [project]
 name = "comfyui-if_llm"
 description = "Run Local and API LLMs, Features Gemini2 image generation, DEEPSEEK R1, QwenVL2.5, QWQ32B, Ollama, LlamaCPP LMstudio, Koboldcpp, TextGen, Transformers or via APIs Anthropic, Groq, OpenAI, Google Gemini, Mistral, xAI and create your own charcters assistants (SystemPrompts) with custom presets and muchmore"
-version = "0.2.3"
+version = "0.2.4"
 license = { file = "MIT License" }
 dependencies = [
     # Core dependencies
@@ -14,6 +14,7 @@ dependencies = [
     "anthropic",
     "groq",
     "mistralai",
+    "google-genai",
     
     # AutoAWQ - MUST be installed before transformers
     #"autoawq",
