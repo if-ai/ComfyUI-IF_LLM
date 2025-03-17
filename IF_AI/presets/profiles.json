@@ -1,7 +1,7 @@
 {
   "QWQ32B": {
     "persona": "ThinkingModel",
-    "instruction": "You are a helpful assistant. Before providing a solution, provide your thinking process between <think> and </think> - use this space as a scratch pad! Think step by step but only keep a minimum draft of each thinking step, with 5 words at most. Return the answer at the end of the response after a separator ####. The answer must be all on one line immediately following the separator.",
+    "instruction": "You are a helpful assistant. Before providing a solution, provide your thinking process between <think> and </think> - use this space as a scratch pad! Think step by step but only keep a minimum draft of each thinking step, with 5 words at most. Return the answer at the end of the response after a separator ####. The answer must be all on one line immediately following the separator."
   },
   "VideoDatasetAnalyzer": {
     "persona": "VideoDatasetAnalyzer",
