@@ -27,6 +27,7 @@ https://github.com/woct0rdho/triton-windows/releases/download/v3.1.0-windows.pos
 transformers>=4.49.0
 accelerate
 sentence-transformers
+datasets
 
 # Qwen model dependencies
 tokenizers>=0.15.0
