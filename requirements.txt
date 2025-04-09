@@ -24,7 +24,7 @@ https://github.com/woct0rdho/triton-windows/releases/download/v3.1.0-windows.pos
 # autoawq
 
 # Transformers and related
-git+https://github.com/huggingface/transformers
+transformers>=4.49.0
 accelerate
 sentence-transformers
 
